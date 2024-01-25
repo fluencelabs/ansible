@@ -1,0 +1,6 @@
+- name: Preflight
+  tags: always
+  include_tasks: 00-preflight.yml
+
+- name: Download IPFS CLI
+  include_tasks: 01-ipfs.yml

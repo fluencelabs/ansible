@@ -1,0 +1,16 @@
+galaxy_info:
+  namespace: fluencelabs
+  role_name: ipfs_cli
+  author: Anatolios Laskaris
+  description: Downloads IPFS CLI used by Nox
+  issue_tracker_url: https://github.com/fluencelabs/ansible/issues
+  min_ansible_version: 2.12
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - jammy
+
+  galaxy_tags:
+    - p2p
+    - fluence

@@ -1,0 +1,9 @@
+- name: check "ipfs_cli_version" variable
+  tags: always
+  assert:
+    that:
+      - ipfs_cli_version is defined
+      - ipfs_cli_version is string
+      - ipfs_cli_version | length
+      - ipfs_cli_version is regex(_semver_regex)
+    quiet: true

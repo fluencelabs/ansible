@@ -1,0 +1,9 @@
+- name: restart nox
+  systemd:
+    daemon_reload: true
+    name: nox-@{{ instance }}
+    state: restarted
+  loop: "{{ _instances_to_restart }}"
+  loop_control:
+    loop_var: instance
+    label: "nox-{{ instance }}"

@@ -1,0 +1,36 @@
+- name: download IPFS CLI to localhost
+  become: false
+  run_once: true
+  delegate_to: localhost
+  block:
+    - name: create IPFS directory on localhost
+      file:
+        path: "{{ role_path }}/files/ipfs/{{ _ipfs_version }}/{{ _arch }}"
+        state: directory
+
+    - name: download IPFS archive
+      get_url:
+        url: "{{ _ipfs_download_url }}"
+        dest: "{{ role_path }}/files/ipfs/{{ _ipfs_version }}/{{ _ipfs_archive }}"
+        checksum: "{{ _ipfs_checksums }}"
+      register: _download_ipfs
+      until: _download_ipfs is succeeded
+      retries: 5
+      delay: 2
+
+    - name: extract IPFS binary
+      unarchive:
+        src: "{{ role_path }}/files/ipfs/{{ _ipfs_version }}/{{ _ipfs_archive }}"
+        dest: "{{ role_path }}/files/ipfs/{{ _ipfs_version }}/{{ _arch }}"
+        creates: "{{ role_path }}/files/ipfs/{{ _ipfs_version }}/{{ _arch }}/ipfs"
+        extra_opts:
+          - "--strip-components=1"
+          - "kubo/ipfs"
+
+- name: propagate IPFS binary
+  copy:
+    src: "{{ role_path }}/files/ipfs/{{ _ipfs_version }}/{{ _arch }}/ipfs"
+    dest: "/usr/local/bin/ipfs"
+    owner: root
+    group: root
+    mode: 0755

@@ -1,0 +1,39 @@
+- name: get list of all running nox instances
+  command: systemctl list-units --type=service --no-legend --no-pager nox-@*
+  register: _running_instances
+  changed_when: false
+
+- name: extract running nox instance names
+  vars:
+   _present_instances: "{{ _running_instances.stdout_lines
+                           | map('regex_replace', '.*?nox-@([^\\s]+)\\.service.*', '\\1')
+                           | list }}"
+  set_fact:
+    _cleanup_instances: "{{ _present_instances | difference(nox_instances) | default([]) }}"
+  changed_when: false
+
+- name: instances to cleanup
+  debug:
+    msg: "{{ _cleanup_instances }}"
+
+- name: cleanup nox instances
+  when: _cleanup_instances | length
+  block:
+    - name: stop and disable noxes
+      systemd:
+        name: nox-@{{ instance }}
+        enabled: false
+        state: stopped
+      loop: "{{ _cleanup_instances }}"
+      loop_control:
+        loop_var: instance
+        label: "nox-{{ instance }}"
+
+    - name: cleanup nox directories
+      file:
+        path: "{{ nox_dir }}/nox-{{ instance }}"
+        state: absent
+      loop: "{{ _cleanup_instances }}"
+      loop_control:
+        loop_var: instance
+        label: "nox-{{ instance }}"
