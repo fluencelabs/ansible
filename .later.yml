@@ -19,7 +19,7 @@ rules:
   buildin: true
   exclude_files:
     - extentions/molecule/
-    - **/files/**
+    - "**/files/**"
 
   # Limit checks to given rule ID's
   # If empty all rules will be used.

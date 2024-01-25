@@ -43,7 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ need.release-please.outputs.tag }}
+          ref: ${{ needs.release-please.outputs.tag }}
 
       - name: Push to galaxy
         uses: ansible/ansible-publish-action@v1.0.0
