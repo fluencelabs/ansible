@@ -19,6 +19,7 @@ rules:
   exclude_files:
     - extentions/molecule/
     - "**/files/**"
+    - "*.txt"
 
   # Limit checks to given rule ID's
   # If empty all rules will be used.
