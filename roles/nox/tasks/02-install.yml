@@ -48,7 +48,7 @@
       ansible.builtin.file:
         path: "{{ role_path }}/files/nox/{{ _nox_version }}"
         state: directory
-        mode: 0o644
+        mode: 0o755
 
     - name: download nox release binary
       ansible.builtin.get_url:
