@@ -15,7 +15,6 @@ logging:
   level: "warning"
 
 rules:
-  version: "0.2"
   buildin: true
   exclude_files:
     - extentions/molecule/
@@ -45,7 +44,7 @@ rules:
 
   # Standard version to use. Standard version set in a roles meta file
   # or playbook will takes precedence.
-  version:
+  version: "0.2"
 
 # Block to control included yamllint rules.
 # See https://yamllint.readthedocs.io/en/stable/rules.html
