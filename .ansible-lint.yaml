@@ -1,6 +1,5 @@
 exclude_paths:
   - extentions/molecule/**
-  - meta/runtime.yml
 
 skip_list:
   - name[casing]

@@ -29,7 +29,7 @@ jobs:
           config: .later.yml
 
       - name: Run ansible-lint
-        uses: ansible/ansible-lint@v6
+        uses: reviewdog/action-ansiblelint@v1
 
   molecule:
     runs-on: ubuntu-latest
