@@ -20,6 +20,7 @@ rules:
     - extentions/molecule/
     - "**/files/**"
     - "*.txt"
+    - meta/*
 
   # Limit checks to given rule ID's
   # If empty all rules will be used.
