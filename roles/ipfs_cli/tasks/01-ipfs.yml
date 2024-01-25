@@ -7,7 +7,7 @@
       ansible.builtin.file:
         path: "{{ role_path }}/files/ipfs/{{ _ipfs_version }}/{{ _arch }}"
         state: directory
-        mode: 0755
+        mode: 0o755
 
     - name: download IPFS archive
       ansible.builtin.get_url:
@@ -34,4 +34,4 @@
     dest: "/usr/local/bin/ipfs"
     owner: root
     group: root
-    mode: 0755
+    mode: 0o755

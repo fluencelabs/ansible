@@ -29,7 +29,7 @@
     state: directory
     owner: "{{ nox_user }}"
     group: "{{ nox_group }}"
-    mode: 0755
+    mode: 0o755
   loop: "{{ nox_instances }}"
   loop_control:
     loop_var: instance
@@ -48,7 +48,7 @@
       ansible.builtin.file:
         path: "{{ role_path }}/files/nox/{{ _nox_version }}"
         state: directory
-        mode: 0644
+        mode: 0o644
 
     - name: download nox release binary
       ansible.builtin.get_url:
@@ -70,7 +70,7 @@
         dest: "{{ nox_dir }}/nox-{{ instance }}/nox"
         owner: "{{ nox_user }}"
         group: "{{ nox_group }}"
-        mode: 0555
+        mode: 0o555
       loop: "{{ nox_instances }}"
       loop_control:
         loop_var: instance
@@ -134,7 +134,7 @@
         dest: "{{ nox_dir }}/nox-{{ instance }}/nox"
         owner: "{{ nox_user }}"
         group: "{{ nox_group }}"
-        mode: 0555
+        mode: 0o555
       loop: "{{ nox_instances }}"
       loop_control:
         loop_var: instance
@@ -155,7 +155,7 @@
     dest: "{{ nox_dir }}/nox-{{ instance }}/Config.toml"
     owner: "{{ nox_user }}"
     group: "{{ nox_group }}"
-    mode: 0640
+    mode: 0o640
   loop: "{{ nox_instances }}"
   loop_control:
     loop_var: instance
@@ -169,7 +169,7 @@
     dest: "{{ nox_dir }}/nox-{{ instance }}/state/root_secret_key.ed25519"
     owner: "{{ nox_user }}"
     group: "{{ nox_group }}"
-    mode: 0600
+    mode: 0o600
   loop: "{{ nox_instances }}"
   loop_control:
     loop_var: instance
@@ -183,7 +183,7 @@
     dest: "/etc/systemd/system/nox-@.service"
     owner: root
     group: root
-    mode: 0755
+    mode: 0o755
   register: _systemd
 
 - name: enable noxes
