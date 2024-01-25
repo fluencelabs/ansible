@@ -1,0 +1,11 @@
+- name: nox role
+  hosts: all
+  become: true
+  vars:
+    nox_version: "0.16.13"
+    nox_project_dir: "molecule"
+    ipfs_cli_version: "0.25.0"
+  tasks:
+    - name: Run nox role
+      include_role:
+        name: nox

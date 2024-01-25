@@ -1,0 +1,12 @@
+_arch_map:
+  amd64: amd64
+  x86_64: amd64
+  aarch64: arm64
+  64-bit: amd64
+_arch: "{{ _arch_map[ansible_architecture] }}"
+_semver_regex: "^v?\\d+\\.\\d+\\.\\d+$"
+
+_nox_version: "{{ nox_version | regex_replace('^(?!v)', 'v') }}"
+_nox_download_url: "https://github.com/fluencelabs/nox/releases/download/nox-{{ _nox_version }}"
+_nox_checksums: "sha256:{{ _nox_download_url + '/nox_SHA256_SUMS' }}"
+_nox_bin: "nox-{{ _arch }}"

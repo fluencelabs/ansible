@@ -1,0 +1,3 @@
+nox_version: "0.16.13"
+nox_project_dir: "playground"
+nox_instances: [0, 1, 2]

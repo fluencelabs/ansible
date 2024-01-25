@@ -1,0 +1,87 @@
+ansible:
+  # Settings for variable formatting rule (ANSIBLE0004)
+  double-braces:
+    max-spaces-inside: 1
+    min-spaces-inside: 1
+
+  # List of allowed literal bools (ANSIBLE0014)
+  literal-bools:
+    - "true"
+    - "false"
+
+# If you would like to force colored output (e.g. non-tty)
+# set environment variable `PY_COLORS=1`
+logging:
+  level: "warning"
+
+rules:
+  buildin: true
+  exclude_files:
+    - extentions/molecule/
+    - "**/files/**"
+    - "*.txt"
+    - meta/*
+
+  # Limit checks to given rule ID's
+  # If empty all rules will be used.
+  filter: []
+
+  # Exclude given rule ID's from checks
+  exclude_filter:
+    # Do not force --- and ...
+    - LINT0004
+    - LINT0009
+    - ANSIBLE0007 # task sometime start from small letter
+    - ANSIBLE0014 # bools cat start from small letter
+    - ANSIBLE0001 # seems to be bugged
+
+  # List of rule ID's that should be displayed as a warning instead of an error. By default,
+  # only rules whose version is higher than the current default version are marked as warnings.
+  # This list allows to degrade errors to warnings for each rule.
+  warning_filter: []
+
+  # All dotfiles (including hidden folders) are excluded by default.
+  # You can disable this setting and handle dotfiles by yourself with `exclude_files`.
+  ignore_dotfiles: true
+
+  # List of directories to load standard rules from (defaults to build-in)
+  standards: []
+
+  # Standard version to use. Standard version set in a roles meta file
+  # or playbook will takes precedence.
+  version: "0.2"
+
+# Block to control included yamllint rules.
+# See https://yamllint.readthedocs.io/en/stable/rules.html
+yamllint:
+  braces:
+    max-spaces-inside: 1
+  brackets:
+    max-spaces-inside: 1
+  colons:
+    max-spaces-after: -1
+  commas:
+    max-spaces-after: -1
+  comments:
+    require-starting-space: true
+    ignore-shebangs: true
+    min-spaces-from-content: 2
+  hyphens:
+    max-spaces-after: 1
+  comments-indentation: {}
+  document-start:
+    present: false
+  empty-lines:
+    max: 2
+  indentation:
+    check-multi-line-strings: false
+    indent-sequences: true
+    spaces: 2
+  key-duplicates: {}
+  new-line-at-end-of-file: disable
+  new-lines:
+    type: unix
+  trailing-spaces: {}
+  truthy:
+    allowed-values: [true, false]
+    check-keys: true

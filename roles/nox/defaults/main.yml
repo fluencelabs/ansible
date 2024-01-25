@@ -1,0 +1,25 @@
+nox_version: ""
+nox_instances: []
+nox_dir: "/opt/nox"
+nox_project_dir: ".fluence"
+nox_group: "nox"
+nox_user: "nox"
+nox_run_id: ""
+nox_cleanup_state: false
+nox_unit_file: |
+  [Unit]
+  Description=Nox - Rust implementation of the Fluence network peer
+  After=network.target
+
+  [Service]
+  Type=simple
+  Environment="FLUENCE_CONFIG={{ nox_dir }}/nox-%i/Config.toml"
+  Environment="FLUENCE_BASE_DIR={{ nox_dir }}/nox-%i/state"
+  Environment="FLUENCE_ROOT_KEY_PAIR__PATH={{ nox_dir }}/nox-%i/state/root_secret_key.ed25519"
+  ExecStart={{ nox_dir }}/nox-%i/nox
+  Restart=on-failure
+  User={{ nox_user }}
+  Group={{ nox_group }}
+
+  [Install]
+  WantedBy=multi-user.target

@@ -1,0 +1,20 @@
+galaxy_info:
+  namespace: fluencelabs
+  role_name: nox
+  license: Apache-2.0
+  author: Anatolios Laskaris
+  description: Install and setup Nox - Rust implementation of the Fluence network peer
+  issue_tracker_url: https://github.com/fluencelabs/ansible/issues
+  min_ansible_version: "2.16"
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - jammy
+
+  galaxy_tags:
+    - p2p
+    - fluence
+
+dependencies:
+  - name: ipfs_cli

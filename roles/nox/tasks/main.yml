@@ -1,0 +1,9 @@
+- name: Preflight
+  tags: always
+  ansible.builtin.include_tasks: 00-preflight.yml
+
+- name: Cleanup Nox
+  ansible.builtin.include_tasks: 01-cleanup.yml
+
+- name: Install Nox
+  ansible.builtin.include_tasks: 02-install.yml

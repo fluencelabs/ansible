@@ -1,0 +1,64 @@
+- name: check that GITHUB_TOKEN is defined
+  tags: always
+  vars:
+    github_token: "{{ lookup('env', 'GITHUB_TOKEN') }}"
+  ansible.builtin.assert:
+    that:
+      - github_token is string
+      - github_token | length
+    quiet: true
+  when: nox_run_id | string | length
+
+- name: check "nox_instances" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - nox_instances is iterable
+      - nox_instances is not string
+    quiet: true
+
+- name: convert all elements in nox_instances to strings
+  set_fact:
+    nox_instances: "{{ nox_instances | map('string') | list }}"
+
+- name: check "nox_version" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - nox_version is defined
+      - nox_version is string
+      - nox_version | length
+      - nox_version is regex(_semver_regex)
+    quiet: true
+
+- name: check "nox_unit_file" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - nox_unit_file is defined
+      - nox_unit_file is string
+      - nox_unit_file | length
+    quiet: true
+
+- name: gather stats about nox configs
+  tags: always
+  become: false
+  delegate_to: localhost
+  stat:
+    path: "files/{{ nox_project_dir }}/configs/nox-{{ instance }}_Config.toml"
+  register: _config_stat
+  loop: "{{ nox_instances }}"
+  loop_control:
+    loop_var: instance
+    label: "nox-{{ instance }}"
+
+- name: check if config file exists
+  tags: always
+  vars:
+    _config_path: "files/{{ nox_project_dir }}/configs/nox-{{ item.instance }}_Config.toml"
+  debug:
+    msg: "Checking existence of nox-{{ item.instance }} config at {{ _config_path }}"
+  loop: "{{ _config_stat.results }}"
+  loop_control:
+    label: "nox-{{ item.instance }}"
+  failed_when: not item.stat.exists
