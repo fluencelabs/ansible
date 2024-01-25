@@ -69,7 +69,10 @@ yamllint:
     level: error
   hyphens:
     level: error
-  indentation: enable
+  indentation:
+    check-multi-line-strings: False
+    indent-sequences: True
+    spaces: 2
   key-duplicates: enable
   line-length: disable
   new-line-at-end-of-file: disable
