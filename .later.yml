@@ -30,6 +30,8 @@ rules:
     - LINT0004
     - LINT0009
     - ANSIBLE0007 # task sometime start from small letter
+    - ANSIBLE0014 # bools cat start from small letter
+    - ANSIBLE0001 # seems to be bugged
 
   # List of rule ID's that should be displayed as a warning instead of an error. By default,
   # only rules whose version is higher than the current default version are marked as warnings.
