@@ -51,32 +51,32 @@ rules:
 yamllint:
   braces:
     max-spaces-inside: 1
-    level: error
   brackets:
     max-spaces-inside: 1
-    level: error
   colons:
     max-spaces-after: -1
-    level: error
   commas:
     max-spaces-after: -1
-    level: error
-  comments: enable
-  comments-indentation: enable
-  document-start: disable
-  empty-lines:
-    max: 3
-    level: error
+  comments:
+    require-starting-space: true
+    ignore-shebangs: true
+    min-spaces-from-content: 2
   hyphens:
-    level: error
+    max-spaces-after: 1
+  comments-indentation: {}
+  document-start:
+    present: false
+  empty-lines:
+    max: 2
   indentation:
     check-multi-line-strings: False
     indent-sequences: True
     spaces: 2
-  key-duplicates: enable
-  line-length: disable
+  key-duplicates: {}
   new-line-at-end-of-file: disable
   new-lines:
     type: unix
-  trailing-spaces: enable
-  truthy: disable
+  trailing-spaces: {}
+  truthy:
+    allowed-values: ['true', 'false']
+    check-keys: true
