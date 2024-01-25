@@ -73,8 +73,8 @@ yamllint:
   empty-lines:
     max: 2
   indentation:
-    check-multi-line-strings: False
-    indent-sequences: True
+    check-multi-line-strings: false
+    indent-sequences: true
     spaces: 2
   key-duplicates: {}
   new-line-at-end-of-file: disable
@@ -82,5 +82,5 @@ yamllint:
     type: unix
   trailing-spaces: {}
   truthy:
-    allowed-values: ['true', 'false']
+    allowed-values: [true, false]
     check-keys: true

@@ -1,6 +1,6 @@
 - name: check "ipfs_cli_version" variable
   tags: always
-  assert:
+  ansible.builtin.assert:
     that:
       - ipfs_cli_version is defined
       - ipfs_cli_version is string

@@ -4,13 +4,13 @@
   delegate_to: localhost
   block:
     - name: create IPFS directory on localhost
-      file:
+      ansible.builtin.file:
         path: "{{ role_path }}/files/ipfs/{{ _ipfs_version }}/{{ _arch }}"
         state: directory
         mode: 0755
 
     - name: download IPFS archive
-      get_url:
+      ansible.builtin.get_url:
         url: "{{ _ipfs_download_url }}"
         dest: "{{ role_path }}/files/ipfs/{{ _ipfs_version }}/{{ _ipfs_archive }}"
         checksum: "{{ _ipfs_checksums }}"
@@ -20,7 +20,7 @@
       delay: 2
 
     - name: extract IPFS binary
-      unarchive:
+      ansible.builtin.unarchive:
         src: "{{ role_path }}/files/ipfs/{{ _ipfs_version }}/{{ _ipfs_archive }}"
         dest: "{{ role_path }}/files/ipfs/{{ _ipfs_version }}/{{ _arch }}"
         creates: "{{ role_path }}/files/ipfs/{{ _ipfs_version }}/{{ _arch }}/ipfs"
@@ -29,7 +29,7 @@
           - "kubo/ipfs"
 
 - name: propagate IPFS binary
-  copy:
+  ansible.builtin.copy:
     src: "{{ role_path }}/files/ipfs/{{ _ipfs_version }}/{{ _arch }}/ipfs"
     dest: "/usr/local/bin/ipfs"
     owner: root

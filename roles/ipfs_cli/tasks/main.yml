@@ -1,6 +1,6 @@
 - name: Preflight
   tags: always
-  include_tasks: 00-preflight.yml
+  ansible.builtin.include_tasks: 00-preflight.yml
 
 - name: Download IPFS CLI
-  include_tasks: 01-ipfs.yml
+  ansible.builtin.include_tasks: 01-ipfs.yml

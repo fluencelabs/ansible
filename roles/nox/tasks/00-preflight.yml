@@ -2,7 +2,7 @@
   tags: always
   vars:
     github_token: "{{ lookup('env', 'GITHUB_TOKEN') }}"
-  assert:
+  ansible.builtin.assert:
     that:
       - github_token is string
       - github_token | length
@@ -11,7 +11,7 @@
 
 - name: check "nox_instances" variable
   tags: always
-  assert:
+  ansible.builtin.assert:
     that:
       - nox_instances is iterable
       - nox_instances is not string
@@ -23,7 +23,7 @@
 
 - name: check "nox_version" variable
   tags: always
-  assert:
+  ansible.builtin.assert:
     that:
       - nox_version is defined
       - nox_version is string
@@ -33,7 +33,7 @@
 
 - name: check "nox_unit_file" variable
   tags: always
-  assert:
+  ansible.builtin.assert:
     that:
       - nox_unit_file is defined
       - nox_unit_file is string
