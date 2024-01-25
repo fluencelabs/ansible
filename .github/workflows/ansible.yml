@@ -25,6 +25,8 @@ jobs:
 
       - name: Run ansible-later
         uses: patrickjahns/ansible-later-action@v1.3.0
+        with:
+          config: .later.yml
 
       - name: Run ansible-lint
         uses: ansible/ansible-lint@v6

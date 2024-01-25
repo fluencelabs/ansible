@@ -29,6 +29,7 @@ rules:
     # Do not force --- and ...
     - LINT0004
     - LINT0009
+    - ANSIBLE0007 # task sometime start from small letter
 
   # List of rule ID's that should be displayed as a warning instead of an error. By default,
   # only rules whose version is higher than the current default version are marked as warnings.

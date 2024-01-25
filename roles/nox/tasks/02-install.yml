@@ -49,7 +49,7 @@
         path: "{{ role_path }}/files/nox/{{ _nox_version }}"
         state: directory
 
-    - name: download nox binary
+    - name: download nox release binary
       get_url:
         url: "{{ _nox_download_url }}/{{ _nox_bin }}"
         dest: "{{ role_path }}/files/nox/{{ _nox_version }}/{{ _nox_bin }}"
@@ -59,7 +59,7 @@
       retries: 5
       delay: 2
 
-    - name: propagate nox binary
+    - name: propagate nox release binary
       become: true
       run_once: false
       delegate_to: "{{ inventory_hostname }}"
@@ -122,7 +122,7 @@
         src: "{{ _artifact_temp_dir.path }}/{{ _nox_bin }}.zip"
         dest: "{{ _artifact_temp_dir.path }}/"
 
-    - name: propagate nox binary
+    - name: propagate nox artifact binary
       become: true
       run_once: false
       delegate_to: "{{ inventory_hostname }}"
@@ -140,6 +140,7 @@
       register: _binary_snapshot
 
   always:
+
     - name: remove temporary directory
       file:
         path: "{{ _artifact_temp_dir.path }}"
