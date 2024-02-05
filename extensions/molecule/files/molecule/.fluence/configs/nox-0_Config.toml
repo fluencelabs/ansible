@@ -1,7 +1,7 @@
 aquavm_pool_size = 2
-tcp_port = 7_773
-websocket_port = 9_991
-http_port = 18_080
+tcp_port = 7773
+websocket_port = 9991
+http_port = 18080
 
 allowed_binaries = [
   "/usr/bin/curl",

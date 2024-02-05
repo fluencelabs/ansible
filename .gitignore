@@ -1,4 +1,5 @@
 **/files/**
-!extentions/molecule/files/molecule
+!extentions/molecule/files/molecule/**
+!extentions/molecule/files/molecule/.fluence/**
 **.pyc
 **/__pycache__/

@@ -151,7 +151,7 @@
 
 - name: copy nox config
   ansible.builtin.template:
-    src: "files/{{ nox_project_dir }}/configs/nox-{{ instance }}_Config.toml"
+    src: "files/{{ nox_project_dir }}/.fluence/configs/nox-{{ instance }}_Config.toml"
     dest: "{{ nox_dir }}/nox-{{ instance }}/Config.toml"
     owner: "{{ nox_user }}"
     group: "{{ nox_group }}"
@@ -165,7 +165,7 @@
 
 - name: copy nox secret
   ansible.builtin.template:
-    src: "files/{{ nox_project_dir }}/secrets/nox-{{ instance }}.txt"
+    src: "files/{{ nox_project_dir }}/.fluence/secrets/nox-{{ instance }}.txt"
     dest: "{{ nox_dir }}/nox-{{ instance }}/state/root_secret_key.ed25519"
     owner: "{{ nox_user }}"
     group: "{{ nox_group }}"
