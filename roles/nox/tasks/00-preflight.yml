@@ -55,7 +55,7 @@
 - name: check if config file exists
   tags: always
   vars:
-    _config_path: "files/{{ nox_project_dir }}/configs/nox-{{ item.instance }}_Config.toml"
+    _config_path: "files/{{ nox_project_dir }}/.fluence/configs/nox-{{ item.instance }}_Config.toml"
   debug:
     msg: "Checking existence of nox-{{ item.instance }} config at {{ _config_path }}"
   loop: "{{ _config_stat.results }}"
