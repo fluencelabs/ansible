@@ -12,6 +12,7 @@ all:
         ansible_user: "debian"
         ansible_password: "debian"
         ansible_host: "127.0.0.1"
+        ansible_ssh_common_args: "-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
         # fluencelabs.provider.nox variables
         nox_version: "0.18.0" # hardcoded compatible with fcli 0.18.1
         nox_project_dir: "demo"

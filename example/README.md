@@ -87,35 +87,36 @@ source ~/.virtualenvs/fluence/nox-ansible-demo/bin/activate
 pip install -r requirements.txt
 ```
 
-- Install ansible requirements
+- Install Ansible Provider collection
 
 ```bash
-ansible-galaxy install -r requirements.yml
+ansible-galaxy install fluencelabs.provider
 ```
 
 - Create ansible inventory file
 
 ```bash
 cat << EOF >> inventory.yml
-all:
-  hosts:
-    vars:
-      ansible_user: "debian"
-      ansible_host: "127.0.0.1"
-      # fluencelabs.provider.nox variables
-      nox_version: "0.18.0" # hardcoded compatible with fcli 0.14.0
-      nox_project_dir: "demo"
-      # fluencelabs.provider.ipfs_cli variables
-      ipfs_cli_version: "0.26.0"
-    server-0:
-      vars:
-        ansible_port: 2022
-        nox_instances: [0]
-    server-1:
-      vars:
-        ansible_port: 2023
-        nox_instances: [1,2]
 ```
+all:
+  children:
+    servers:
+      hosts:
+        server-0:
+          ansible_port: 2022
+          nox_instances: [0]
+        server-1:
+          ansible_port: 2023
+          nox_instances: [1,2]
+      vars:
+        ansible_user: "debian"
+        ansible_password: "debian"
+        ansible_host: "127.0.0.1"
+        # fluencelabs.provider.nox variables
+        nox_version: "0.18.0" # hardcoded compatible with fcli 0.18.1
+        nox_project_dir: "demo"
+        # fluencelabs.provider.ipfs_cli variables
+        ipfs_cli_version: "0.26.0"
 
 - Create playbook
 
@@ -124,12 +125,17 @@ cat <<EOF > playbook.yml
 - hosts: "all"
   become: true
   roles:
-    - "nox"
+    - "fluencelabs.provider.nox"
 EOF
 ```
 
-- Setup Noxes
+- Start servers with docker-compose
+```bash
+docker-compose up -d
+```
+
+- Wait for all containers to start and setup Noxes
 
 ```bash
-ansible-playbook playbook.yml
+ansible-playbook playbook.yml -i inventory.yml
 ```

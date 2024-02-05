@@ -1,4 +1,4 @@
-project: demo
+name: demo
 services:
   # emulation of physical servers
   server-0:
