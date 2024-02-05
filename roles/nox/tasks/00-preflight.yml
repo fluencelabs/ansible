@@ -45,7 +45,7 @@
   become: false
   delegate_to: localhost
   stat:
-    path: "files/{{ nox_project_dir }}/configs/nox-{{ instance }}_Config.toml"
+    path: "files/{{ nox_project_dir }}/.fluence/configs/nox-{{ instance }}_Config.toml"
   register: _config_stat
   loop: "{{ nox_instances }}"
   loop_control:
