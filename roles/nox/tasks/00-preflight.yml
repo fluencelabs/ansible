@@ -52,6 +52,9 @@
     loop_var: instance
     label: "nox-{{ instance }}"
 
+- debug:
+    msg: "{{ _config_stat }}"
+
 - name: check if config file exists
   tags: always
   vars:

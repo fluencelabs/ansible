@@ -1,4 +1,4 @@
 **/files/**
-!extentions/molecule/files/molecule
+!extentions/molecule/files/molecule/**
 **.pyc
 **/__pycache__/
