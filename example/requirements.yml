@@ -1,0 +1,10 @@
+# roles:
+#   - name: nox
+#     src: fluencelabs.provider
+
+#   # uncomment to run with a local collection
+#   # - name: nox
+#   #   src: file:///../
+
+collections:
+  - fluencelabs.provider

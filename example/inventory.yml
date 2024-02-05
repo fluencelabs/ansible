@@ -1,0 +1,19 @@
+all:
+  children:
+    servers:
+      hosts:
+        server-0:
+          ansible_port: 2022
+          nox_instances: [0]
+        server-1:
+          ansible_port: 2023
+          nox_instances: [1,2]
+      vars:
+        ansible_user: "debian"
+        ansible_password: "debian"
+        ansible_host: "127.0.0.1"
+        # fluencelabs.provider.nox variables
+        nox_version: "0.18.0" # hardcoded compatible with fcli 0.18.1
+        nox_project_dir: "demo"
+        # fluencelabs.provider.ipfs_cli variables
+        ipfs_cli_version: "0.26.0"
