@@ -84,6 +84,7 @@ source ~/.virtualenvs/fluence/nox-ansible-demo/bin/activate
 - Install python dependencies
 
 ```bash
+echo "ansible==9.2.0" > requirements.txt
 pip install -r requirements.txt
 ```
 
