@@ -97,7 +97,6 @@ ansible-galaxy install fluencelabs.provider
 
 ```bash
 cat << EOF >> inventory.yml
-```
 all:
   children:
     servers:
@@ -117,6 +116,7 @@ all:
         nox_project_dir: "demo"
         # fluencelabs.provider.ipfs_cli variables
         ipfs_cli_version: "0.26.0"
+```
 
 - Create playbook
 
