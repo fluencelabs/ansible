@@ -126,6 +126,7 @@ all:
         nox_project_dir: "demo"
         # fluencelabs.provider.ipfs_cli variables
         ipfs_cli_version: "0.26.0"
+EOF
 ```
 
 - Create playbook
