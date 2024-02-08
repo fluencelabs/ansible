@@ -109,7 +109,7 @@ ansible-galaxy collection install fluencelabs.provider
 - Create ansible inventory file
 
 ```bash
-cat << EOF >> inventory.yml
+cat <<EOF > inventory.yml
 all:
   children:
     servers:
