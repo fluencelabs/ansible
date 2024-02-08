@@ -15,9 +15,12 @@ MacOS users with arm64 processors need to download
 fluence update --version 0.14.0
 ```
 
-- Create project directory
+- Create project directories
 
 ```bash
+# create project directory
+mkdir ansible-demo && cd ansible-demo
+# create necessary directories for ansible
 mkdir -p files/demo
 cd files/demo
 ```
