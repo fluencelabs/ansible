@@ -1,5 +1,6 @@
 exclude_paths:
   - extentions/molecule/**
+  - example/**
 
 skip_list:
   - name[casing]
