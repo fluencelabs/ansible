@@ -18,7 +18,7 @@ fluence update --version 0.14.0
 - Create project directory
 
 ```bash
-mkdir files/demo -p
+mkdir -p files/demo
 cd files/demo
 ```
 
@@ -100,7 +100,7 @@ pip install -r requirements.txt
 - Install Ansible Provider collection
 
 ```bash
-ansible-galaxy install fluencelabs.provider
+ansible-galaxy collection install fluencelabs.provider
 ```
 
 - Create ansible inventory file
