@@ -1,3 +1,12 @@
+## Install Vagrant and VirtualBox
+
+- [vagrant](https://developer.hashicorp.com/vagrant/install)
+- [virtualbox](https://www.virtualbox.org/wiki/Downloads)
+
+MacOS users with arm64 processors need to download
+[beta build](https://www.virtualbox.org/wiki/Testbuilds) named
+`macOS/ARM64 BETA`.
+
 ## Initialize Fluence project
 
 - Use specific version of fcli compatible with this guide
@@ -47,12 +56,12 @@ cat <<EOF | patch provider.yaml
 +
 +    [system_services.aqua_ipfs]
 +    external_api_multiaddr = "/ip4/127.0.0.1/tcp/5001"
-+    local_api_multiaddr = "/dns4/ipfs/tcp/5001"
++    local_api_multiaddr = "/ip4/192.168.56.100/tcp/5001"
 +
 +    [system_services.decider]
 +    decider_period_sec = 10
-+    worker_ipfs_multiaddr = "/dns4/ipfs/tcp/5001"
-+    network_api_endpoint = "http://chain:8545"
++    worker_ipfs_multiaddr = "/ip4/192.168.56.100/tcp/5001"
++    network_api_endpoint = "http://192.168.56.100:8545"
 +    network_id = 31337
 +    start_block = "earliest"
 +    matcher_address = "0x0e1F3B362E22B2Dc82C9E35d6e62998C7E8e2349"
@@ -103,14 +112,14 @@ all:
     servers:
       hosts:
         server-0:
-          ansible_port: 2022
+          ansible_port: 2200
           nox_instances: [0]
         server-1:
-          ansible_port: 2023
+          ansible_port: 2201
           nox_instances: [1,2]
       vars:
-        ansible_user: "debian"
-        ansible_password: "debian"
+        ansible_user: "ubuntu"
+        ansible_password: "ubuntu"
         ansible_host: "127.0.0.1"
         # fluencelabs.provider.nox variables
         nox_version: "0.18.0" # hardcoded compatible with fcli 0.18.1
@@ -130,13 +139,20 @@ cat <<EOF > playbook.yml
 EOF
 ```
 
-- Start servers with docker-compose
+- Start servers vagrant
+
 ```bash
-docker-compose up -d
+vagrant up
 ```
 
-- Wait for all containers to start and setup Noxes
+- Wait for all servers to start and setup Noxes
 
 ```bash
 ansible-playbook playbook.yml -i inventory.yml
+```
+
+- When finished cleanup virtual machines
+
+```bash
+vagrant destroy
 ```

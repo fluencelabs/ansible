@@ -3,14 +3,14 @@ all:
     servers:
       hosts:
         server-0:
-          ansible_port: 2022
+          ansible_port: 2200
           nox_instances: [0]
         server-1:
-          ansible_port: 2023
+          ansible_port: 2201
           nox_instances: [1,2]
       vars:
-        ansible_user: "debian"
-        ansible_password: "debian"
+        ansible_user: "ubuntu"
+        ansible_password: "ubuntu"
         ansible_host: "127.0.0.1"
         ansible_ssh_common_args: "-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
         # fluencelabs.provider.nox variables
