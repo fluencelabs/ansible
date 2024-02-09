@@ -11,7 +11,7 @@ provisioner:
   name: ansible
   env:
     ANSIBLE_ROLES_PATH: "../../../roles"
-    ANSIBLE_COLLECTIONS_PATH: "../../"
+    ANSIBLE_COLLECTIONS_PATHS: "../../"
   playbooks:
     prepare: ../prepare.yml
     converge: ../converge.yml
