@@ -18,4 +18,7 @@
     quiet: true
 
 - name: check that tar is GNU type
+  tags:
+    - always
+    - skip_ansible_later
   fluencelabs.provider.check_tar_type:

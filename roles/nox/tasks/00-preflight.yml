@@ -10,6 +10,9 @@
   when: nox_run_id | string | length
 
 - name: check that tar is GNU type
+  tags:
+    - always
+    - skip_ansible_later
   fluencelabs.provider.check_tar_type:
 
 - name: check "nox_instances" variable
