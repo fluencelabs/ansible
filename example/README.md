@@ -1,19 +1,81 @@
-## Install Vagrant and VirtualBox
+# Nox Setup with Ansible
 
-- [vagrant](https://developer.hashicorp.com/vagrant/install)
-- [virtualbox](https://www.virtualbox.org/wiki/Downloads)
+This directory contains all necessary predefined files to setup Nox locally.
 
-MacOS users with arm64 processors need to download
-[beta build](https://www.virtualbox.org/wiki/Testbuilds) named
-`macOS/ARM64 BETA`.
+You can follow this guide by [using predefined files](#Using-predefined-files)
+or by [starting from scratch](#Starting-from-scratch).
 
-## Initialize Fluence project
+## Prerequisites
 
-- Use specific version of fcli compatible with this guide
+### Podman
+
+Podman is an open-source, daemonless container engine that serves as a drop-in
+replacement for Docker. Podman allows for easily starting containers with
+`systemd`, which is required for Nox to run.
+
+Download and install [Podman](https://podman.io/).
+
+### Fluence CLI
+
+Install using commands from the
+[FCLI readme](https://github.com/fluencelabs/cli?tab=readme-ov-file#using-install-script).
+
+After installation, set a specific version of FCLI compatible with this guide:
 
 ```bash
 fluence update --version 0.14.0
 ```
+
+### gnu-tar
+
+Users of MacOS need to install `gnu-tar` for this collection of roles to work.
+
+```bash
+brew install gnu-tar
+```
+
+## Setup Nox
+
+### Using Predefined Files
+
+- Create and activate python virtual environment
+
+```bash
+python -m venv ~/.virtualenvs/fluence/nox-ansible-demo
+source ~/.virtualenvs/fluence/nox-ansible-demo/bin/activate
+```
+
+- Install python dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+- Install Ansible Provider collection
+
+```bash
+ansible-galaxy collection install fluencelabs.provider
+```
+
+- Start services and servers
+
+```bash
+podman-compose up -d --build
+```
+
+- Wait for all services to start and setup Noxes
+
+```bash
+ansible-playbook playbook.yml -i inventory.yml
+```
+
+- When finished run cleanup
+
+```bash
+podman-compose down
+```
+
+### Starting from Scratch
 
 - Create project directories
 
@@ -36,9 +98,9 @@ fluence provider init --no-input --env=local --noxes=3
 ```bash
 cat <<EOF | patch provider.yaml
 @@ -22,3 +22,33 @@
-       - nox-0
-       - nox-1
-       - nox-2
+      - nox-0
+      - nox-1
+      - nox-2
 +
 +nox:
 +  # you can write config overrides with yaml syntax using camelCase
@@ -59,12 +121,12 @@ cat <<EOF | patch provider.yaml
 +
 +    [system_services.aqua_ipfs]
 +    external_api_multiaddr = "/ip4/127.0.0.1/tcp/5001"
-+    local_api_multiaddr = "/ip4/192.168.56.100/tcp/5001"
++    local_api_multiaddr = "/dns4/ipfs/tcp/5001"
 +
 +    [system_services.decider]
 +    decider_period_sec = 10
-+    worker_ipfs_multiaddr = "/ip4/192.168.56.100/tcp/5001"
-+    network_api_endpoint = "http://192.168.56.100:8545"
++    worker_ipfs_multiaddr = "/dns4/ipfs/tcp/5001"
++    network_api_endpoint = "http://chain:8545"
 +    network_id = 31337
 +    start_block = "earliest"
 +    matcher_address = "0x0e1F3B362E22B2Dc82C9E35d6e62998C7E8e2349"
@@ -77,8 +139,6 @@ EOF
 ```bash
 fluence provider gen
 ```
-
-## Prepare Ansible and setup Noxes
 
 - Change directory back
 
@@ -96,7 +156,10 @@ source ~/.virtualenvs/fluence/nox-ansible-demo/bin/activate
 - Install python dependencies
 
 ```bash
-echo "ansible==9.2.0" > requirements.txt
+cat << EOF > requirements.txt
+ansible==9.2.0
+podman-compose
+EOF
 pip install -r requirements.txt
 ```
 
@@ -109,7 +172,7 @@ ansible-galaxy collection install fluencelabs.provider
 - Create ansible inventory file
 
 ```bash
-cat <<EOF > inventory.yml
+cat << EOF > inventory.yml
 all:
   children:
     servers:
@@ -143,20 +206,30 @@ cat <<EOF > playbook.yml
 EOF
 ```
 
-- Start servers vagrant
+- Copy `podmad-compose.yml`
 
 ```bash
-vagrant up
+cp ../podman-compose.yml .
 ```
 
-- Wait for all servers to start and setup Noxes
+- Start services and servers
+
+```bash
+podman-compose up -d --build
+```
+
+- Wait for all services to start and setup Noxes
 
 ```bash
 ansible-playbook playbook.yml -i inventory.yml
 ```
 
-- When finished cleanup virtual machines
+- When finished, run cleanup
 
 ```bash
-vagrant destroy
+podman-compose down
 ```
+
+## Do some things with Nox network
+
+TODO
