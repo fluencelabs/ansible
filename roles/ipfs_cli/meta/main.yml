@@ -5,7 +5,7 @@ galaxy_info:
   license: Apache-2.0
   description: Downloads IPFS CLI used by Nox
   issue_tracker_url: https://github.com/fluencelabs/ansible/issues
-  min_ansible_version: "2.16"
+  min_ansible_version: "2.12"
 
   platforms:
     - name: Ubuntu

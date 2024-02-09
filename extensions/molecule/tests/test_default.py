@@ -28,7 +28,7 @@ def test_nox_cleanup(host):
 
 
 def test_ipfs_download(host):
-    f = host.file("/usr/local/bin/ipfs")
+    f = host.file("/opt/nox/ipfs")
 
     assert f.is_file
     assert f.exists
