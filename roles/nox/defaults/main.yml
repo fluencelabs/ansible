@@ -1,7 +1,7 @@
 nox_version: ""
 nox_instances: []
 nox_dir: "/opt/nox"
-nox_project_dir: ".fluence"
+nox_project_dir: ""
 nox_group: "nox"
 nox_user: "nox"
 nox_run_id: ""

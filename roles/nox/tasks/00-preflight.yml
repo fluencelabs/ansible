@@ -31,6 +31,15 @@
       - nox_version is regex(_semver_regex)
     quiet: true
 
+- name: check "nox_dir" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - nox_dir is defined
+      - nox_dir is string
+      - nox_dir | length
+    quiet: true
+
 - name: check "nox_unit_file" variable
   tags: always
   ansible.builtin.assert:
@@ -38,6 +47,15 @@
       - nox_unit_file is defined
       - nox_unit_file is string
       - nox_unit_file | length
+    quiet: true
+
+- name: check "nox_project_dir" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - nox_project_dir is defined
+      - nox_project_dir is string
+      - nox_project_dir | length
     quiet: true
 
 - name: gather stats about nox configs
@@ -51,9 +69,6 @@
   loop_control:
     loop_var: instance
     label: "nox-{{ instance }}"
-
-- debug:
-    msg: "{{ _config_stat }}"
 
 - name: check if config file exists
   tags: always

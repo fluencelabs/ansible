@@ -5,125 +5,7 @@ implementation of the Fluence network peer.
 
 ## Usage
 
-### Generate provider config and nox configs
-
-- Install
-  [Fluence CLI](https://github.com/fluencelabs/cli?tab=readme-ov-file#installation-and-usage)
-- Generate sample provider config in directory with ansible playbook:
-    ```bash
-    mkdir files/playground -p && cd files/playground
-    fluence provider gen --env local --noxes 3 --no-input
-    ```
-
-- Adapt provider config in `playground/provider.yml` for your setup.
-  For example:
-    ```yaml
-    # yaml-language-server: $schema=../.fluence/schemas/provider.json
-
-    # Defines config used for provider set up
-
-    # Documentation: https://github.com/fluencelabs/cli/tree/main/docs/configs/provider.md
-
-    version: 0
-
-    env: local
-
-    computePeers:
-      nox-0:
-        computeUnits: 1
-      nox-1:
-        computeUnits: 1
-      nox-2:
-        computeUnits: 1
-
-    offers:
-      offer:
-        maxCollateralPerWorker: 1
-        minPricePerWorkerEpoch: 0.1
-        computePeers:
-          - nox-0
-          - nox-1
-          - nox-2
-
-    nox:
-      # you can write config overrides with yaml syntax using camelCase
-      systemServices:
-        enabled:
-            - aqua-apfs
-            - decider
-            - trust-graph
-
-      # or you can write config in toml
-      # some options can be set only with rawConfig
-      # this has highest priority when merging
-      rawConfig: |
-        allowed_binaries = [
-          "/usr/bin/curl",
-          # we need to set path to ipfs binary that was downloaded by role
-          "{{ nox_dir }}/ipfs",
-        ]
-
-        [system_services]
-            [aqua-apfs]
-              external_api_multiaddres = "/ip4/ipfs.playground.com/tcp/5001"
-              local_api_multiaddres = "/ip4/ipfs.service.consul/tcp/5001"
-            decider:
-              worker_ipfs_multiaddr = "/dns4/ipfs.playground.com/tcp/5001"
-              network_api_endpoint = "https://somechain.com"
-    ```
-
-- Have a look at secrets config at `.fluence/provider-secrets.yaml` - it should be made private and not commited to git
-
-- Regenerate nox configs
-    ```bash
-    fluence provider gen
-    ```
-
-### Install and configure nox using ansible role
-
-- Populate ansible inventory with required variables
-  - Create `inventory/group_vars/all/nox.yml` with common for all nox instances
-    variables:
-    ```yml
-    nox_version: "0.16.13"
-    nox_ipfs_version: "0.25.0"
-    nox_project_dir: "playground"
-    ```
-  - Assign nox instances to hosts, for example by using `host_vars`:
-    - `inventory/host_vars/instance-0/nox.yml`
-      ```yml
-      nox_instances: [0, 1]
-      ```
-    - `inventory/host_vars/instance-1/nox.yml`
-      ```yml
-      nox_instances: [2]
-      ```
-
-- Download role and prepare playbook:
-  - Create `requirements.yml`
-      ```yml
-      roles:
-        - name: fluencelabs.nox
-          version: 0.1.0
-          name: nox
-      ```
-  - Install nox role
-      ```bash
-      ansible-galaxy install -r requirements.yml --force
-      ```
-  - Create `nox.yml` playbook:
-      ```yml
-      - hosts: "all"
-        become: true
-        roles:
-          - "nox"
-      ```
-- Install nox
-    ```bash
-    ansible-playbook nox.yml
-    ```
-
-This will run `nox-0` and `nox-1` on `instance-0` and `nox-2` on `instance-1`.
+See this [example](https://github.com/fluencelabs/ansible/blob/main/example/)
 
 ### Cleanup nox state
 
@@ -134,34 +16,38 @@ ansible-playbook nox.yml -e "nox_cleanup_state=true"
 
 ### Reassign instances to different host
 
-`nox-0` and `nox-1` runs on `instance-0` and `nox-2` on `instance-1`.
+`nox-0` runs on `server-0`, `nox-1` nox-2` on `server-1`.
 
-- `inventory/host_vars/instance-0/nox.yml`
-  ```yml
-  nox_instances: [0, 1]
-  ```
-- `inventory/host_vars/instance-1/nox.yml`
-  ```yml
-  nox_instances: [2]
-  ```
+```yml
+all:
+  children:
+    servers:
+      hosts:
+        server-0:
+          nox_instances: [0]
+        server-1:
+          nox_instances: [1,2]
+```
 
-Reassign `nox-0` to `instance-1`
+Reassign `nox-1` to `server-0`
 
-- `inventory/host_vars/instance-0/nox.yml`
-  ```yml
-  nox_instances: [1]
-  ```
-- `inventory/host_vars/instance-1/nox.yml`
-  ```yml
-  nox_instances: [2, 0]
-  ```
+```yml
+all:
+  children:
+    servers:
+      hosts:
+        server-0:
+          nox_instances: [0,1]
+        server-1:
+          nox_instances: [2]
+```
 
 and run playbook:
 ```bash
 ansible-playbook nox.yml
 ```
 
-This will stop `nox-0` at `instance-0` and will run it on `instance-1`.
+This will stop `nox-1` at `server-1` and will run it on `server-0`.
 
 ### Install nox snapshot from PR
 
@@ -177,7 +63,7 @@ Only for Fluence Labs members.
 
 ## Role Variables
 
-See [defaults/](https://github.com/fluencelabs/deployment/blob/main/ansible/defaults) for details and examples.
+See [defaults/](https://github.com/fluencelabs/ansible/blob/main/roles/nox/defaults) for details and examples.
 
 #### `nox_version`
 
@@ -206,10 +92,6 @@ subdirectories (`nox-1`, `nox-foo` etc) with nox binaries, configs and state.
 - directory that contains configs and secrets generated by
   [Fluence CLI](https://github.com/fluencelabs/cli) from `provider.yaml` config.
 - type: string
-- default:
-    ```yml
-    nox_project_dir: ".fluence"
-    ```
 
 Should be put to `files/` directory where you run this role.
 
@@ -217,7 +99,7 @@ Should be put to `files/` directory where you run this role.
 
 - systemd unit file
 - type: string
-- default: see [defaults/main.yml](https://github.com/fluencelabs/deployment/blob/main/ansible/defaults/main.yml)
+- default: see [defaults/main.yml](https://github.com/fluencelabs/blob/main/roles/nox/defaults/main.yml)
 
 #### `nox_user`
 
@@ -239,7 +121,7 @@ Should be put to `files/` directory where you run this role.
 
 #### `nox_cleanup_state`
 
-- whether to cleanup nox state.
+- whether to cleanup nox state
 - type: bool
 - default:
     ```yml
