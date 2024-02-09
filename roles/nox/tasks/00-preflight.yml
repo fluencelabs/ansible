@@ -11,7 +11,7 @@
 
 - name: check that tar is GNU type # noqa
   tags: always
-  fluencelabs.provider.check_tar_type:
+  check_tar_type:
 
 - name: check "nox_instances" variable
   tags: always
