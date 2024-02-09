@@ -19,4 +19,4 @@
 
 - name: check that tar is GNU type # noqa
   tags: always
-  check_tar_type:
+  fluencelabs.provider.check_tar_type:
