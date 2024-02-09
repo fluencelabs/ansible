@@ -97,10 +97,27 @@ fluence provider init --no-input --env=local --noxes=3
 
 ```bash
 cat <<EOF | patch provider.yaml
-@@ -22,3 +22,33 @@
-      - nox-0
-      - nox-1
-      - nox-2
+@@ -4,13 +4,14 @@
+ 
+ # Documentation: https://github.com/fluencelabs/cli/tree/main/docs/configs/provider.md
+ 
+-version: 0
+-
+ env: local
+ 
+ computePeers:
+   nox-0:
+     computeUnits: 32
++    nox:
++      rawConfig: |
++        local = true
+   nox-1:
+     computeUnits: 32
+   nox-2:
+@@ -24,3 +25,39 @@
+       - nox-0
+       - nox-1
+       - nox-2
 +
 +nox:
 +  # you can write config overrides with yaml syntax using camelCase
@@ -119,14 +136,20 @@ cat <<EOF | patch provider.yaml
 +      "{{ nox_dir }}/ipfs",
 +    ]
 +
++    local = false
++    bootstrap_nodes = [
++      "/ip4/172.30.10.10/tcp/7771"
++    ]
++
 +    [system_services.aqua_ipfs]
++    ipfs_binary_path = "{{ nox_dir }}/ipfs"
 +    external_api_multiaddr = "/ip4/127.0.0.1/tcp/5001"
-+    local_api_multiaddr = "/dns4/ipfs/tcp/5001"
++    local_api_multiaddr = "/ip4/172.30.10.95/tcp/5001"
 +
 +    [system_services.decider]
 +    decider_period_sec = 10
-+    worker_ipfs_multiaddr = "/dns4/ipfs/tcp/5001"
-+    network_api_endpoint = "http://chain:8545"
++    worker_ipfs_multiaddr = "/ip4/172.30.10.95/tcp/5001"
++    network_api_endpoint = "http://172.30.10.85:8545"
 +    network_id = 31337
 +    start_block = "earliest"
 +    matcher_address = "0x0e1F3B362E22B2Dc82C9E35d6e62998C7E8e2349"
