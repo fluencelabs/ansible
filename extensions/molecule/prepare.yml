@@ -7,7 +7,7 @@
     nox_instances: [0]
     ipfs_cli_version: "0.25.0"
 
-  collection:
+  collections:
     - fluencelabs.provider
 
   tasks:

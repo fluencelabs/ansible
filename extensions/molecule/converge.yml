@@ -6,7 +6,7 @@
     nox_project_dir: "molecule"
     ipfs_cli_version: "0.25.0"
 
-  collection:
+  collections:
     - fluencelabs.provider
 
   tasks:
