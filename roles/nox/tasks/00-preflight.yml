@@ -9,6 +9,9 @@
     quiet: true
   when: nox_run_id | string | length
 
+- name: check that tar is GNU type
+  fluencelabs.provider.check_tar_type:
+
 - name: check "nox_instances" variable
   tags: always
   ansible.builtin.assert:

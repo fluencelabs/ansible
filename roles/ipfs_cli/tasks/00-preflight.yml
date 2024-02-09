@@ -16,3 +16,6 @@
       - nox_dir is string
       - nox_dir | length
     quiet: true
+
+- name: check that tar is GNU type
+  fluencelabs.provider.check_tar_type:

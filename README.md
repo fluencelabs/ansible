@@ -5,6 +5,7 @@ Fluence provider toolkit.
 ## Requirements
 
 - Ansible >= 2.12 (might work on older versions)
+- gnu-tar on MacOS control host (`brew install gnu-tar`)
 
 ## Roles
 
