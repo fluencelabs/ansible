@@ -17,8 +17,6 @@
       - nox_dir | length
     quiet: true
 
-- name: check that tar is GNU type
-  tags:
-    - always
-    - skip_ansible_later
+- name: check that tar is GNU type # noqa
+  tags: always
   fluencelabs.provider.check_tar_type:
