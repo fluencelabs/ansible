@@ -268,7 +268,7 @@ podman-compose up -d --build
 - Wait for all services to start and setup Noxes
 
 ```bash
-ansible-playbook playbook.yml -i inventory.yml
+ansible-playbook nox.yml -i inventory.yml
 ```
 
 - When finished, run cleanup
