@@ -15,6 +15,12 @@ replacement for Docker. Podman allows for easily starting containers with
 
 Download and install [Podman](https://podman.io/).
 
+If on MacOS you can run:
+
+```bash
+brew install podman
+```
+
 ### Fluence CLI
 
 Install using commands from the
@@ -26,12 +32,30 @@ After installation, set a specific version of FCLI compatible with this guide:
 fluence update --version 0.14.0
 ```
 
-### gnu-tar
+### MacOS
+#### gnu-tar
 
 Users of MacOS need to install `gnu-tar` for this collection of roles to work.
 
 ```bash
 brew install gnu-tar
+```
+
+#### sshpass
+Users of MacOS need to install (only for running examples) `sshpass`:
+
+```bash
+brew tap esolitos/ipa
+brew install esolitos/ipa/sshpass
+```
+
+#### podman setup
+
+Prepare podman with following commands:
+
+```bash
+podman machine init
+podman machine start
 ```
 
 ## Setup Nox
@@ -66,7 +90,7 @@ podman-compose up -d --build
 - Wait for all services to start and setup Noxes
 
 ```bash
-ansible-playbook playbook.yml -i inventory.yml
+ansible-playbook nox.yml -i inventory.yml
 ```
 
 - When finished run cleanup
@@ -221,7 +245,7 @@ EOF
 - Create playbook
 
 ```bash
-cat <<EOF > playbook.yml
+cat <<EOF > nox.yml
 - hosts: "all"
   become: true
   roles:

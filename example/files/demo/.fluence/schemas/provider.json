@@ -1,0 +1,482 @@
+{
+  "$id": "https://fluence.dev/schemas/provider.yaml",
+  "title": "provider.yaml",
+  "description": "Defines config used for provider set up",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "env": {
+      "description": "Defines the the environment for which you intend to generate nox configuration",
+      "type": "string",
+      "enum": [
+        "kras",
+        "testnet",
+        "stage",
+        "local"
+      ]
+    },
+    "offers": {
+      "description": "A map with offer names as keys and offers as values",
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "description": "Defines a provider offer",
+        "additionalProperties": false,
+        "properties": {
+          "minPricePerWorkerEpoch": {
+            "type": "number",
+            "description": "Minimum price per worker epoch. This number is multiplied by 10^18"
+          },
+          "maxCollateralPerWorker": {
+            "type": "number",
+            "description": "Max collateral per worker. This number is multiplied by 10^18"
+          },
+          "computePeers": {
+            "description": "Number of Compute Units for this Compute Peer",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "effectors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "required": [
+          "minPricePerWorkerEpoch",
+          "maxCollateralPerWorker",
+          "computePeers"
+        ]
+      },
+      "properties": {
+        "Offer": {
+          "type": "object",
+          "description": "Defines a provider offer",
+          "additionalProperties": false,
+          "properties": {
+            "minPricePerWorkerEpoch": {
+              "type": "number",
+              "description": "Minimum price per worker epoch. This number is multiplied by 10^18"
+            },
+            "maxCollateralPerWorker": {
+              "type": "number",
+              "description": "Max collateral per worker. This number is multiplied by 10^18"
+            },
+            "computePeers": {
+              "description": "Number of Compute Units for this Compute Peer",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "uniqueItems": true
+            },
+            "effectors": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "nullable": true
+            }
+          },
+          "required": [
+            "minPricePerWorkerEpoch",
+            "maxCollateralPerWorker",
+            "computePeers"
+          ]
+        }
+      },
+      "required": []
+    },
+    "computePeers": {
+      "description": "A map with compute peer names as keys and compute peers as values",
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "description": "Defines a compute peer",
+        "additionalProperties": false,
+        "properties": {
+          "computeUnits": {
+            "type": "number",
+            "nullable": true,
+            "description": "How many compute units should nox have. Default: 32 (each compute unit requires 2GB of RAM)"
+          },
+          "nox": {
+            "type": "object",
+            "description": "Configuration to pass to the nox compute peer. Config.toml files are generated from this config",
+            "properties": {
+              "tcpPort": {
+                "nullable": true,
+                "type": "number",
+                "description": "Both host and container TCP port to use. Default: for each nox a unique port is assigned starting from 7771"
+              },
+              "websocketPort": {
+                "nullable": true,
+                "type": "number",
+                "description": "Both host and container WebSocket port to use. Default: for each nox a unique port is assigned starting from 9991"
+              },
+              "httpPort": {
+                "nullable": true,
+                "type": "number",
+                "description": "Both host and container HTTP port to use. Default: for each nox a unique port is assigned starting from 18080"
+              },
+              "aquavmPoolSize": {
+                "nullable": true,
+                "type": "number",
+                "description": "Number of aquavm instances to run. Default: 2"
+              },
+              "systemServices": {
+                "nullable": true,
+                "type": "object",
+                "description": "System services to run by default. aquaIpfs and decider are enabled by default",
+                "additionalProperties": false,
+                "properties": {
+                  "enable": {
+                    "nullable": true,
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "List of system services to enable"
+                  },
+                  "aquaIpfs": {
+                    "type": "object",
+                    "description": "Aqua IPFS service configuration",
+                    "additionalProperties": false,
+                    "nullable": true,
+                    "properties": {
+                      "externalApiMultiaddr": {
+                        "nullable": true,
+                        "type": "string",
+                        "description": "Multiaddress of external IPFS API"
+                      },
+                      "localApiMultiaddr": {
+                        "nullable": true,
+                        "type": "string",
+                        "description": "Multiaddress of local IPFS API"
+                      }
+                    },
+                    "required": []
+                  },
+                  "decider": {
+                    "type": "object",
+                    "description": "Decider service configuration",
+                    "additionalProperties": false,
+                    "nullable": true,
+                    "properties": {
+                      "deciderPeriodSec": {
+                        "nullable": true,
+                        "type": "number",
+                        "description": "Decider period in seconds"
+                      },
+                      "workerIpfsMultiaddr": {
+                        "nullable": true,
+                        "type": "string",
+                        "description": "Multiaddress of worker IPFS node"
+                      },
+                      "networkApiEndpoint": {
+                        "nullable": true,
+                        "type": "string",
+                        "description": "Network API endpoint"
+                      },
+                      "networkId": {
+                        "nullable": true,
+                        "type": "number",
+                        "description": "Network ID"
+                      },
+                      "startBlock": {
+                        "nullable": true,
+                        "type": "string",
+                        "description": "Start block"
+                      },
+                      "matcherAddress": {
+                        "nullable": true,
+                        "type": "string",
+                        "description": "Matcher address"
+                      },
+                      "walletKey": {
+                        "nullable": true,
+                        "type": "string",
+                        "description": "Wallet key"
+                      }
+                    },
+                    "required": []
+                  }
+                },
+                "required": []
+              },
+              "rawConfig": {
+                "nullable": true,
+                "type": "string",
+                "description": "Raw TOML config string to parse and merge with the rest of the config. Has the highest priority"
+              }
+            },
+            "required": [],
+            "nullable": true,
+            "additionalProperties": false
+          }
+        },
+        "required": []
+      },
+      "properties": {
+        "ComputePeer": {
+          "type": "object",
+          "description": "Defines a compute peer",
+          "additionalProperties": false,
+          "properties": {
+            "computeUnits": {
+              "type": "number",
+              "nullable": true,
+              "description": "How many compute units should nox have. Default: 32 (each compute unit requires 2GB of RAM)"
+            },
+            "nox": {
+              "type": "object",
+              "description": "Configuration to pass to the nox compute peer. Config.toml files are generated from this config",
+              "properties": {
+                "tcpPort": {
+                  "nullable": true,
+                  "type": "number",
+                  "description": "Both host and container TCP port to use. Default: for each nox a unique port is assigned starting from 7771"
+                },
+                "websocketPort": {
+                  "nullable": true,
+                  "type": "number",
+                  "description": "Both host and container WebSocket port to use. Default: for each nox a unique port is assigned starting from 9991"
+                },
+                "httpPort": {
+                  "nullable": true,
+                  "type": "number",
+                  "description": "Both host and container HTTP port to use. Default: for each nox a unique port is assigned starting from 18080"
+                },
+                "aquavmPoolSize": {
+                  "nullable": true,
+                  "type": "number",
+                  "description": "Number of aquavm instances to run. Default: 2"
+                },
+                "systemServices": {
+                  "nullable": true,
+                  "type": "object",
+                  "description": "System services to run by default. aquaIpfs and decider are enabled by default",
+                  "additionalProperties": false,
+                  "properties": {
+                    "enable": {
+                      "nullable": true,
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "List of system services to enable"
+                    },
+                    "aquaIpfs": {
+                      "type": "object",
+                      "description": "Aqua IPFS service configuration",
+                      "additionalProperties": false,
+                      "nullable": true,
+                      "properties": {
+                        "externalApiMultiaddr": {
+                          "nullable": true,
+                          "type": "string",
+                          "description": "Multiaddress of external IPFS API"
+                        },
+                        "localApiMultiaddr": {
+                          "nullable": true,
+                          "type": "string",
+                          "description": "Multiaddress of local IPFS API"
+                        }
+                      },
+                      "required": []
+                    },
+                    "decider": {
+                      "type": "object",
+                      "description": "Decider service configuration",
+                      "additionalProperties": false,
+                      "nullable": true,
+                      "properties": {
+                        "deciderPeriodSec": {
+                          "nullable": true,
+                          "type": "number",
+                          "description": "Decider period in seconds"
+                        },
+                        "workerIpfsMultiaddr": {
+                          "nullable": true,
+                          "type": "string",
+                          "description": "Multiaddress of worker IPFS node"
+                        },
+                        "networkApiEndpoint": {
+                          "nullable": true,
+                          "type": "string",
+                          "description": "Network API endpoint"
+                        },
+                        "networkId": {
+                          "nullable": true,
+                          "type": "number",
+                          "description": "Network ID"
+                        },
+                        "startBlock": {
+                          "nullable": true,
+                          "type": "string",
+                          "description": "Start block"
+                        },
+                        "matcherAddress": {
+                          "nullable": true,
+                          "type": "string",
+                          "description": "Matcher address"
+                        },
+                        "walletKey": {
+                          "nullable": true,
+                          "type": "string",
+                          "description": "Wallet key"
+                        }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": []
+                },
+                "rawConfig": {
+                  "nullable": true,
+                  "type": "string",
+                  "description": "Raw TOML config string to parse and merge with the rest of the config. Has the highest priority"
+                }
+              },
+              "required": [],
+              "nullable": true,
+              "additionalProperties": false
+            }
+          },
+          "required": []
+        }
+      },
+      "required": []
+    },
+    "nox": {
+      "type": "object",
+      "description": "Configuration to pass to the nox compute peer. Config.toml files are generated from this config",
+      "properties": {
+        "tcpPort": {
+          "nullable": true,
+          "type": "number",
+          "description": "Both host and container TCP port to use. Default: for each nox a unique port is assigned starting from 7771"
+        },
+        "websocketPort": {
+          "nullable": true,
+          "type": "number",
+          "description": "Both host and container WebSocket port to use. Default: for each nox a unique port is assigned starting from 9991"
+        },
+        "httpPort": {
+          "nullable": true,
+          "type": "number",
+          "description": "Both host and container HTTP port to use. Default: for each nox a unique port is assigned starting from 18080"
+        },
+        "aquavmPoolSize": {
+          "nullable": true,
+          "type": "number",
+          "description": "Number of aquavm instances to run. Default: 2"
+        },
+        "systemServices": {
+          "nullable": true,
+          "type": "object",
+          "description": "System services to run by default. aquaIpfs and decider are enabled by default",
+          "additionalProperties": false,
+          "properties": {
+            "enable": {
+              "nullable": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "List of system services to enable"
+            },
+            "aquaIpfs": {
+              "type": "object",
+              "description": "Aqua IPFS service configuration",
+              "additionalProperties": false,
+              "nullable": true,
+              "properties": {
+                "externalApiMultiaddr": {
+                  "nullable": true,
+                  "type": "string",
+                  "description": "Multiaddress of external IPFS API"
+                },
+                "localApiMultiaddr": {
+                  "nullable": true,
+                  "type": "string",
+                  "description": "Multiaddress of local IPFS API"
+                }
+              },
+              "required": []
+            },
+            "decider": {
+              "type": "object",
+              "description": "Decider service configuration",
+              "additionalProperties": false,
+              "nullable": true,
+              "properties": {
+                "deciderPeriodSec": {
+                  "nullable": true,
+                  "type": "number",
+                  "description": "Decider period in seconds"
+                },
+                "workerIpfsMultiaddr": {
+                  "nullable": true,
+                  "type": "string",
+                  "description": "Multiaddress of worker IPFS node"
+                },
+                "networkApiEndpoint": {
+                  "nullable": true,
+                  "type": "string",
+                  "description": "Network API endpoint"
+                },
+                "networkId": {
+                  "nullable": true,
+                  "type": "number",
+                  "description": "Network ID"
+                },
+                "startBlock": {
+                  "nullable": true,
+                  "type": "string",
+                  "description": "Start block"
+                },
+                "matcherAddress": {
+                  "nullable": true,
+                  "type": "string",
+                  "description": "Matcher address"
+                },
+                "walletKey": {
+                  "nullable": true,
+                  "type": "string",
+                  "description": "Wallet key"
+                }
+              },
+              "required": []
+            }
+          },
+          "required": []
+        },
+        "rawConfig": {
+          "nullable": true,
+          "type": "string",
+          "description": "Raw TOML config string to parse and merge with the rest of the config. Has the highest priority"
+        }
+      },
+      "required": [],
+      "nullable": true,
+      "additionalProperties": false
+    },
+    "version": {
+      "type": "number",
+      "const": 0,
+      "description": "Config version"
+    }
+  },
+  "required": [
+    "version",
+    "computePeers",
+    "offers",
+    "env"
+  ]
+}
