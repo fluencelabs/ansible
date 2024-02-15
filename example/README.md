@@ -62,17 +62,23 @@ podman machine start
 
 ### Using Predefined Files
 
+- Clone this repo and change to `example` directory
+``` bash
+git clone https://github.com/fluencelabs/ansible
+cd example
+```
+
 - Create and activate python virtual environment
 
 ```bash
-python -m venv ~/.virtualenvs/fluence/nox-ansible-demo
+python3 -m venv ~/.virtualenvs/fluence/nox-ansible-demo
 source ~/.virtualenvs/fluence/nox-ansible-demo/bin/activate
 ```
 
 - Install python dependencies
 
 ```bash
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 - Install Ansible Provider collection
@@ -100,6 +106,12 @@ podman-compose down
 ```
 
 ### Starting from Scratch
+
+- Clone this repo and change to `example` directory
+``` bash
+git clone https://github.com/fluencelabs/ansible
+cd example
+```
 
 - Create project directories
 
@@ -196,7 +208,7 @@ cd ../../
 - Create and activate python virtual environment
 
 ```bash
-python -m venv ~/.virtualenvs/fluence/nox-ansible-demo
+python3 -m venv ~/.virtualenvs/fluence/nox-ansible-demo
 source ~/.virtualenvs/fluence/nox-ansible-demo/bin/activate
 ```
 
@@ -207,7 +219,7 @@ cat << EOF > requirements.txt
 ansible==9.2.0
 podman-compose
 EOF
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 - Install Ansible Provider collection
