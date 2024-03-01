@@ -1,0 +1,59 @@
+name: demo
+
+networks:
+  demo:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.30.10.0/24"
+
+services:
+  server-0:
+    image: ubuntu-systemd:jammy
+    build:
+      context: ./
+    tty: true
+    ports:
+      - "2200:22"
+      # nox ports
+      - "7771:7771"
+      - "9991:9991"
+      - "18080:18080"
+    networks:
+      demo:
+        ipv4_address: 172.30.10.10
+
+  server-1:
+    image: ubuntu-systemd:jammy
+    build:
+      context: ./
+    tty: true
+    ports:
+      - "2201:22"
+      # nox ports
+      - "7772-7773:7772-7773"
+      - "9992-9993:9992-9993"
+      - "18081-18082:18081-18082"
+    networks:
+      demo:
+        ipv4_address: 172.30.10.11
+
+  # services required for Nox to work
+  chain:
+    image: docker.io/fluencelabs/chain-rpc:0.2.20
+    ports:
+      - 8545:8545
+    networks:
+      demo:
+        ipv4_address: 172.30.10.85
+
+  ipfs:
+    image: docker.io/ipfs/kubo:v0.26.0
+    ports:
+      - 5001:5001
+      - 4001:4001
+    environment:
+      IPFS_PROFILE: server
+    networks:
+      demo:
+        ipv4_address: 172.30.10.95
