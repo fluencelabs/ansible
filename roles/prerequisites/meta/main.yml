@@ -1,6 +1,6 @@
 galaxy_info:
   namespace: fluencelabs
-  role_name: preprequisited
+  role_name: preprequisites
   license: Apache-2.0
   author: Anatolios Laskaris
   description: Prepare OS to run Fluence provider toolkit
