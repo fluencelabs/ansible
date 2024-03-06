@@ -5,15 +5,10 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    "env": {
-      "description": "Defines the the environment for which you intend to generate nox configuration",
+    "providerName": {
+      "description": "Provider name. Must not be empty",
       "type": "string",
-      "enum": [
-        "kras",
-        "testnet",
-        "stage",
-        "local"
-      ]
+      "minLength": 1
     },
     "offers": {
       "description": "A map with offer names as keys and offers as values",
@@ -24,12 +19,8 @@
         "additionalProperties": false,
         "properties": {
           "minPricePerWorkerEpoch": {
-            "type": "number",
-            "description": "Minimum price per worker epoch. This number is multiplied by 10^18"
-          },
-          "maxCollateralPerWorker": {
-            "type": "number",
-            "description": "Max collateral per worker. This number is multiplied by 10^18"
+            "type": "string",
+            "description": "Minimum price per worker epoch in USDC"
           },
           "computePeers": {
             "description": "Number of Compute Units for this Compute Peer",
@@ -45,11 +36,24 @@
               "type": "string"
             },
             "nullable": true
+          },
+          "minProtocolVersion": {
+            "type": "integer",
+            "description": "Min protocol version. Must be less then or equal to maxProtocolVersion. Default: 1",
+            "nullable": true,
+            "default": 1,
+            "minimum": 1
+          },
+          "maxProtocolVersion": {
+            "type": "integer",
+            "description": "Max protocol version. Must be more then or equal to minProtocolVersion. Default: 1",
+            "nullable": true,
+            "default": 1,
+            "minimum": 1
           }
         },
         "required": [
           "minPricePerWorkerEpoch",
-          "maxCollateralPerWorker",
           "computePeers"
         ]
       },
@@ -60,12 +64,8 @@
           "additionalProperties": false,
           "properties": {
             "minPricePerWorkerEpoch": {
-              "type": "number",
-              "description": "Minimum price per worker epoch. This number is multiplied by 10^18"
-            },
-            "maxCollateralPerWorker": {
-              "type": "number",
-              "description": "Max collateral per worker. This number is multiplied by 10^18"
+              "type": "string",
+              "description": "Minimum price per worker epoch in USDC"
             },
             "computePeers": {
               "description": "Number of Compute Units for this Compute Peer",
@@ -81,11 +81,24 @@
                 "type": "string"
               },
               "nullable": true
+            },
+            "minProtocolVersion": {
+              "type": "integer",
+              "description": "Min protocol version. Must be less then or equal to maxProtocolVersion. Default: 1",
+              "nullable": true,
+              "default": 1,
+              "minimum": 1
+            },
+            "maxProtocolVersion": {
+              "type": "integer",
+              "description": "Max protocol version. Must be more then or equal to minProtocolVersion. Default: 1",
+              "nullable": true,
+              "default": 1,
+              "minimum": 1
             }
           },
           "required": [
             "minPricePerWorkerEpoch",
-            "maxCollateralPerWorker",
             "computePeers"
           ]
         }
@@ -101,8 +114,7 @@
         "additionalProperties": false,
         "properties": {
           "computeUnits": {
-            "type": "number",
-            "nullable": true,
+            "type": "integer",
             "description": "How many compute units should nox have. Default: 32 (each compute unit requires 2GB of RAM)"
           },
           "nox": {
@@ -111,22 +123,22 @@
             "properties": {
               "tcpPort": {
                 "nullable": true,
-                "type": "number",
+                "type": "integer",
                 "description": "Both host and container TCP port to use. Default: for each nox a unique port is assigned starting from 7771"
               },
               "websocketPort": {
                 "nullable": true,
-                "type": "number",
+                "type": "integer",
                 "description": "Both host and container WebSocket port to use. Default: for each nox a unique port is assigned starting from 9991"
               },
               "httpPort": {
                 "nullable": true,
-                "type": "number",
+                "type": "integer",
                 "description": "Both host and container HTTP port to use. Default: for each nox a unique port is assigned starting from 18080"
               },
               "aquavmPoolSize": {
                 "nullable": true,
-                "type": "number",
+                "type": "integer",
                 "description": "Number of aquavm instances to run. Default: 2"
               },
               "systemServices": {
@@ -170,7 +182,7 @@
                     "properties": {
                       "deciderPeriodSec": {
                         "nullable": true,
-                        "type": "number",
+                        "type": "integer",
                         "description": "Decider period in seconds"
                       },
                       "workerIpfsMultiaddr": {
@@ -185,7 +197,7 @@
                       },
                       "networkId": {
                         "nullable": true,
-                        "type": "number",
+                        "type": "integer",
                         "description": "Network ID"
                       },
                       "startBlock": {
@@ -209,6 +221,109 @@
                 },
                 "required": []
               },
+              "effectors": {
+                "nullable": true,
+                "type": "object",
+                "description": "Effectors to allow on the nox",
+                "additionalProperties": {
+                  "type": "object",
+                  "description": "Effector configuration",
+                  "additionalProperties": false,
+                  "properties": {
+                    "wasmCID": {
+                      "type": "string",
+                      "description": "Wasm CID of the effector"
+                    },
+                    "allowedBinaries": {
+                      "type": "object",
+                      "description": "Allowed binaries",
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "properties": {
+                        "curl": {
+                          "type": "string"
+                        }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": [
+                    "wasmCID",
+                    "allowedBinaries"
+                  ]
+                },
+                "properties": {
+                  "effectorName": {
+                    "type": "object",
+                    "description": "Effector configuration",
+                    "additionalProperties": false,
+                    "properties": {
+                      "wasmCID": {
+                        "type": "string",
+                        "description": "Wasm CID of the effector"
+                      },
+                      "allowedBinaries": {
+                        "type": "object",
+                        "description": "Allowed binaries",
+                        "additionalProperties": {
+                          "type": "string"
+                        },
+                        "properties": {
+                          "curl": {
+                            "type": "string"
+                          }
+                        },
+                        "required": []
+                      }
+                    },
+                    "required": [
+                      "wasmCID",
+                      "allowedBinaries"
+                    ]
+                  }
+                },
+                "required": []
+              },
+              "chainConfig": {
+                "nullable": true,
+                "type": "object",
+                "description": "Chain config",
+                "additionalProperties": false,
+                "properties": {
+                  "httpEndpoint": {
+                    "nullable": true,
+                    "type": "string",
+                    "description": "HTTP endpoint of the chain. Same as decider"
+                  },
+                  "coreContractAddress": {
+                    "nullable": true,
+                    "type": "string",
+                    "description": "Core contract address"
+                  },
+                  "ccContractAddress": {
+                    "nullable": true,
+                    "type": "string",
+                    "description": "Capacity commitment contract address"
+                  },
+                  "marketContractAddress": {
+                    "nullable": true,
+                    "type": "string",
+                    "description": "Market contract address"
+                  },
+                  "networkId": {
+                    "nullable": true,
+                    "type": "integer",
+                    "description": "Network ID"
+                  },
+                  "walletKey": {
+                    "nullable": true,
+                    "type": "string",
+                    "description": "Wallet key"
+                  }
+                },
+                "required": []
+              },
               "rawConfig": {
                 "nullable": true,
                 "type": "string",
@@ -220,7 +335,9 @@
             "additionalProperties": false
           }
         },
-        "required": []
+        "required": [
+          "computeUnits"
+        ]
       },
       "properties": {
         "ComputePeer": {
@@ -229,8 +346,7 @@
           "additionalProperties": false,
           "properties": {
             "computeUnits": {
-              "type": "number",
-              "nullable": true,
+              "type": "integer",
               "description": "How many compute units should nox have. Default: 32 (each compute unit requires 2GB of RAM)"
             },
             "nox": {
@@ -239,22 +355,22 @@
               "properties": {
                 "tcpPort": {
                   "nullable": true,
-                  "type": "number",
+                  "type": "integer",
                   "description": "Both host and container TCP port to use. Default: for each nox a unique port is assigned starting from 7771"
                 },
                 "websocketPort": {
                   "nullable": true,
-                  "type": "number",
+                  "type": "integer",
                   "description": "Both host and container WebSocket port to use. Default: for each nox a unique port is assigned starting from 9991"
                 },
                 "httpPort": {
                   "nullable": true,
-                  "type": "number",
+                  "type": "integer",
                   "description": "Both host and container HTTP port to use. Default: for each nox a unique port is assigned starting from 18080"
                 },
                 "aquavmPoolSize": {
                   "nullable": true,
-                  "type": "number",
+                  "type": "integer",
                   "description": "Number of aquavm instances to run. Default: 2"
                 },
                 "systemServices": {
@@ -298,7 +414,7 @@
                       "properties": {
                         "deciderPeriodSec": {
                           "nullable": true,
-                          "type": "number",
+                          "type": "integer",
                           "description": "Decider period in seconds"
                         },
                         "workerIpfsMultiaddr": {
@@ -313,7 +429,7 @@
                         },
                         "networkId": {
                           "nullable": true,
-                          "type": "number",
+                          "type": "integer",
                           "description": "Network ID"
                         },
                         "startBlock": {
@@ -337,6 +453,109 @@
                   },
                   "required": []
                 },
+                "effectors": {
+                  "nullable": true,
+                  "type": "object",
+                  "description": "Effectors to allow on the nox",
+                  "additionalProperties": {
+                    "type": "object",
+                    "description": "Effector configuration",
+                    "additionalProperties": false,
+                    "properties": {
+                      "wasmCID": {
+                        "type": "string",
+                        "description": "Wasm CID of the effector"
+                      },
+                      "allowedBinaries": {
+                        "type": "object",
+                        "description": "Allowed binaries",
+                        "additionalProperties": {
+                          "type": "string"
+                        },
+                        "properties": {
+                          "curl": {
+                            "type": "string"
+                          }
+                        },
+                        "required": []
+                      }
+                    },
+                    "required": [
+                      "wasmCID",
+                      "allowedBinaries"
+                    ]
+                  },
+                  "properties": {
+                    "effectorName": {
+                      "type": "object",
+                      "description": "Effector configuration",
+                      "additionalProperties": false,
+                      "properties": {
+                        "wasmCID": {
+                          "type": "string",
+                          "description": "Wasm CID of the effector"
+                        },
+                        "allowedBinaries": {
+                          "type": "object",
+                          "description": "Allowed binaries",
+                          "additionalProperties": {
+                            "type": "string"
+                          },
+                          "properties": {
+                            "curl": {
+                              "type": "string"
+                            }
+                          },
+                          "required": []
+                        }
+                      },
+                      "required": [
+                        "wasmCID",
+                        "allowedBinaries"
+                      ]
+                    }
+                  },
+                  "required": []
+                },
+                "chainConfig": {
+                  "nullable": true,
+                  "type": "object",
+                  "description": "Chain config",
+                  "additionalProperties": false,
+                  "properties": {
+                    "httpEndpoint": {
+                      "nullable": true,
+                      "type": "string",
+                      "description": "HTTP endpoint of the chain. Same as decider"
+                    },
+                    "coreContractAddress": {
+                      "nullable": true,
+                      "type": "string",
+                      "description": "Core contract address"
+                    },
+                    "ccContractAddress": {
+                      "nullable": true,
+                      "type": "string",
+                      "description": "Capacity commitment contract address"
+                    },
+                    "marketContractAddress": {
+                      "nullable": true,
+                      "type": "string",
+                      "description": "Market contract address"
+                    },
+                    "networkId": {
+                      "nullable": true,
+                      "type": "integer",
+                      "description": "Network ID"
+                    },
+                    "walletKey": {
+                      "nullable": true,
+                      "type": "string",
+                      "description": "Wallet key"
+                    }
+                  },
+                  "required": []
+                },
                 "rawConfig": {
                   "nullable": true,
                   "type": "string",
@@ -348,7 +567,9 @@
               "additionalProperties": false
             }
           },
-          "required": []
+          "required": [
+            "computeUnits"
+          ]
         }
       },
       "required": []
@@ -359,22 +580,22 @@
       "properties": {
         "tcpPort": {
           "nullable": true,
-          "type": "number",
+          "type": "integer",
           "description": "Both host and container TCP port to use. Default: for each nox a unique port is assigned starting from 7771"
         },
         "websocketPort": {
           "nullable": true,
-          "type": "number",
+          "type": "integer",
           "description": "Both host and container WebSocket port to use. Default: for each nox a unique port is assigned starting from 9991"
         },
         "httpPort": {
           "nullable": true,
-          "type": "number",
+          "type": "integer",
           "description": "Both host and container HTTP port to use. Default: for each nox a unique port is assigned starting from 18080"
         },
         "aquavmPoolSize": {
           "nullable": true,
-          "type": "number",
+          "type": "integer",
           "description": "Number of aquavm instances to run. Default: 2"
         },
         "systemServices": {
@@ -418,7 +639,7 @@
               "properties": {
                 "deciderPeriodSec": {
                   "nullable": true,
-                  "type": "number",
+                  "type": "integer",
                   "description": "Decider period in seconds"
                 },
                 "workerIpfsMultiaddr": {
@@ -433,7 +654,7 @@
                 },
                 "networkId": {
                   "nullable": true,
-                  "type": "number",
+                  "type": "integer",
                   "description": "Network ID"
                 },
                 "startBlock": {
@@ -457,6 +678,109 @@
           },
           "required": []
         },
+        "effectors": {
+          "nullable": true,
+          "type": "object",
+          "description": "Effectors to allow on the nox",
+          "additionalProperties": {
+            "type": "object",
+            "description": "Effector configuration",
+            "additionalProperties": false,
+            "properties": {
+              "wasmCID": {
+                "type": "string",
+                "description": "Wasm CID of the effector"
+              },
+              "allowedBinaries": {
+                "type": "object",
+                "description": "Allowed binaries",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "properties": {
+                  "curl": {
+                    "type": "string"
+                  }
+                },
+                "required": []
+              }
+            },
+            "required": [
+              "wasmCID",
+              "allowedBinaries"
+            ]
+          },
+          "properties": {
+            "effectorName": {
+              "type": "object",
+              "description": "Effector configuration",
+              "additionalProperties": false,
+              "properties": {
+                "wasmCID": {
+                  "type": "string",
+                  "description": "Wasm CID of the effector"
+                },
+                "allowedBinaries": {
+                  "type": "object",
+                  "description": "Allowed binaries",
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "properties": {
+                    "curl": {
+                      "type": "string"
+                    }
+                  },
+                  "required": []
+                }
+              },
+              "required": [
+                "wasmCID",
+                "allowedBinaries"
+              ]
+            }
+          },
+          "required": []
+        },
+        "chainConfig": {
+          "nullable": true,
+          "type": "object",
+          "description": "Chain config",
+          "additionalProperties": false,
+          "properties": {
+            "httpEndpoint": {
+              "nullable": true,
+              "type": "string",
+              "description": "HTTP endpoint of the chain. Same as decider"
+            },
+            "coreContractAddress": {
+              "nullable": true,
+              "type": "string",
+              "description": "Core contract address"
+            },
+            "ccContractAddress": {
+              "nullable": true,
+              "type": "string",
+              "description": "Capacity commitment contract address"
+            },
+            "marketContractAddress": {
+              "nullable": true,
+              "type": "string",
+              "description": "Market contract address"
+            },
+            "networkId": {
+              "nullable": true,
+              "type": "integer",
+              "description": "Network ID"
+            },
+            "walletKey": {
+              "nullable": true,
+              "type": "string",
+              "description": "Wallet key"
+            }
+          },
+          "required": []
+        },
         "rawConfig": {
           "nullable": true,
           "type": "string",
@@ -467,8 +791,71 @@
       "nullable": true,
       "additionalProperties": false
     },
+    "capacityCommitments": {
+      "description": "A map with nox names as keys and capacity commitments as values",
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "description": "Defines a capacity commitment",
+        "required": [
+          "duration",
+          "rewardDelegationRate"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "duration": {
+            "type": "string",
+            "default": "100 days",
+            "description": "Duration of the commitment in human-readable format. Example: 1 months 1 days"
+          },
+          "delegator": {
+            "type": "string",
+            "description": "Delegator address",
+            "nullable": true
+          },
+          "rewardDelegationRate": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Reward delegation rate in percent",
+            "default": 7
+          }
+        }
+      },
+      "properties": {
+        "noxName": {
+          "type": "object",
+          "description": "Defines a capacity commitment",
+          "required": [
+            "duration",
+            "rewardDelegationRate"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "duration": {
+              "type": "string",
+              "default": "100 days",
+              "description": "Duration of the commitment in human-readable format. Example: 1 months 1 days"
+            },
+            "delegator": {
+              "type": "string",
+              "description": "Delegator address",
+              "nullable": true
+            },
+            "rewardDelegationRate": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "Reward delegation rate in percent",
+              "default": 7
+            }
+          }
+        }
+      },
+      "required": []
+    },
     "version": {
-      "type": "number",
+      "type": "integer",
       "const": 0,
       "description": "Config version"
     }
@@ -477,6 +864,7 @@
     "version",
     "computePeers",
     "offers",
-    "env"
+    "providerName",
+    "capacityCommitments"
   ]
 }
