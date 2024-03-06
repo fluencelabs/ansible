@@ -2,5 +2,5 @@
   tags: always
   ansible.builtin.include_tasks: 00-preflight.yml
 
-- name: Install Nox
+- name: Install CCP
   ansible.builtin.include_tasks: 01-install.yml

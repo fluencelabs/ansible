@@ -1,0 +1,12 @@
+_arch_map:
+  amd64: amd64
+  x86_64: amd64
+  aarch64: arm64
+  64-bit: amd64
+_arch: "{{ _arch_map[ansible_architecture] }}"
+_semver_regex: "^v?\\d+\\.\\d+\\.\\d+$"
+
+_ccp_version: "{{ ccp_version | regex_replace('^(?!v)', 'v') }}"
+_ccp_download_url: "https://github.com/fluencelabs/capacity-commitment-prover/releases/download/ccp-{{ _ccp_version }}"
+_ccp_checksums: "sha256:{{ _ccp_download_url + '/ccp_SHA256_SUMS' }}"
+_ccp_bin: "ccp-{{ _arch }}"

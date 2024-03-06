@@ -1,0 +1,21 @@
+ccp_version: ""
+ccp_dir: "/opt/fluence/ccp"
+ccp_project_dir: ""
+ccp_group: "ccp"
+ccp_user: "ccp"
+ccp_run_id: ""
+ccp_cleanup_state: false
+ccp_unit_file: |
+  [Unit]
+  Description=CCP - Fluence capacity commitment prover
+  After=network.target
+
+  [Service]
+  Type=simple
+  ExecStart={{ ccp_dir }}/ccp {{ ccp_dir }}/Config.toml
+  Restart=on-failure
+  User={{ ccp_user }}
+  Group={{ ccp_group }}
+
+  [Install]
+  WantedBy=multi-user.target

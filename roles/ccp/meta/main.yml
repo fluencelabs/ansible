@@ -1,9 +1,9 @@
 galaxy_info:
   namespace: fluencelabs
-  role_name: ipfs_cli
-  author: Anatolios Laskaris
+  role_name: ccp
   license: Apache-2.0
-  description: Downloads IPFS CLI used by Nox
+  author: Anatolios Laskaris
+  description: Install and setup CCP - Fluence capacity commitment prover
   issue_tracker_url: https://github.com/fluencelabs/ansible/issues
   min_ansible_version: "2.12"
 
@@ -19,5 +19,3 @@ galaxy_info:
     - p2p
     - fluence
     - web3
-
-dependencies: []

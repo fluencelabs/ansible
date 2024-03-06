@@ -1,5 +1,5 @@
-- name: restart nox
+- name: restart ccp
   ansible.builtin.systemd:
     daemon_reload: true
-    name: nox
+    name: ccp
     state: restarted

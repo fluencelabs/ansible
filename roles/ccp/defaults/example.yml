@@ -1,4 +1,4 @@
-nox_version: "0.22.0"
+ccp_version: "0.2.0"
 
 fluence_project_dir: "playground"
 fluence_instance_id: "peer-0"

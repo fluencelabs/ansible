@@ -37,7 +37,7 @@
 - name: propagate IPFS binary
   ansible.builtin.copy:
     src: "{{ role_path }}/files/ipfs/{{ _ipfs_version }}/{{ _arch }}/ipfs"
-    dest: "{{ nox_dir }}/ipfs"
+    dest: "/usr/local/bin/ipfs"
     owner: root
     group: root
     mode: 0o755

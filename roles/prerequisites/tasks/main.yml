@@ -1,0 +1,14 @@
+- name: install required packages and libraries
+  apt:
+    name: "{{ package }}"
+    install_recommends: false
+    update_cache: true
+    autoclean: true
+    autoremove: true
+    state: present
+  loop:
+    - libhwloc-dev
+    - curl
+  loop_control:
+    loop_var: package
+    label: "{{ package }}"

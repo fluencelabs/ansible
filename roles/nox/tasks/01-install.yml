@@ -15,25 +15,17 @@
 
 - name: cleanup nox state
   ansible.builtin.file:
-    path: "{{ nox_dir }}/nox-{{ instance }}"
+    path: "{{ nox_dir }}"
     state: absent
   when: nox_cleanup_state
-  loop: "{{ nox_instances }}"
-  loop_control:
-    loop_var: instance
-    label: "nox-{{ instance }}"
 
 - name: create nox directories
   ansible.builtin.file:
-    path: "{{ nox_dir }}/nox-{{ instance }}/state"
+    path: "{{ nox_dir }}/state"
     state: directory
     owner: "{{ nox_user }}"
     group: "{{ nox_group }}"
     mode: 0o755
-  loop: "{{ nox_instances }}"
-  loop_control:
-    loop_var: instance
-    label: "nox-{{ instance }}"
 
 - name: download nox release to localhost
   become: false
@@ -67,16 +59,11 @@
       delegate_to: "{{ inventory_hostname }}"
       ansible.builtin.copy:
         src: "{{ role_path }}/files/nox/{{ _nox_version }}/{{ _nox_bin }}"
-        dest: "{{ nox_dir }}/nox-{{ instance }}/nox"
+        dest: "{{ nox_dir }}/nox"
         owner: "{{ nox_user }}"
         group: "{{ nox_group }}"
         mode: 0o555
-      loop: "{{ nox_instances }}"
-      loop_control:
-        loop_var: instance
-        label: "nox-{{ instance }}"
       notify: restart nox
-      register: _binary_release
 
 - name: download nox snapshot to localhost
   become: false
@@ -131,16 +118,11 @@
       delegate_to: "{{ inventory_hostname }}"
       ansible.builtin.copy:
         src: "{{ _artifact_temp_dir.path }}/nox"
-        dest: "{{ nox_dir }}/nox-{{ instance }}/nox"
+        dest: "{{ nox_dir }}/nox"
         owner: "{{ nox_user }}"
         group: "{{ nox_group }}"
         mode: 0o555
-      loop: "{{ nox_instances }}"
-      loop_control:
-        loop_var: instance
-        label: "nox-{{ instance }}"
       notify: restart nox
-      register: _binary_snapshot
 
   always:
     - name: remove temporary directory
@@ -151,57 +133,32 @@
 
 - name: copy nox config
   ansible.builtin.template:
-    src: "files/{{ nox_project_dir }}/.fluence/configs/nox-{{ instance }}_Config.toml"
-    dest: "{{ nox_dir }}/nox-{{ instance }}/Config.toml"
+    src: "files/{{ fluence_project_dir }}/.fluence/configs/{{ fluence_instance_id }}_Config.toml"
+    dest: "{{ nox_dir }}/Config.toml"
     owner: "{{ nox_user }}"
     group: "{{ nox_group }}"
     mode: 0o640
-  loop: "{{ nox_instances }}"
-  loop_control:
-    loop_var: instance
-    label: "nox-{{ instance }}"
   notify: restart nox
-  register: _config
 
 - name: copy nox secret
   ansible.builtin.template:
-    src: "files/{{ nox_project_dir }}/.fluence/secrets/nox-{{ instance }}.txt"
-    dest: "{{ nox_dir }}/nox-{{ instance }}/state/root_secret_key.ed25519"
+    src: "files/{{ fluence_project_dir }}/.fluence/secrets/{{ fluence_instance_id }}.txt"
+    dest: "{{ nox_dir }}/state/root_secret_key.ed25519"
     owner: "{{ nox_user }}"
     group: "{{ nox_group }}"
     mode: 0o600
-  loop: "{{ nox_instances }}"
-  loop_control:
-    loop_var: instance
-    label: "nox-{{ instance }}"
   notify: restart nox
-  register: _secret
 
 - name: create nox unit file
   ansible.builtin.copy:
     content: "{{ nox_unit_file }}"
-    dest: "/etc/systemd/system/nox-@.service"
+    dest: "/etc/systemd/system/nox.service"
     owner: root
     group: root
     mode: 0o755
-  register: _systemd
 
 - name: enable noxes
   ansible.builtin.systemd:
-    name: nox-@{{ instance }}
+    name: nox
     enabled: true
     daemon_reload: true
-  loop: "{{ nox_instances }}"
-  loop_control:
-    loop_var: instance
-    label: "nox-{{ instance }}"
-
-- name: determine which instances to restart
-  vars:
-    _binary_release_changed: "{{ _binary_release.results | selectattr('changed', 'equalto', true) | map(attribute='instance') | list }}"
-    _binary_snapshot_changed: "{{ _binary_snapshot.results | selectattr('changed', 'equalto', true) | map(attribute='instance') | list }}"
-    _config_changed: "{{ _config.results | selectattr('changed', 'equalto', true) | map(attribute='instance') | list }}"
-    _secret_changed: "{{ _secret.results | selectattr('changed', 'equalto', true) | map(attribute='instance') | list }}"
-    _instances_changed: "{{ (_systemd is changed) | ternary(nox_instances, _binary_release_changed + _binary_snapshot_changed + _config_changed + _secret_changed) }}"
-  ansible.builtin.set_fact:
-    _instances_to_restart: "{{ (nox_instances | select('in', _instances_changed) | list) | unique }}"
