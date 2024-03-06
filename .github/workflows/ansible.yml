@@ -37,8 +37,6 @@ jobs:
   molecule:
     runs-on: ubuntu-latest
 
-    needs: collection
-
     strategy:
       fail-fast: false
       matrix:
