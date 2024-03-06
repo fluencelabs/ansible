@@ -68,6 +68,7 @@ jobs:
       matrix:
         scenario:
           - ubuntu2204
+          - debian12
 
     steps:
       - uses: actions/checkout@v4
