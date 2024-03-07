@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.2.0](https://github.com/fluencelabs/ansible/compare/v0.1.3...v0.2.0) (2024-03-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* Add ccp role and rewrite nox role to allow only one nox per host ([#9](https://github.com/fluencelabs/ansible/issues/9))
+
+### Features
+
+* Add ccp role and rewrite nox role to allow only one nox per host ([#9](https://github.com/fluencelabs/ansible/issues/9)) ([ac4bb6d](https://github.com/fluencelabs/ansible/commit/ac4bb6d6a477ee24dde70f88b20ec887dd87a735))
+
 ## [0.1.3](https://github.com/fluencelabs/ansible/compare/v0.1.2...v0.1.3) (2024-02-09)
 
 
