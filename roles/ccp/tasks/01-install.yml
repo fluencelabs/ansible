@@ -1,0 +1,157 @@
+- name: create ccp system group
+  ansible.builtin.group:
+    name: "{{ ccp_group }}"
+    system: true
+    state: present
+
+- name: create ccp system user
+  ansible.builtin.user:
+    name: "{{ ccp_user }}"
+    system: true
+    shell: "/sbin/nologin"
+    group: "{{ ccp_group }}"
+    create_home: false
+    state: present
+
+- name: cleanup ccp state
+  ansible.builtin.file:
+    path: "{{ ccp_dir }}"
+    state: absent
+  when: ccp_cleanup_state
+
+- name: create ccp directories
+  ansible.builtin.file:
+    path: "{{ ccp_dir }}/state"
+    state: directory
+    owner: "{{ ccp_user }}"
+    group: "{{ ccp_group }}"
+    mode: 0o755
+
+- name: download ccp release to localhost
+  become: false
+  run_once: true
+  delegate_to: localhost
+  when: ccp_run_id | string | length == 0
+  block:
+    - name: create files directory
+      become: false
+      run_once: true
+      delegate_to: localhost
+      ansible.builtin.file:
+        path: "{{ role_path }}/files/ccp/{{ _ccp_version }}"
+        state: directory
+        mode: 0o755
+
+    - name: download ccp release binary
+      ansible.builtin.get_url:
+        url: "{{ _ccp_download_url }}/{{ _ccp_bin }}"
+        dest: "{{ role_path }}/files/ccp/{{ _ccp_version }}/{{ _ccp_bin }}"
+        checksum: "{{ _ccp_checksums }}"
+      register: _download_bin
+      until: _download_bin is succeeded
+      retries: 5
+      delay: 2
+
+    - name: propagate ccp release binary
+      become: true
+      become_user: root
+      run_once: false
+      delegate_to: "{{ inventory_hostname }}"
+      ansible.builtin.copy:
+        src: "{{ role_path }}/files/ccp/{{ _ccp_version }}/{{ _ccp_bin }}"
+        dest: "{{ ccp_dir }}/ccp"
+        owner: "{{ ccp_user }}"
+        group: "{{ ccp_group }}"
+        mode: 0o555
+      notify: restart ccp
+
+- name: download ccp snapshot to localhost
+  become: false
+  run_once: true
+  delegate_to: localhost
+  vars:
+    github_token: "{{ lookup('env', 'GITHUB_TOKEN') }}"
+  when: ccp_run_id | string | length
+  block:
+    - name: get list of artifacts from GitHub API
+      ansible.builtin.uri:
+        url: "https://api.github.com/repos/fluencelabs/capacity-commitment-prover/actions/runs/{{ ccp_run_id }}/artifacts"
+        method: GET
+        headers:
+          Accept: "application/vnd.github.v3+json"
+        return_content: true
+      register: _artifacts_response
+
+    - name: parse the artifact download URL
+      ansible.builtin.set_fact:
+        _artifact_download_url: "{{ item.archive_download_url }}"
+      loop: "{{ _artifacts_response.json.artifacts }}"
+      when: "item.name == _bin"
+      loop_control:
+        label: "{{ item.url }}"
+
+    - name: create a temporary directory
+      ansible.builtin.tempfile:
+        state: directory
+      register: _artifact_temp_dir
+
+    - name: download the artifact
+      ansible.builtin.get_url:
+        url: "{{ _artifact_download_url }}"
+        dest: "{{ _artifact_temp_dir.path }}/{{ _ccp_bin }}.zip"
+        headers:
+          Authorization: "token {{ github_token }}"
+      register: _download_artifact
+      until: _download_artifact is succeeded
+      retries: 5
+      delay: 2
+
+    - name: unarchive the downloaded artifact
+      ansible.builtin.unarchive:
+        src: "{{ _artifact_temp_dir.path }}/{{ _ccp_bin }}.zip"
+        dest: "{{ _artifact_temp_dir.path }}/"
+
+    - name: propagate ccp artifact binary
+      become: true
+      become_user: root
+      run_once: false
+      delegate_to: "{{ inventory_hostname }}"
+      ansible.builtin.copy:
+        src: "{{ _artifact_temp_dir.path }}/ccp"
+        dest: "{{ ccp_dir }}/ccp"
+        owner: "{{ ccp_user }}"
+        group: "{{ ccp_group }}"
+        mode: 0o555
+      notify: restart ccp
+      register: _binary_snapshot
+
+  always:
+    - name: remove temporary directory
+      ansible.builtin.file:
+        path: "{{ _artifact_temp_dir.path }}"
+        state: absent
+      when: _artifact_temp_dir.path is defined
+
+- name: copy ccp config
+  ansible.builtin.template:
+    src: "files/{{ fluence_project_dir }}/.fluence/ccp-configs/{{ fluence_instance_id }}_Config.toml"
+    dest: "{{ ccp_dir }}/Config.toml"
+    owner: "{{ ccp_user }}"
+    group: "{{ ccp_group }}"
+    mode: 0o640
+  notify: restart ccp
+
+- name: create ccp unit file
+  ansible.builtin.copy:
+    content: "{{ ccp_unit_file }}"
+    dest: "/etc/systemd/system/ccp.service"
+    owner: root
+    group: root
+    mode: 0o755
+  notify: restart ccp
+
+- name: enable ccp
+  ansible.builtin.systemd:
+    name: ccp
+    enabled: true
+    daemon_reload: true

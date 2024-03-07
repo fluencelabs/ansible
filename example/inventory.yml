@@ -4,17 +4,20 @@ all:
       hosts:
         server-0:
           ansible_port: 2200
-          nox_instances: [0]
+          fluence_instance_id: "nox-0"
         server-1:
           ansible_port: 2201
-          nox_instances: [1,2]
+          fluence_instance_id: "nox-1"
       vars:
         ansible_user: "ubuntu"
         ansible_password: "ubuntu"
         ansible_host: "127.0.0.1"
         ansible_ssh_common_args: "-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+        # fluencelabs.provider variables
+        fluence_project_dir: "demo"
         # fluencelabs.provider.nox variables
-        nox_version: "0.18.0" # hardcoded compatible with fcli 0.18.1
-        nox_project_dir: "demo"
+        nox_version: "0.22.0" # hardcoded compatible with fcli 0.15.17
+        # fluencelabs.provider.ccp variables
+        ccp_version: "0.2.0"
         # fluencelabs.provider.ipfs_cli variables
         ipfs_cli_version: "0.26.0"

@@ -7,7 +7,7 @@
       - github_token is string
       - github_token | length
     quiet: true
-  when: nox_run_id | string | length
+  when: ccp_run_id | string | length
 
 - name: check that tar is GNU type # noqa
   tags: always
@@ -17,55 +17,54 @@
   tags: always
   ansible.builtin.assert:
     that:
-      - fluence_instance_id is defined
       - fluence_instance_id is string
       - fluence_instance_id | length
     quiet: true
 
-- name: check "nox_version" variable
+- name: check "ccp_version" variable
   tags: always
   ansible.builtin.assert:
     that:
-      - nox_version is defined
-      - nox_version is string
-      - nox_version | length
-      - nox_version is regex(_semver_regex)
+      - ccp_version is defined
+      - ccp_version is string
+      - ccp_version | length
+      - ccp_version is regex(_semver_regex)
     quiet: true
 
-- name: check "nox_user" variable
+- name: check "ccp_user" variable
   tags: always
   ansible.builtin.assert:
     that:
-      - nox_user is defined
-      - nox_user is string
-      - nox_user | length
+      - ccp_user is defined
+      - ccp_user is string
+      - ccp_user | length
     quiet: true
 
-- name: check "nox_group" variable
+- name: check "ccp_group" variable
   tags: always
   ansible.builtin.assert:
     that:
-      - nox_group is defined
-      - nox_group is string
-      - nox_group | length
+      - ccp_group is defined
+      - ccp_group is string
+      - ccp_group | length
     quiet: true
 
-- name: check "nox_dir" variable
+- name: check "ccp_dir" variable
   tags: always
   ansible.builtin.assert:
     that:
-      - nox_dir is defined
-      - nox_dir is string
-      - nox_dir | length
+      - ccp_dir is defined
+      - ccp_dir is string
+      - ccp_dir | length
     quiet: true
 
-- name: check "nox_unit_file" variable
+- name: check "ccp_unit_file" variable
   tags: always
   ansible.builtin.assert:
     that:
-      - nox_unit_file is defined
-      - nox_unit_file is string
-      - nox_unit_file | length
+      - ccp_unit_file is defined
+      - ccp_unit_file is string
+      - ccp_unit_file | length
     quiet: true
 
 - name: check "fluence_project_dir" variable
@@ -77,18 +76,18 @@
       - fluence_project_dir | length
     quiet: true
 
-- name: gather stats about nox configs
+- name: gather stats about ccp configs
   tags: always
   become: false
   delegate_to: localhost
   stat:
-    path: "files/{{ fluence_project_dir }}/.fluence/configs/{{ fluence_instance_id }}_Config.toml"
+    path: "files/{{ fluence_project_dir }}/.fluence/ccp-configs/{{ fluence_instance_id }}_Config.toml"
   register: _config_stat
 
 - name: check if config file exists
   tags: always
   vars:
-    _config_path: "files/{{ fluence_project_dir }}/.fluence/configs/{{ fluence_instance_id }}_Config.toml"
+    _config_path: "files/{{ fluence_project_dir }}/.fluence/ccp-configs/{{ fluence_instance_id }}_Config.toml"
   debug:
     msg: "Checking existence of {{ fluence_instance_id }} config at {{ _config_path }}"
   failed_when: not _config_stat.stat.exists

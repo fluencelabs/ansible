@@ -2,22 +2,16 @@ driver:
   name: molecule-qemu
 
 platforms:
-  - name: ubuntu2204
-    image_url: https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img
-    image_checksum: sha256:https://cloud-images.ubuntu.com/jammy/current/SHA256SUMS
-    network_ssh_port: 2228
+  - name: debian12
+    image_url: https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-amd64.qcow2
+    image_checksum: sha512:https://cloud.debian.org/images/cloud/bookworm/latest/SHA512SUMS
+    network_ssh_port: 2229
 
 provisioner:
   name: ansible
-  env:
-    ANSIBLE_ROLES_PATH: "../../../roles"
   playbooks:
     prepare: ../prepare.yml
     converge: ../converge.yml
-  inventory:
-    group_vars:
-      all:
-        nox_instances: [1, 2]
 
 verifier:
   name: testinfra

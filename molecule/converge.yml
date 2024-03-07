@@ -1,10 +1,13 @@
-- name: nox role
+- name:  role
   hosts: all
   become: true
   vars:
-    nox_version: "0.16.13"
-    nox_project_dir: "molecule"
+    nox_version: "0.22.0"
     ipfs_cli_version: "0.25.0"
+    ccp_version: "0.2.0"
+
+    fluence_instance_id: "peer-0"
+    fluence_project_dir: "molecule"
 
   collections:
     - fluencelabs.provider

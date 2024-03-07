@@ -11,10 +11,16 @@ galaxy_info:
     - name: Ubuntu
       versions:
         - jammy
+    - name: Debian
+      versions:
+        - bookworm
 
   galaxy_tags:
     - p2p
     - fluence
+    - web3
 
 dependencies:
+  - name: prerequisites
   - name: ipfs_cli
+  - name: ccp
