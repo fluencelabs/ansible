@@ -13,8 +13,9 @@ tags:
   - fluence
   - cloud
   - compute
+  - web3
 
-repository: https://github.com/fluencelabs/ansible/tree/main/provider
-documentation: https://github.com/fluencelabs/ansible/tree/main/provider/README.md
-homepage: https://github.com/fluencelabs/ansible/tree/main/provider
+repository: https://github.com/fluencelabs/ansible/
+documentation: https://github.com/fluencelabs/ansibe/tree/main/README.md
+homepage: https://github.com/fluencelabs/ansible/
 issues: https://github.com/fluencelabs/ansible/issues
