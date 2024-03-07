@@ -10,4 +10,6 @@ Fluence provider toolkit.
 ## Roles
 
 - [nox](https://github.com/fluencelabs/ansible/tree/main/roles/nox)
+- [ccp](https://github.com/fluencelabs/ansible/tree/main/roles/ccp)
+- [prerequisites](https://github.com/fluencelabs/ansible/tree/main/roles/prerequisites)
 - [ipfs_cli](https://github.com/fluencelabs/ansible/tree/main/roles/ipfs_cli)
