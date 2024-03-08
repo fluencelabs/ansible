@@ -1,0 +1,20 @@
+all:
+  children:
+    servers:
+      hosts:
+        server-0:
+          ansible_host: "192.168.1.1"
+          ansible_port: 22
+          fluence_instance_id: "nox-0"
+        server-1:
+          ansible_host: "192.168.1.2"
+          ansible_port: 22
+          fluence_instance_id: "nox-0"
+
+      vars:
+        # Needs to be set according to the required version for the following components.
+        nox_version: "0.22.0"
+        ipfs_cli_version: "0.26.0"
+        ccp_version: "0.2.0"
+        # Needs to be set according to directory name inside files directory
+        fluence_project_dir: "<any_project_name>"
