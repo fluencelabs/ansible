@@ -31,7 +31,7 @@ def test_config(host, config):
 
 
 def test_ipfs_download(host):
-    f = host.file("/usr/local/bin/ipfs")
+    f = host.file("/usr/bin/ipfs")
 
     assert f.is_file
     assert f.exists
