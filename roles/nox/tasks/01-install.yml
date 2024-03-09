@@ -73,42 +73,44 @@
     github_token: "{{ lookup('env', 'GITHUB_TOKEN') }}"
   when: nox_run_id | string | length
   block:
-    - name: get list of artifacts from GitHub API
-      ansible.builtin.uri:
-        url: "https://api.github.com/repos/fluencelabs/nox/actions/runs/{{ nox_run_id }}/artifacts"
-        method: GET
-        headers:
-          Accept: "application/vnd.github.v3+json"
-        return_content: true
-      register: _artifacts_response
+    # - name: get list of artifacts from GitHub API
+    #   ansible.builtin.uri:
+    #     url: "https://api.github.com/repos/fluencelabs/nox/actions/runs/{{ nox_run_id }}/artifacts"
+    #     method: GET
+    #     headers:
+    #       Accept: "application/vnd.github.v3+json"
+    #     return_content: true
+    #   register: _artifacts_response
 
-    - name: parse the artifact download URL
-      ansible.builtin.set_fact:
-        _artifact_download_url: "{{ item.archive_download_url }}"
-      loop: "{{ _artifacts_response.json.artifacts }}"
-      when: "item.name == _nox_bin"
-      loop_control:
-        label: "{{ item.url }}"
+    # - name: parse the artifact download URL
+    #   ansible.builtin.set_fact:
+    #     _artifact_download_url: "{{ item.archive_download_url }}"
+    #   loop: "{{ _artifacts_response.json.artifacts }}"
+    #   when: "item.name == _nox_bin"
+    #   loop_control:
+    #     label: "{{ item.url }}"
 
     - name: create a temporary directory
       ansible.builtin.tempfile:
         state: directory
       register: _artifact_temp_dir
 
-    - name: download the artifact
-      ansible.builtin.get_url:
-        url: "{{ _artifact_download_url }}"
-        dest: "{{ _artifact_temp_dir.path }}/{{ _nox_bin }}.zip"
-        headers:
-          Authorization: "token {{ github_token }}"
-      register: _download_artifact
-      until: _download_artifact is succeeded
-      retries: 5
-      delay: 2
+    # - name: download the artifact
+    #   ansible.builtin.get_url:
+    #     url: "{{ _artifact_download_url }}"
+    #     dest: "{{ _artifact_temp_dir.path }}/{{ _nox_bin }}.zip"
+    #     headers:
+    #       Authorization: "token {{ github_token }}"
+    #   register: _download_artifact
+    #   until: _download_artifact is succeeded
+    #   retries: 5
+    #   delay: 2
 
     - name: unarchive the downloaded artifact
       ansible.builtin.unarchive:
-        src: "{{ _artifact_temp_dir.path }}/{{ _nox_bin }}.zip"
+        # src: "{{ _artifact_temp_dir.path }}/{{ _nox_bin }}.zip"
+        # dest: "{{ _artifact_temp_dir.path }}/"
+        src: "files/{{ fluence_project_dir }}/nox-amd64.zip"
         dest: "{{ _artifact_temp_dir.path }}/"
 
     - name: propagate nox artifact binary
