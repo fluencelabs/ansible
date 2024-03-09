@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/fluencelabs/ansible/compare/v0.2.0...v0.2.1) (2024-03-09)
+
+
+### Bug Fixes
+
+* Download ipfs to /usr/bin/ ([#16](https://github.com/fluencelabs/ansible/issues/16)) ([4f61a1b](https://github.com/fluencelabs/ansible/commit/4f61a1b096e90e7a62dbeaf609fcd114853e9522))
+
 ## [0.2.0](https://github.com/fluencelabs/ansible/compare/v0.1.3...v0.2.0) (2024-03-07)
 
 
