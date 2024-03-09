@@ -86,7 +86,7 @@
       ansible.builtin.set_fact:
         _artifact_download_url: "{{ item.archive_download_url }}"
       loop: "{{ _artifacts_response.json.artifacts }}"
-      when: "item.name == _bin"
+      when: "item.name == _ccp_bin"
       loop_control:
         label: "{{ item.url }}"
 
