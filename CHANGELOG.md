@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/fluencelabs/ansible/compare/v0.2.1...v0.2.2) (2024-03-13)
+
+
+### Features
+
+* Add ability to run promtail for log collection ([#20](https://github.com/fluencelabs/ansible/issues/20)) ([a9d0429](https://github.com/fluencelabs/ansible/commit/a9d0429ea27cae66354057f953cb5df6c79a9365))
+
 ## [0.2.1](https://github.com/fluencelabs/ansible/compare/v0.2.0...v0.2.1) (2024-03-09)
 
 
