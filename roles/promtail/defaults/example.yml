@@ -1,3 +1,5 @@
+# fluence_promtail_username: "provider"
+# fluence_promtail_password: "foobar"
 # fluence_promtail_version: "2.5.0"
 # fluence_promtail_config:
 #   server:

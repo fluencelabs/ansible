@@ -6,6 +6,9 @@ Install, configure and maintain
 Promtail instance by default will collect only Nox and CCP logs. But you can
 change config to anything you want.
 
+You need to get `fluence_promtail_username` and `fluence_promtail_password` from
+Fluence Labs in order to use this role.
+
 ## Role Variables
 
 See
