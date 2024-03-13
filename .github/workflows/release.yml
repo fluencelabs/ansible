@@ -48,7 +48,7 @@ jobs:
       - name: Push to galaxy
         uses: artis3n/ansible_galaxy_collection@v2
         with:
-          api_key: '${{ secrets.GALAXY_API_KEY }}'
+          api_key: "${{ secrets.GALAXY_API_KEY }}"
 
   slack:
     if: always()
