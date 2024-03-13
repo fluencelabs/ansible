@@ -1,0 +1,24 @@
+# fluence_promtail_username: "provider"
+# fluence_promtail_password: "foobar"
+# fluence_promtail_version: "2.5.0"
+# fluence_promtail_config:
+#   server:
+#     http_listen_port: 9380
+#     grpc_listen_port: 0
+
+#   positions:
+#     filename: "{{ fluence_promtail_dir }}/positions.yml"
+
+#   clients:
+#     - url: "https://loki:3100/loki/api/v1/push"
+
+#   scrape_configs:
+#     - job_name: "journald"
+#       journal:
+#         path: "/var/log/journal"
+#       relabel_configs:
+#         # https://www.freedesktop.org/software/systemd/man/systemd.journal-fields.html
+#         - source_labels: ['__journal__hostname']
+#           target_label: "instance"
+#         - source_labels: ['__journal__systemd_unit']
+#           target_label: "unit"

@@ -1,0 +1,89 @@
+skip_handlers: false
+
+fluence_promtail_download_url: "https://github.com/grafana/loki/releases"
+
+fluence_promtail_api_url: "https://loki.fluence.dev/loki/api/v1/push"
+
+fluence_promtail_group: "promtail"
+fluence_promtail_user: "promtail"
+
+fluence_promtail_dir: "/opt/fluence/promtail"
+
+fluence_promtail_unit: |
+  [Unit]
+  Description="Log collection agent"
+  Documentation=https://grafana.com/docs/loki/latest/
+  After=network.target
+
+  [Service]
+  User={{ fluence_promtail_user }}
+  Group={{ fluence_promtail_group }}
+  ExecStart={{ fluence_promtail_dir }}/promtail -config.file {{ fluence_promtail_dir }}/config.yml
+  Restart=on-failure
+  RestartForceExitStatus=SIGPIPE
+  KillMode=control-group
+
+  [Install]
+  WantedBy=multi-user.target
+
+fluence_promtail_config:
+  server:
+    http_listen_address: "0.0.0.0"
+    http_listen_port: 9380
+    grpc_listen_port: 0
+
+  positions:
+    filename: "/opt/fluence/promtail/positions.yml"
+
+  clients:
+    - url: "{{ fluence_promtail_api_url }}"
+      external_labels:
+        instance: "{{ fluence_instance_id }}"
+      basic_auth:
+        username: "{{ fluence_promtail_username }}"
+        password: "{{ fluence_promtail_password }}"
+
+  scrape_configs:
+    - job_name: "journald"
+      journal:
+        path: "/var/log/journal"
+      relabel_configs:
+        # https://www.freedesktop.org/software/systemd/man/systemd.journal-fields.html
+        - source_labels: ['__journal__systemd_unit']
+          target_label: "unit"
+      pipeline_stages:
+        - match: # collect nox logs
+            selector: '{unit="nox.service"}'
+            stages:
+              - multiline:
+                  firstline: '^(?P<time>\S+)\s+(?P<level>\S+)\s+\S+'
+              - regex:
+                  expression: '^(?P<time>\S+)\s+(?P<level>\S+)\s+\S+.*'
+              - timestamp:
+                  source: time
+                  format: "RFC3339Nano"
+              - static_labels:
+                  filtered: "true"
+                  source: "nox"
+
+        - match: # collect ccp logs
+            selector: '{unit="ccp.service"}'
+            stages:
+              - multiline:
+                  firstline: '^(?P<time>\S+)\s+(?P<level>\S+)\s+\S+'
+              - regex:
+                  expression: '^(?P<time>\S+)\s+(?P<level>\S+)\s+\S+.*'
+              - timestamp:
+                  source: time
+                  format: "RFC3339Nano"
+              - static_labels:
+                  filtered: "true"
+                  source: "ccp"
+
+        - match: # drop all other logs
+            selector: '{filtered!="true"}'
+            action: drop
+            drop_counter_reason: "journald-filter"
+        - labeldrop:
+            - filtered
+            - unit

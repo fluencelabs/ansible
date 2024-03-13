@@ -1,0 +1,21 @@
+galaxy_info:
+  namespace: fluencelabs
+  role_name: promtail
+  license: Apache-2.0
+  author: Anatolios Laskaris
+  description: Install promtail log collector
+  issue_tracker_url: https://github.com/fluencelabs/ansible/issues
+  min_ansible_version: "2.12"
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - jammy
+    - name: Debian
+      versions:
+        - bookworm
+
+  galaxy_tags:
+    - logs
+    - fluence
+    - web3
