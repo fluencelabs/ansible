@@ -47,9 +47,13 @@ fluence_promtail_config:
     - job_name: "journald"
       journal:
         path: "/var/log/journal"
+      relabel_configs:
+        # https://www.freedesktop.org/software/systemd/man/systemd.journal-fields.html
+        - source_labels: ['__journal__systemd_unit']
+          target_label: "unit"
       pipeline_stages:
         - match: # collect nox logs
-            selector: '{__journal_systemd_unit="nox.service"}'
+            selector: '{unit="nox.service"}'
             stages:
               - multiline:
                   firstline: '^(?P<time>\S+)\s+(?P<level>\S+)\s+\S+'
@@ -63,7 +67,7 @@ fluence_promtail_config:
                   source: "nox"
 
         - match: # collect ccp logs
-            selector: '{__journal_systemd_unit="ccp.service"}'
+            selector: '{unit="ccp.service"}'
             stages:
               - multiline:
                   firstline: '^(?P<time>\S+)\s+(?P<level>\S+)\s+\S+'
@@ -82,3 +86,4 @@ fluence_promtail_config:
             drop_counter_reason: "journald-filter"
         - labeldrop:
             - filtered
+            - unit
