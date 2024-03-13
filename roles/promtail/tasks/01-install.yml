@@ -1,0 +1,88 @@
+- name: create promtail directory on localhost
+  become: false
+  run_once: true
+  delegate_to: localhost
+  ansible.builtin.file:
+    path: "{{ role_path }}/files/promtail/{{ _promtail_version }}/{{ _arch }}"
+    state: directory
+    mode: 0o755
+
+- name: download promtail to localhost
+  become: false
+  run_once: true
+  delegate_to: localhost
+  ansible.builtin.get_url:
+    url: "{{ _promtail_archive_url }}"
+    dest: "{{ role_path }}/files/promtail/{{ _promtail_version }}/{{ _promtail_archive }}"
+    checksum: "sha256:{{ _promtail_archive_checksum }}"
+  register: _download_archive
+  until: _download_archive is succeeded
+  retries: 5
+  delay: 2
+
+- name: create promtail system group
+  ansible.builtin.group:
+    name: "{{ fluence_promtail_group }}"
+    state: present
+  when: fluence_promtail_group != "root"
+
+- name: create promtail system user
+  ansible.builtin.user:
+    name: "{{ fluence_promtail_user }}"
+    shell: "/sbin/nologin"
+    group: "{{ fluence_promtail_group }}"
+    groups:
+      - systemd-journal
+    create_home: false
+    state: present
+  when: fluence_promtail_user != "root"
+
+- name: create promtail directories
+  ansible.builtin.file:
+    path: "{{ fluence_promtail_dir }}"
+    state: directory
+    owner: "{{ fluence_promtail_user }}"
+    group: "{{ fluence_promtail_group }}"
+    mode: 0o755
+
+- name: unpack promtail
+  become: false
+  delegate_to: localhost
+  ansible.builtin.unarchive:
+    src: "{{ role_path }}/files/promtail/{{ _promtail_version }}/{{ _promtail_archive }}"
+    dest: "{{ role_path }}/files/promtail/{{ _promtail_version }}/"
+    creates: "{{ role_path }}/files/promtail/{{ _promtail_version }}/promtail-linux-{{ _arch }}"
+
+- name: propagate promtail binary
+  ansible.builtin.copy:
+    src: "{{ role_path }}/files/promtail/{{ _promtail_version }}/promtail-linux-{{ _arch }}"
+    dest: "{{ fluence_promtail_dir }}/promtail"
+    owner: "{{ fluence_promtail_user }}"
+    group: "{{ fluence_promtail_group }}"
+    mode: 0o555
+  notify: restart promtail
+
+- name: create promtail configuration
+  ansible.builtin.copy:
+    content: "{{ fluence_promtail_config | to_nice_yaml }}"
+    dest: "{{ fluence_promtail_dir }}/config.yml"
+    owner: "{{ fluence_promtail_user }}"
+    group: "{{ fluence_promtail_group }}"
+    mode: 0o640
+  notify: restart promtail
+
+- name: create promtail unit file
+  ansible.builtin.copy:
+    content: "{{ fluence_promtail_unit }}"
+    dest: "/etc/systemd/system/fluence-promtail.service"
+    owner: root
+    group: root
+    mode: 0o755
+  notify: restart promtail
+
+- name: enable promtail
+  ansible.builtin.systemd:
+    name: fluence-promtail
+    enabled: true
+    state: started
+    daemon_reload: true

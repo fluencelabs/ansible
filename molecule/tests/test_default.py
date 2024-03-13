@@ -9,6 +9,7 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 @pytest.mark.parametrize("directory", [
     "/opt/fluence/nox",
     "/opt/fluence/ccp",
+    "/opt/fluence/promtail",
 ])
 def test_directories(host, directory):
     d = host.file(directory)
@@ -21,6 +22,7 @@ def test_directories(host, directory):
 @pytest.mark.parametrize("config", [
     "/opt/fluence/nox/Config.toml",
     "/opt/fluence/ccp/Config.toml",
+    "/opt/fluence/promtail/config.yml",
 ])
 def test_config(host, config):
     d = host.file(config)
@@ -40,6 +42,7 @@ def test_ipfs_download(host):
 @pytest.mark.parametrize("service", [
     "nox",
     "ccp",
+    "fluence-promtail",
 ])
 def test_service_is_running(host, service):
     service = host.service(service)

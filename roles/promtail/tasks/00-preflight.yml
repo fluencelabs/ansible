@@ -1,0 +1,84 @@
+- name: check "fluence_promtail_version" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - fluence_promtail_version is defined
+      - fluence_promtail_version is string
+      - fluence_promtail_version | length
+      - fluence_promtail_version is regex(_semver_regex)
+    quiet: true
+
+- name: check "fluence_promtail_download_url" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - fluence_promtail_download_url is defined
+      - fluence_promtail_download_url is string
+      - fluence_promtail_download_url | length
+    quiet: true
+
+- name: check "fluence_promtail_api" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - fluence_promtail_api_url is defined
+      - fluence_promtail_api_url is string
+      - fluence_promtail_api_url | length
+    quiet: true
+
+- name: check "fluence_promtail_username" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - fluence_promtail_username is defined
+      - fluence_promtail_username is string
+      - fluence_promtail_username | length
+    quiet: true
+
+- name: check "fluence_promtail_password" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - fluence_promtail_password is defined
+      - fluence_promtail_password is string
+      - fluence_promtail_password | length
+    quiet: true
+
+- name: check "fluence_instance_id" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - fluence_instance_id is defined
+      - fluence_instance_id is string
+      - fluence_instance_id | length
+    quiet: true
+
+- name: check if "{{ fluence_promtail_download_url }}" is online
+  become: false
+  run_once: true
+  delegate_to: localhost
+  uri:
+    url: "{{ fluence_promtail_download_url }}"
+    status_code: 200
+  register: _result
+  retries: 3
+  delay: 5
+  until: _result.status == 200
+
+- name: check "fluence_promtail_config" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - fluence_promtail_config is defined
+      - fluence_promtail_config is mapping
+      - fluence_promtail_config | length
+    quiet: true
+
+- name: check "fluence_promtail_unit" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - fluence_promtail_unit is defined
+      - fluence_promtail_unit is string
+      - fluence_promtail_unit | length
+    quiet: true

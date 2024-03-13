@@ -1,0 +1,12 @@
+- name: restart promtail
+  ansible.builtin.systemd:
+    name: fluence-promtail
+    state: restarted
+    daemon_reload: true
+  when: not skip_handlers
+
+- name: reload promtail
+  ansible.builtin.systemd:
+    name: fluence-promtail
+    state: reloaded
+  when: not skip_handlers

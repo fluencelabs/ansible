@@ -3,8 +3,12 @@
   become: true
   vars:
     nox_version: "0.22.0"
-    ipfs_cli_version: "0.25.0"
     ccp_version: "0.2.0"
+    ipfs_cli_version: "0.25.0"
+    fluence_promtail_version: "2.9.5"
+    fluence_promtail_api_url: "http://localhost:80"
+    fluence_promtail_username: "foo"
+    fluence_promtail_password: "bar"
 
     fluence_instance_id: "peer-0"
     fluence_project_dir: "molecule"
@@ -13,6 +17,10 @@
     - fluencelabs.provider
 
   tasks:
-    - name: Run nox role
+    # - name: Run nox role
+    #   include_role:
+    #     name: nox
+
+    - name: Run promtail role
       include_role:
-        name: nox
+        name: promtail
