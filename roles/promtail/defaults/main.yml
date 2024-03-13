@@ -49,7 +49,7 @@ fluence_promtail_config:
         path: "/var/log/journal"
       pipeline_stages:
         - match: # collect nox logs
-            selector: '{unit="nox.service"}'
+            selector: '{__journal_systemd_unit="nox.service"}'
             stages:
               - multiline:
                   firstline: '^(?P<time>\S+)\s+(?P<level>\S+)\s+\S+'
@@ -63,7 +63,7 @@ fluence_promtail_config:
                   source: "nox"
 
         - match: # collect ccp logs
-            selector: '{unit="ccp.service"}'
+            selector: '{__journal_systemd_unit="ccp.service"}'
             stages:
               - multiline:
                   firstline: '^(?P<time>\S+)\s+(?P<level>\S+)\s+\S+'
