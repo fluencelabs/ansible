@@ -5,12 +5,18 @@
     nox_version: "0.22.0"
     ccp_version: "0.2.0"
     ipfs_cli_version: "0.25.0"
+
     fluence_promtail_version: "2.9.5"
     fluence_promtail_api_url: "http://localhost:80"
-    fluence_promtail_username: "foo"
-    fluence_promtail_password: "bar"
+
+    fluence_basicauth_username: "foo"
+    fluence_basicauth_password: "bar"
+
+    fluence_prometheus_version: "2.52.0"
+    fluence_prometheus_api_url: "http://localhost:80"
 
     fluence_instance_id: "peer-0"
+    fluence_network: "molecule"
     fluence_project_dir: "molecule"
 
   collections:
@@ -24,3 +30,7 @@
     - name: Run promtail role
       include_role:
         name: promtail
+
+    - name: Run prometheus role
+      include_role:
+        name: prometheus

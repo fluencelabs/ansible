@@ -1,0 +1,86 @@
+- name: create prometheus directory on localhost
+  become: false
+  run_once: true
+  delegate_to: localhost
+  ansible.builtin.file:
+    path: "{{ role_path }}/files/prometheus/{{ _prometheus_version }}/{{ _arch }}"
+    state: directory
+    mode: 0o755
+
+- name: download prometheus to localhost
+  become: false
+  run_once: true
+  delegate_to: localhost
+  ansible.builtin.get_url:
+    url: "{{ _prometheus_archive_url }}"
+    dest: "{{ role_path }}/files/prometheus/{{ _prometheus_version }}/{{ _prometheus_archive }}"
+    checksum: "sha256:{{ _prometheus_archive_checksum }}"
+  register: _download_archive
+  until: _download_archive is succeeded
+  retries: 5
+  delay: 2
+
+- name: create prometheus system group
+  ansible.builtin.group:
+    name: "{{ fluence_prometheus_group }}"
+    state: present
+  when: fluence_prometheus_group != "root"
+
+- name: create prometheus system user
+  ansible.builtin.user:
+    name: "{{ fluence_prometheus_user }}"
+    shell: "/sbin/nologin"
+    group: "{{ fluence_prometheus_group }}"
+    create_home: false
+    state: present
+  when: fluence_prometheus_user != "root"
+
+- name: create prometheus directories
+  ansible.builtin.file:
+    path: "{{ fluence_prometheus_dir }}"
+    state: directory
+    owner: "{{ fluence_prometheus_user }}"
+    group: "{{ fluence_prometheus_group }}"
+    mode: 0o755
+
+- name: unpack prometheus
+  become: false
+  delegate_to: localhost
+  ansible.builtin.unarchive:
+    src: "{{ role_path }}/files/prometheus/{{ _prometheus_version }}/{{ _prometheus_archive }}"
+    dest: "{{ role_path }}/files/prometheus/{{ _prometheus_version }}/"
+    creates: "{{ role_path }}/files/prometheus/{{ _prometheus_version }}/prometheus-{{ _prometheus_version }}.linux-{{ _arch }}/prometheus"
+
+- name: propagate prometheus binary
+  ansible.builtin.copy:
+    src: "{{ role_path }}/files/prometheus/{{ _prometheus_version }}/prometheus-{{ _prometheus_version }}.linux-{{ _arch }}/prometheus"
+    dest: "{{ fluence_prometheus_dir }}/prometheus"
+    owner: "{{ fluence_prometheus_user }}"
+    group: "{{ fluence_prometheus_group }}"
+    mode: 0o555
+  notify: restart prometheus
+
+- name: create prometheus configuration
+  ansible.builtin.copy:
+    content: "{{ fluence_prometheus_config | to_nice_yaml }}"
+    dest: "{{ fluence_prometheus_dir }}/config.yml"
+    owner: "{{ fluence_prometheus_user }}"
+    group: "{{ fluence_prometheus_group }}"
+    mode: 0o640
+  notify: restart prometheus
+
+- name: create prometheus unit file
+  ansible.builtin.copy:
+    content: "{{ fluence_prometheus_unit }}"
+    dest: "/etc/systemd/system/fluence-prometheus.service"
+    owner: root
+    group: root
+    mode: 0o755
+  notify: restart prometheus
+
+- name: enable prometheus
+  ansible.builtin.systemd:
+    name: fluence-prometheus
+    enabled: true
+    state: started
+    daemon_reload: true

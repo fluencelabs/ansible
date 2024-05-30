@@ -13,3 +13,5 @@ Fluence provider toolkit.
 - [ccp](https://github.com/fluencelabs/ansible/tree/main/roles/ccp)
 - [prerequisites](https://github.com/fluencelabs/ansible/tree/main/roles/prerequisites)
 - [ipfs_cli](https://github.com/fluencelabs/ansible/tree/main/roles/ipfs_cli)
+- [promtail](https://github.com/fluencelabs/ansible/tree/main/roles/promtail)
+- [prometheus](https://github.com/fluencelabs/ansible/tree/main/roles/prometheus)

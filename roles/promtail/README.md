@@ -6,8 +6,8 @@ Install, configure and maintain
 Promtail instance by default will collect only Nox and CCP logs. But you can
 change config to anything you want.
 
-You need to get `fluence_promtail_username` and `fluence_promtail_password` from
-Fluence Labs in order to use this role.
+You need to get `fluence_basicauth_username` and `fluence_basicauth_password` from
+Cloudless Labs in order to use this role.
 
 ## Role Variables
 
@@ -21,14 +21,14 @@ for details and examples.
 - type: string
 - default: "https://loki.fluence.dev/loki/api/v1/push"
 
-#### `fluence_promtail_username`
+#### `fluence_basicauth_username`
 
-- basic auth username you get from Fluence Labs to auth to Loki (log server).
+- basic auth username you get from Cloudless Labs to auth to Mimir.
 - type: string
 
-#### `fluence_promtail_password`
+#### `fluence_basicauth_password`
 
-- basic auth password you get from Fluence Labs to auth to Loki (log server).
+- basic auth password you get from Cloudless Labs to auth to Mimir.
 - type: string
 
 #### `fluence_promtail_config`
@@ -43,6 +43,11 @@ for details and examples.
 #### `fluence_promtail_version`
 
 - version to use
+- type: string
+
+#### `fluence_network`
+
+- where it runs (kras or dar)
 - type: string
 
 #### `fluence_instance_id`

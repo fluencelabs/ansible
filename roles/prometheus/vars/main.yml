@@ -1,0 +1,12 @@
+_arch_map:
+  amd64: amd64
+  x86_64: amd64
+  aarch64: arm64
+  64-bit: amd64
+_arch: "{{ _arch_map[ansible_architecture] }}"
+_semver_regex: "^v?\\d+\\.\\d+\\.\\d+$"
+
+_prometheus_version: "{{ fluence_prometheus_version | regex_replace('^(?!v)', '') }}"
+_prometheus_archive: "prometheus-{{ _prometheus_version }}.linux-{{ _arch }}.tar.gz"
+_prometheus_archive_url: "{{ fluence_prometheus_download_url }}/download/v{{ _prometheus_version }}/{{ _prometheus_archive }}"
+_prometheus_archive_checksum: "{{ fluence_prometheus_download_url }}/download/v{{ fluence_prometheus_version }}/sha256sums.txt"

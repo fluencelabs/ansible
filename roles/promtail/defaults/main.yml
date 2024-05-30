@@ -39,9 +39,11 @@ fluence_promtail_config:
     - url: "{{ fluence_promtail_api_url }}"
       external_labels:
         instance: "{{ fluence_instance_id }}"
+        env: "{{ fluence_network }}"
+        network: "{{ fluence_network }}"
       basic_auth:
-        username: "{{ fluence_promtail_username }}"
-        password: "{{ fluence_promtail_password }}"
+        username: "{{ fluence_basicauth_username }}"
+        password: "{{ fluence_basicauth_password }}"
 
   scrape_configs:
     - job_name: "journald"
