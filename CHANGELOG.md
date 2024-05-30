@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.2](https://github.com/fluencelabs/ansible/compare/v0.2.1...v0.2.2) (2024-05-30)
+
+
+### Features
+
+* Add ability to run promtail for log collection ([#20](https://github.com/fluencelabs/ansible/issues/20)) ([a9d0429](https://github.com/fluencelabs/ansible/commit/a9d0429ea27cae66354057f953cb5df6c79a9365))
+* Add prometheus role ([#23](https://github.com/fluencelabs/ansible/issues/23)) ([7da9c72](https://github.com/fluencelabs/ansible/commit/7da9c7247d15ab7c2bdcedfc4cf03f63aabc0dd5))
+
 ## [0.2.1](https://github.com/fluencelabs/ansible/compare/v0.2.0...v0.2.1) (2024-03-09)
 
 
