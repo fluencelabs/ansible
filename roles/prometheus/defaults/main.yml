@@ -29,7 +29,6 @@ fluence_prometheus_config:
     scrape_interval: "15s"
     external_labels:
       env: "{{ fluence_basicauth_username }}"
-      instance: "{{ fluence_instance_id }}"
 
   remote_write:
     - url: "{{ fluence_prometheus_api_url }}"
@@ -41,7 +40,11 @@ fluence_prometheus_config:
     - job_name: 'nox'
       static_configs:
         - targets: ['localhost:18080']
+          labels:
+            instance: "{{ fluence_instance_id }}"
 
     - job_name: 'ccp'
       static_configs:
         - targets: ['localhost:9384']
+          labels:
+            instance: "{{ fluence_instance_id }}"
