@@ -22,13 +22,13 @@
     - fluencelabs.provider
 
   tasks:
-    # - name: Run nox role
-    #   include_role:
-    #     name: nox
+    - name: Run nox role
+      include_role:
+        name: nox
 
-    # - name: Run promtail role
-    #   include_role:
-    #     name: promtail
+    - name: Run promtail role
+      include_role:
+        name: promtail
 
     - name: Run prometheus role
       include_role:
