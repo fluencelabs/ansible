@@ -1,20 +1,19 @@
 namespace: fluencelabs
 name: provider
-version: 0.2.1 # x-release-please-version
+version: 0.2.2
 readme: README.md
 authors:
   - Anatolios Laskaris <nahsi@nahsi.dev> (https://nahsi.dev)
-
-description: Fluence provider toolkit used to setup and configure [Nox](https://github.com/fluencelabs/nox)
+description: >-
+  Fluence provider toolkit used to setup and configure
+  [Nox](https://github.com/fluencelabs/nox)
 license_file: LICENSE
-
 tags:
   - p2p
   - fluence
   - cloud
   - compute
   - web3
-
 repository: https://github.com/fluencelabs/ansible/
 documentation: https://github.com/fluencelabs/ansibe/tree/main/README.md
 homepage: https://github.com/fluencelabs/ansible/
