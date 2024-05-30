@@ -1,7 +1,7 @@
 # Fluence prometheus
 
 Install, configure and maintain
-[prometheus](https://grafana.com/docs/loki/latest/clients/prometheus/).
+[prometheus](https://prometheus.io)
 
 You need to get `fluence_basicauth_username` and `fluence_basicauth_password` from Cloudless Labs in order to use this role.
 
