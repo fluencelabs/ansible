@@ -1,0 +1,21 @@
+galaxy_info:
+  namespace: fluencelabs
+  role_name: prometheus
+  license: Apache-2.0
+  author: Anatolios Laskaris
+  description: Install prometheus agent
+  issue_tracker_url: https://github.com/fluencelabs/ansible/issues
+  min_ansible_version: "2.12"
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - jammy
+    - name: Debian
+      versions:
+        - bookworm
+
+  galaxy_tags:
+    - metrics
+    - fluence
+    - web3

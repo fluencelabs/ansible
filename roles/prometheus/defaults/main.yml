@@ -1,0 +1,47 @@
+fluence_prometheus_download_url: "https://github.com/prometheus/prometheus/releases"
+
+fluence_prometheus_api_url: "https://mimir.fluence.dev/api/v1/push"
+
+fluence_prometheus_group: "prometheus"
+fluence_prometheus_user: "prometheus"
+
+fluence_prometheus_dir: "/opt/fluence/prometheus"
+
+fluence_prometheus_unit: |
+  [Unit]
+  Description="Metrics collection agent"
+  Documentation=https://prometheus.io/docs/
+  After=network.target
+
+  [Service]
+  User={{ fluence_prometheus_user }}
+  Group={{ fluence_prometheus_group }}
+  ExecStart={{ fluence_prometheus_dir }}/prometheus --config.file {{ fluence_prometheus_dir }}/config.yml --web.listen-address=0.0.0.0:9898 --enable-feature=agent,expand-external-lables --storage.agent.path={{ fluence_prometheus_dir }}/data
+  Restart=on-failure
+  RestartForceExitStatus=SIGPIPE
+  KillMode=control-group
+
+  [Install]
+  WantedBy=multi-user.target
+
+fluence_prometheus_config:
+  global:
+    scrape_interval: "15s"
+    external_labels:
+      env: "{{ fluence_basicauth_username }}"
+      instance: "{{ fluence_instance_id }}"
+
+  remote_write:
+    - url: "{{ fluence_prometheus_api_url }}"
+      basic_auth:
+        username: "{{ fluence_basicauth_username }}"
+        password: "{{ fluence_basicauth_password }}"
+
+  scrape_configs:
+    - job_name: 'nox'
+      static_configs:
+        - targets: ['localhost:18080']
+
+    - job_name: 'ccp'
+      static_configs:
+        - targets: ['localhost:9384']

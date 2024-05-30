@@ -39,6 +39,7 @@ fluence_promtail_config:
     - url: "{{ fluence_promtail_api_url }}"
       external_labels:
         instance: "{{ fluence_instance_id }}"
+        env: "{{ fluence_basicauth_username }}"
       basic_auth:
         username: "{{ fluence_promtail_username }}"
         password: "{{ fluence_promtail_password }}"
