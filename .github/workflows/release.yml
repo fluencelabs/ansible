@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: Run release-please
         id: release
-        uses: google-github-actions/release-please-action@v3
+        uses: googleapis/release-please-action@v4
         with:
           token: ${{ secrets.FLUENCEBOT_RELEASE_PLEASE_PAT }}
           command: manifest
@@ -43,7 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ need.release-please.outputs.tag }}
+          ref: ${{ needs.release-please.outputs.tag }}
 
       - name: Push to galaxy
         uses: artis3n/ansible_galaxy_collection@v2
