@@ -49,7 +49,7 @@
   ansible.builtin.unarchive:
     src: "{{ role_path }}/files/prometheus/{{ _prometheus_version }}/{{ _prometheus_archive }}"
     dest: "{{ role_path }}/files/prometheus/{{ _prometheus_version }}/"
-    creates: "{{ role_path }}/files/prometheus/{{ _prometheus_version }}/prometheus-linux-{{ _arch }}"
+    creates: "{{ role_path }}/files/prometheus/{{ _prometheus_version }}/prometheus-{{ _prometheus_version }}.linux-{{ _arch }}/prometheus"
 
 - name: propagate prometheus binary
   ansible.builtin.copy:
