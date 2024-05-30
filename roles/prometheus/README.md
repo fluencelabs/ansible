@@ -41,6 +41,11 @@ for details and examples.
 - version to use
 - type: string
 
+#### `fluence_network`
+
+- where it runs (kras or dar)
+- type: string
+
 #### `fluence_instance_id`
 
 - instance id used as `instance` label in metrics

@@ -44,6 +44,15 @@
       - fluence_basicauth_password | length
     quiet: true
 
+- name: check "fluence_network" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - fluence_network is defined
+      - fluence_network is string
+      - fluence_network | length
+    quiet: true
+
 - name: check "fluence_instance_id" variable
   tags: always
   ansible.builtin.assert:

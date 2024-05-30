@@ -16,6 +16,7 @@
     fluence_prometheus_api_url: "http://localhost:80"
 
     fluence_instance_id: "peer-0"
+    fluence_network: "molecule"
     fluence_project_dir: "molecule"
 
   collections:

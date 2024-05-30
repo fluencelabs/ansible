@@ -28,7 +28,8 @@ fluence_prometheus_config:
   global:
     scrape_interval: "15s"
     external_labels:
-      env: "{{ fluence_basicauth_username }}"
+      env: "{{ fluence_network }}"
+      network: "{{ fluence_network }}"
 
   remote_write:
     - url: "{{ fluence_prometheus_api_url }}"
