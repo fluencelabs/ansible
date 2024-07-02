@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/fluencelabs/ansible/compare/v0.2.2...v0.2.3) (2024-07-02)
+
+
+### Bug Fixes
+
+* Use s3 to download ccp artifact ([#25](https://github.com/fluencelabs/ansible/issues/25)) ([ae829d4](https://github.com/fluencelabs/ansible/commit/ae829d4a9332478d36d133b3fd0be91ded6f92af))
+
 ## [0.2.2](https://github.com/fluencelabs/ansible/compare/v0.2.1...v0.2.2) (2024-05-30)
 
 
