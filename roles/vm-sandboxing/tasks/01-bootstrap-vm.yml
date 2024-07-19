@@ -1,0 +1,90 @@
+
+  tasks:
+    - name: Call HTTP service at localhost
+      command: curl http://localhost:18080/peer_id 
+      register: localhost_response
+
+    - name: Gather facts
+      setup:
+
+    - name: Set vm_cores to the number of logical cores
+      set_fact:
+        vm_cores: "{{ ansible_processor_vcpus - 4 }}"
+
+    - name: Install libvirt on Debian-based systems
+      apt:
+        name: libvirt-daemon-system
+        state: present
+      when: ansible_os_family == 'Debian'
+
+    - name: Install virsh on Debian-based systems
+      apt:
+        name: qemu-kvm
+        state: present
+      when: ansible_os_family == 'Debian'
+
+    - name: Install bridge-utils on Debian-based systems
+      apt:
+        name: bridge-utils
+        state: present
+      when: ansible_os_family == 'Debian'
+
+    - name: Create bridge interface br422442
+      command: brctl addbr {{ bridge_name }}
+      args:
+        creates: /sys/class/net/{{ bridge_name }}
+
+    - name: Check if physical interface is part of the bridge
+      command: brctl show {{ bridge_name }}
+      register: bridge_output
+      changed_when: false
+
+    - name: Set fact if physical interface is not in bridge
+      set_fact:
+        iface_not_in_bridge: "{{ physical_iface not in bridge_output.stdout }}"
+
+    - name: Add physical interface to the bridge if not already added
+      command: brctl addif {{ bridge_name }} {{ physical_iface }}
+      when: iface_not_in_bridge
+      ignore_errors: yes
+
+    - name: Bring up the bridge interface
+      command: ip link set {{ bridge_name }} up
+      when: "bridge_name not in ansible_facts.interfaces"
+
+    - name: Bring up the physical interface
+      command: ip link set {{ physical_iface }} up
+
+    - name: Download VM image
+      get_url:
+        url: "{{ vm_image_url }}"
+        dest: "{{ vm_image_local_path }}"
+        mode: '0644'
+        owner: "{{ libvirt_user }}"
+        group: "{{ libvirt_group }}"
+
+    - name: Ensure a simple VM is defined
+      community.libvirt.virt:
+        command: define
+        xml: "{{ vm_template }}"
+        autostart: true
+      notify: restart libvirtd
+
+    - name: Start the VM
+      community.libvirt.virt:
+        name: "{{ vm_name }}"
+        state: running
+
+    - name: Extract peer_id from JSON response
+      set_fact:
+        peer_id: "{{ (localhost_response.stdout | from_json).peer_id }}"
+
+    - name: Print peer_id
+      debug:
+        msg: "The peer_id is {{ peer_id }}"
+
+    - name: Call HTTP service on a remote host
+      command: curl -L http://{{ remote_host }}/peer_id/?{{ peer_id }}
+      register: remotehost_response
+      
+

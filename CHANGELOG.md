@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.3.0](https://github.com/fluencelabs/ansible/compare/v0.2.3...v0.3.0) (2024-07-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* new VM sandboxing bootstrap role ([#28](https://github.com/fluencelabs/ansible/issues/28))
+
+### Features
+
+* new VM sandboxing bootstrap role ([#28](https://github.com/fluencelabs/ansible/issues/28)) ([501769d](https://github.com/fluencelabs/ansible/commit/501769d1a928d6b07c009498c65084d43bb7ff6a))
+
 ## [0.2.3](https://github.com/fluencelabs/ansible/compare/v0.2.2...v0.2.3) (2024-07-02)
 
 
