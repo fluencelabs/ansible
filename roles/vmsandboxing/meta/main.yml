@@ -1,6 +1,6 @@
 galaxy_info:
   namespace: fluencelabs
-  role_name: vm-sandboxing
+  role_name: vm_sandboxing
   license: Apache-2.0
   author: Roman Nozdrin
   description: Install and setup Fluence-specific VM sandboxing method

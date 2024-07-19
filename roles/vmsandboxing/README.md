@@ -1,4 +1,4 @@
-# fluencelabs.provider.vm-sandboxing
+# fluencelabs.provider.vm_sandboxing
 
 Installs pre-requisites and bootstraps a VM for workload sandboxing purposes.
 
@@ -8,7 +8,7 @@ See this [example](https://github.com/fluencelabs/ansible/blob/main/example/)
 
 ## Role Variables
 
-See [defaults/](https://github.com/fluencelabs/ansible/blob/main/roles/vm-sandboxing/defaults) for details and examples.
+See [defaults/](https://github.com/fluencelabs/ansible/blob/main/roles/vm_sandboxing/defaults) for details and examples.
 
 #### `remote_host`
 
