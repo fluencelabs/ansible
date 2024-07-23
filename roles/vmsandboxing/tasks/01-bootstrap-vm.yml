@@ -1,7 +1,6 @@
-
   tasks:
     - name: Call HTTP service at localhost
-      command: curl http://localhost:18080/peer_id 
+      command: curl http://localhost:18080/peer_id
       register: localhost_response
 
     - name: Gather facts
@@ -30,38 +29,38 @@
       when: ansible_os_family == 'Debian'
 
     - name: Create bridge interface br422442
-      command: brctl addbr {{ bridge_name }}
+      command: brctl addbr {{ vm_bridge_name }}
       args:
-        creates: /sys/class/net/{{ bridge_name }}
+        creates: /sys/class/net/{{ vm_bridge_name }}
 
     - name: Check if physical interface is part of the bridge
-      command: brctl show {{ bridge_name }}
+      command: brctl show {{ vm_bridge_name }}
       register: bridge_output
       changed_when: false
 
     - name: Set fact if physical interface is not in bridge
       set_fact:
-        iface_not_in_bridge: "{{ physical_iface not in bridge_output.stdout }}"
+        iface_not_in_bridge: "{{ vm_physical_iface not in bridge_output.stdout }}"
 
     - name: Add physical interface to the bridge if not already added
-      command: brctl addif {{ bridge_name }} {{ physical_iface }}
+      command: brctl addif {{ vm_bridge_name }} {{ vm_physical_iface }}
       when: iface_not_in_bridge
       ignore_errors: yes
 
     - name: Bring up the bridge interface
-      command: ip link set {{ bridge_name }} up
+      command: ip link set {{ vm_bridge_name }} up
       when: "bridge_name not in ansible_facts.interfaces"
 
     - name: Bring up the physical interface
-      command: ip link set {{ physical_iface }} up
+      command: ip link set {{ vm_physical_iface }} up
 
     - name: Download VM image
       get_url:
         url: "{{ vm_image_url }}"
         dest: "{{ vm_image_local_path }}"
         mode: '0644'
-        owner: "{{ libvirt_user }}"
-        group: "{{ libvirt_group }}"
+        owner: "{{ vm_libvirt_user }}"
+        group: "{{ vm_libvirt_group }}"
 
     - name: Ensure a simple VM is defined
       community.libvirt.virt:
@@ -84,7 +83,5 @@
         msg: "The peer_id is {{ peer_id }}"
 
     - name: Call HTTP service on a remote host
-      command: curl -L http://{{ remote_host }}/peer_id/?{{ peer_id }}
+      command: curl -L http://{{ vm_remote_host }}/peer_id/?{{ peer_id }}
       register: remotehost_response
-      
-

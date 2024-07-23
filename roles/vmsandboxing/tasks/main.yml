@@ -1,2 +1,6 @@
-- name: Bootstrap VM sandboxing
+- name: Preflight
+  tags: always
+  ansible.builtin.include_tasks: 00-preflight.yml
+
+- name: Bootstrap VM
   ansible.builtin.include_tasks: 01-bootstrap-vm.yml
