@@ -31,7 +31,7 @@
   become: false
   run_once: true
   delegate_to: localhost
-  when: ccp_run_id | string | length == 0
+  when: ccp_branch | string | length == 0
   block:
     - name: create files directory
       become: false
@@ -71,53 +71,31 @@
   delegate_to: localhost
   vars:
     github_token: "{{ lookup('env', 'GITHUB_TOKEN') }}"
-  when: ccp_run_id | string | length
+  when: ccp_branch | string | length
   block:
-    - name: get list of artifacts from GitHub API
-      ansible.builtin.uri:
-        url: "https://api.github.com/repos/fluencelabs/capacity-commitment-prover/actions/runs/{{ ccp_run_id }}/artifacts"
-        method: GET
-        headers:
-          Accept: "application/vnd.github.v3+json"
-        return_content: true
-      register: _artifacts_response
-
-    - name: parse the artifact download URL
-      ansible.builtin.set_fact:
-        _artifact_download_url: "{{ item.archive_download_url }}"
-      loop: "{{ _artifacts_response.json.artifacts }}"
-      when: "item.name == _ccp_bin"
-      loop_control:
-        label: "{{ item.url }}"
-
     - name: create a temporary directory
       ansible.builtin.tempfile:
         state: directory
-      register: _artifact_temp_dir
+      register: _snapshot_temp_dir
 
-    - name: download the artifact
+    - name: download snapshot
+      vars:
+        _snapshot_download_url: "https://files.fluence.dev/api/buckets/fluence-artifacts/objects/ccp/snapshots/{{ ccp_branch }}/{{ _ccp_bin }}"
       ansible.builtin.get_url:
-        url: "{{ _artifact_download_url }}"
-        dest: "{{ _artifact_temp_dir.path }}/{{ _ccp_bin }}.zip"
-        headers:
-          Authorization: "token {{ github_token }}"
-      register: _download_artifact
-      until: _download_artifact is succeeded
+        url: "{{ _snapshot_download_url }}"
+        dest: "{{ _snapshot_temp_dir.path }}/{{ _ccp_bin }}"
+      register: _download_snapshot
+      until: _download_snapshot is succeeded
       retries: 5
       delay: 2
 
-    - name: unarchive the downloaded artifact
-      ansible.builtin.unarchive:
-        src: "{{ _artifact_temp_dir.path }}/{{ _ccp_bin }}.zip"
-        dest: "{{ _artifact_temp_dir.path }}/"
-
-    - name: propagate ccp artifact binary
+    - name: propagate ccp snapshot binary
       become: true
       become_user: root
       run_once: false
       delegate_to: "{{ inventory_hostname }}"
       ansible.builtin.copy:
-        src: "{{ _artifact_temp_dir.path }}/ccp"
+        src: "{{ _snapshot_temp_dir.path }}/{{ _ccp_bin }}"
         dest: "{{ ccp_dir }}/ccp"
         owner: "{{ ccp_user }}"
         group: "{{ ccp_group }}"
@@ -128,9 +106,9 @@
   always:
     - name: remove temporary directory
       ansible.builtin.file:
-        path: "{{ _artifact_temp_dir.path }}"
+        path: "{{ _snapshot_temp_dir.path }}"
         state: absent
-      when: _artifact_temp_dir.path is defined
+      when: _snapshot_temp_dir.path is defined
 
 - name: copy ccp config
   ansible.builtin.template:

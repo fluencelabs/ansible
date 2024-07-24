@@ -15,15 +15,9 @@ ansible-playbook ccp.yml -e "ccp_cleanup_state=true"
 
 ### Install ccp snapshot from PR
 
-Only for Fluence Labs members.
-
-- Go to GitHub to e2e run from your PR, for example
-  https://github.com/fluencelabs/capacity-commitment-peer/actions/runs/7409293504 - `7409293504` is
-  run id
-- Rerun role providing your `GITHUB_TOKEN` as env variable:
-    ```bash
-    GITHUB_TOKEN=<your_token> ansible-playbook ccp.yml -e "ccp_run_id=7409293504"
-    ```
+```bash
+ansible-playbook ccp.yml -e "ccp_branch=FLU-668"
+```
 
 ## Role Variables
 
@@ -92,12 +86,8 @@ It will contain everything this role creates: ccp binaries, configs and state.
     ccp_cleanup_state: false
     ```
 
-#### `ccp_run_id`
+#### `ccp_branch`
 
-- GitHub actions run id of workflow in
-  [ccp e2e run](https://github.com/fluencelabs/capacity-commitment-prover/actions/workflows/e2e.yml).
-  Used by Fluence Labs internally to install a snapshot version of ccp for
-  testing. `GITHUB_TOKEN` is required.
 - type: string
 
 ## Author

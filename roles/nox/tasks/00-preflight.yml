@@ -1,14 +1,3 @@
-- name: check that GITHUB_TOKEN is defined
-  tags: always
-  vars:
-    github_token: "{{ lookup('env', 'GITHUB_TOKEN') }}"
-  ansible.builtin.assert:
-    that:
-      - github_token is string
-      - github_token | length
-    quiet: true
-  when: nox_run_id | string | length
-
 - name: check that tar is GNU type # noqa
   tags: always
   fluencelabs.provider.check_tar_type:
