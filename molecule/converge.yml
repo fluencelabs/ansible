@@ -27,6 +27,10 @@
       include_role:
         name: nox
 
+    - name: Run ccp role
+      include_role:
+        name: ccp
+
     - name: Run promtail role
       include_role:
         name: promtail

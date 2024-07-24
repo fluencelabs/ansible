@@ -3,7 +3,7 @@ ccp_dir: "/opt/fluence/ccp"
 ccp_project_dir: ""
 ccp_group: "ccp"
 ccp_user: "ccp"
-ccp_run_id: ""
+ccp_branch: ""
 ccp_cleanup_state: false
 ccp_unit_file: |
   [Unit]

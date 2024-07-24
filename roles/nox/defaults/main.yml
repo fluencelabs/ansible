@@ -3,7 +3,7 @@ nox_dir: "/opt/fluence/nox"
 nox_project_dir: ""
 nox_group: "nox"
 nox_user: "nox"
-nox_run_id: ""
+nox_branch: ""
 nox_cleanup_state: false
 nox_unit_file: |
   [Unit]

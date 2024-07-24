@@ -16,15 +16,9 @@ ansible-playbook nox.yml -e "nox_cleanup_state=true"
 
 ### Install nox snapshot from PR
 
-Only for Fluence Labs members.
-
-- Go to GitHub to e2e run from your PR, for example
-  https://github.com/fluencelabs/nox/actions/runs/7409293504 - `7409293504` is
-  run id
-- Rerun role providing your `GITHUB_TOKEN` as env variable:
-    ```bash
-    GITHUB_TOKEN=<your_token> ansible-playbook nox.yml -e "nox_run_id=7409293504"
-    ```
+```bash
+ansible-playbook nox.yml -e "nox_branch=FLU-688"
+```
 
 ## Role Variables
 
@@ -93,12 +87,9 @@ It will contain everything this role creates: nox binaries, configs, secrets.
     nox_cleanup_state: false
     ```
 
-#### `nox_run_id`
+#### `nox_branch`
+- whole catalogue of branches can be viewed here https://files.fluence.dev/buckets/fluence-artifacts
 
-- GitHub actions run id of workflow in
-  [nox e2e run](https://github.com/fluencelabs/nox/actions/workflows/e2e.yml).
-  Used by Fluence Labs internally to install a snapshot version of nox for
-  testing. `GITHUB_TOKEN` is required.
 - type: string
 
 ## Author

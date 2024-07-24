@@ -6,7 +6,7 @@ _arch_map:
 _arch: "{{ _arch_map[ansible_architecture] }}"
 _semver_regex: "^v?\\d+\\.\\d+\\.\\d+$"
 
-_nox_version: "{{ nox_version | regex_replace('^(?!v)', 'v') }}"
-_nox_download_url: "https://github.com/fluencelabs/nox/releases/download/nox-{{ _nox_version }}"
+_nox_version: "{{ nox_version | regex_replace('^(?!v)', '') }}"
+_nox_download_url: "https://fluence-artifacts.s3.eu-west-1.amazonaws.com/nox/{{ _nox_version }}"
 _nox_checksums: "sha256:{{ _nox_download_url + '/nox_SHA256_SUMS' }}"
 _nox_bin: "nox-{{ _arch }}"
