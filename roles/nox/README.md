@@ -88,6 +88,7 @@ It will contain everything this role creates: nox binaries, configs, secrets.
     ```
 
 #### `nox_branch`
+- whole catalogue of branches can be viewed here https://files.fluence.dev/buckets/fluence-artifacts
 
 - type: string
 
