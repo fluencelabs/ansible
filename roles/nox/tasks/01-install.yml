@@ -78,7 +78,7 @@
 
     - name: download the snapshot
       vars:
-        _snapshot_download_url: "https://files.fluence.dev/api/buckets/fluence-artifacts/objects/nox/snapshots/{{ nox_branch }}/{{ _nox_bin }}"
+        _snapshot_download_url: "https://fluence-artifacts.s3.eu-west-1.amazonaws.com/nox/snapshots/{{ nox_branch }}/{{ _nox_bin }}"
       ansible.builtin.get_url:
         url: "{{ _snapshot_download_url }}"
         dest: "{{ _snapshot_temp_dir.path }}/{{ _nox_bin }}"
