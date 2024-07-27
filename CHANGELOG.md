@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/fluencelabs/ansible/compare/v0.3.0...v0.3.1) (2024-07-24)
+
+
+### Bug Fixes
+
+* Use S3 to download nox and ccp snapshots ([#32](https://github.com/fluencelabs/ansible/issues/32)) ([d513e20](https://github.com/fluencelabs/ansible/commit/d513e20b8723147f3beb59ad634e652d5fb8dc5c))
+
 ## [0.3.0](https://github.com/fluencelabs/ansible/compare/v0.2.3...v0.3.0) (2024-07-19)
 
 
