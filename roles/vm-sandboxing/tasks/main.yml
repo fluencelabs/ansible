@@ -1,2 +1,0 @@
-- name: Bootstrap VM sandboxing
-  ansible.builtin.include_tasks: 01-bootstrap-vm.yml
