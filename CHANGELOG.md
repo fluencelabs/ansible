@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.2](https://github.com/fluencelabs/ansible/compare/v0.3.1...v0.3.2) (2024-07-30)
+
+
+### Bug Fixes
+
+* Fix vmsandboxing role name ([#34](https://github.com/fluencelabs/ansible/issues/34)) ([2044a11](https://github.com/fluencelabs/ansible/commit/2044a11d9ed61dbea11b9324a997075fef6e49de))
+
 ## [0.3.1](https://github.com/fluencelabs/ansible/compare/v0.3.0...v0.3.1) (2024-07-24)
 
 
