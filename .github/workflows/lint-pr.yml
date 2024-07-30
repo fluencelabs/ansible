@@ -13,9 +13,31 @@ concurrency:
 
 jobs:
   title:
+    permissions:
+      contents: write
+      id-token: write
     name: Validate PR title
     runs-on: ubuntu-latest
     steps:
       - uses: amannn/action-semantic-pull-request@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get latest ccp release
+        id: ccp
+        uses: pozetroninc/github-action-get-latest-release@v0.8.0
+        with:
+          owner: fluencelabs
+          repo: capacity-commitment-prover
+          excludes: prerelease, draft
+          token: ${{ secrets.FLUENCEBOT_RELEASE_PLEASE_PAT }}
+
+      - name: Format ccp release name
+        id: ccp-formated
+        # For docker container tag
+        env:
+          CCP_RELEASE: ${{ steps.ccp.outputs.release }}
+        run: echo "release=${CCP_RELEASE/-v/:}" >> $GITHUB_OUTPUT
+
+      - name: Update release notes
+        run: echo ${{ steps.ccp.outputs.release }} ${{ steps.ccp-formated.outputs.release }}
