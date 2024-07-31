@@ -1,0 +1,98 @@
+- name: check "vm_remote_host" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - vm_remote_host is defined
+      - vm_remote_host is string
+      - vm_remote_host | length
+    quiet: true
+
+- name: check "vm_name" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - vm_name is defined
+      - vm_name is string
+      - vm_name | length
+    quiet: true
+
+- name: check "vm_image_url" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - vm_image_url is defined
+      - vm_image_url is string
+      - vm_image_url | length
+    quiet: true
+
+- name: check "vm_image_local_path" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - vm_image_local_path is defined
+      - vm_image_local_path is string
+      - vm_image_local_path | length
+    quiet: true
+
+- name: check "vm_libvirt_user" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - vm_libvirt_user is defined
+      - vm_libvirt_user is string
+      - vm_libvirt_user | length
+    quiet: true
+
+- name: check "vm_libvirt_group" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - vm_libvirt_group is defined
+      - vm_libvirt_group is string
+      - vm_libvirt_group | length
+    quiet: true
+
+- name: check "vm_bridge_name" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - vm_bridge_name is defined
+      - vm_bridge_name is string
+      - vm_bridge_name | length
+    quiet: true
+
+- name: check "vm_physical_iface" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - vm_physical_iface is defined
+      - vm_physical_iface is string
+      - vm_physical_iface | length
+    quiet: true
+
+- name: check "vm_mac" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - vm_mac is defined
+      - vm_mac is string
+      - vm_mac | length
+    quiet: true
+
+- name: check "vm_uuid" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - vm_uuid is defined
+      - vm_uuid is string
+      - vm_uuid | length
+    quiet: true
+
+- name: check "vm_ram" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - vm_ram is defined
+      - vm_ram is string
+      - vm_ram | length
+    quiet: true
