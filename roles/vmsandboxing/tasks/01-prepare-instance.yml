@@ -1,0 +1,22 @@
+    - name: Set vm_cores to the number of logical cores
+      set_fact:
+        vm_cores: "{{ ansible_processor_vcpus - 1 }}"
+        vm_ram: "{{ ansible_memtotal_mb - 1024 }}"
+
+    - name: Install required packages
+      apt:
+        name: libvirt-daemon-system
+        state: present
+      loop:
+        - libvirt-daemon-system
+        - qemu-kvm
+        - virt-install
+
+    - name: Create image directory
+      file:
+        path: /var/lib/libvirt/qemu/images
+        state: directory
+
+    - name: Satisfy software requirements
+      import_role:
+        name: jm1.libvirt.setup

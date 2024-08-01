@@ -1,0 +1,22 @@
+- name: Copy iptables hook and schema to libvirt dir
+  copy:
+    src: "files/{{ item }}"
+    dest: /etc/libvirt/hooks/
+  loop:
+    - iptables-hook
+    - hooks.schema.json
+
+- name: Create a symlink to trigger libvirt hook
+  file:
+    src: /etc/libvirt/hooks/iptables-hook
+    dest: /etc/libvirt/hooks/qemu
+
+- name: Render hook template
+  copy:
+    content: "{{ vm_iptables_map }}"
+    dest: /etc/libvirt/hooks/hooks.json
+
+- name: Restart libvirtd
+  service:
+    name: libvirtd
+    state: restarted

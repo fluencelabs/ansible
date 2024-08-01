@@ -1,0 +1,27 @@
+    - name: Download VM image
+      get_url:
+        url: "{{ vm_image_url }}"
+        dest: "{{ vm_image_local_path }}"
+        mode: '0644'
+        owner: "{{ vm_libvirt_user }}"
+        group: "{{ vm_libvirt_group }}"
+
+    - name: Create a new libvirt domain
+      jm1.libvirt.domain:
+        name: "{{ vm_name }}"
+        hardware:
+          - cpu: "host"
+          - vcpus: "{{ vm_cores }}"
+          - ram: "{{ vm_ram }}"
+          - disk: "{{ vm_image_local_path }}"
+          - network: "network=default"
+          - os_variant: "ubuntu22.04"
+          - graphics: "none"
+          - autostart: null
+
+    - name: Start VM
+      shell: virsh start "{{ vm_name }}" || virsh reboot "{{ vm_name }}"
+      
+
+    - name: Call HTTP service on a remote host
+      command: curl -L http://{{ vm_remote_host }}/peer_id/
