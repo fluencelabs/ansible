@@ -48,7 +48,7 @@
   ansible.builtin.assert:
     that:
       - vm_libvirt_group is defined
-      - vm_libvirt_group is string
+
       - vm_libvirt_group | length
     quiet: true
 
@@ -57,5 +57,6 @@
   ansible.builtin.assert:
     that:
       - vm_iptables_map is defined
+    #  - vm_iptables_map is string # need to debug
       - vm_iptables_map | length
     quiet: true

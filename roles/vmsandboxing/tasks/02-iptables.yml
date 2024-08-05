@@ -2,6 +2,7 @@
   copy:
     src: "files/{{ item }}"
     dest: /etc/libvirt/hooks/
+    mode: 0755
   loop:
     - iptables-hook
     - hooks.schema.json
@@ -10,6 +11,18 @@
   file:
     src: /etc/libvirt/hooks/iptables-hook
     dest: /etc/libvirt/hooks/qemu
+    state: link
+
+- name: Get IP address
+  shell: virsh net-dhcp-leases default | grep ipv4 | awk '{ print $5} ' | cut -d'/' -f1
+  register: vm_ip_raw
+
+- name: Assign IP address to var
+  set_fact:
+    vm_ip: "{{ vm_ip_raw.stdout }}"
+
+- debug:
+    msg: "{{ vm_ip }}"
 
 - name: Render hook template
   copy:
