@@ -1,12 +1,3 @@
-- name: Prepare CPU and RAM configuration
-  set_fact:
-    vm_cores: "{{ ansible_processor_vcpus - vm_cpu_reserved }}"
-    vm_ram: "{{ ansible_memtotal_mb - vm_ram_reserved }}"
-
-- name: Prepare start options
-  set_fact:
-    vm_start_options_final: "{{ vm_start_opts_default | combine(vm_start_options) | to_nice_yaml }}"
-
 - name: Create image directory
   file:
     path: /var/lib/libvirt/qemu/images

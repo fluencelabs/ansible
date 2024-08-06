@@ -10,9 +10,11 @@
     msg: "{{ vm_start_options_final }}"
 
 - name: Create a new libvirt domain
+  var:
+    _vm_options: "{{ vm_options + [{'host_devices': vm_host_devices}] }}"
   jm1.libvirt.domain:
     name: "{{ vm_name }}"
-    hardware: "{{ vm_start_options_final }}"
+    hardware: "{{ _vm_options }}"
 
 - name: Start VM
   shell: virsh start "{{ vm_name }}" || virsh reboot "{{ vm_name }}"

@@ -8,16 +8,16 @@ vm_libvirt_group: kvm
 vm_cpu_reserved: 1
 vm_ram_reserved: 1024
 
-vm_start_opts_default:
+vm_options:
   - cpu: "host"
-  - vcpus: "{{ vm_cores }}"
-  - ram: "{{ vm_ram }}"
+  - vcpus: "{{ ansible_processor_vcpus - vm_cpu_reserved }}"
+  - ram: "{{ ansible_memtotal_mb - vm_ram_reserved }}"
   - disk: "{{ vm_image_local_path }}"
   - network: "network=default"
   - os_variant: "ubuntu22.04"
   - graphics: "none"
 
-vm_start_options: {}
+vm_host_devices: []
 
 vm_ip: 192.168.122.112
 
