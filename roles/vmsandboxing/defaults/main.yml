@@ -19,7 +19,7 @@ vm_start_opts_default:
 
 vm_start_options: {}
 
-vm_ip: ""
+vm_ip: 192.168.122.112
 
 vm_iptables_map: |
       {
