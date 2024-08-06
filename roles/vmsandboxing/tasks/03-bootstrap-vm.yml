@@ -10,7 +10,7 @@
     msg: "{{ vm_start_options_final }}"
 
 - name: Create a new libvirt domain
-  var:
+  vars:
     _vm_options: "{{ vm_options + [{'host_devices': vm_host_devices}] }}"
   jm1.libvirt.domain:
     name: "{{ vm_name }}"
