@@ -6,6 +6,9 @@
     owner: "{{ vm_libvirt_user }}"
     group: "{{ vm_libvirt_group }}"
 
+- debug:
+    msg: "{{ vm_start_options_final }}"
+
 - name: Create a new libvirt domain
   jm1.libvirt.domain:
     name: "{{ vm_name }}"
