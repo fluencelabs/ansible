@@ -5,11 +5,27 @@ vm_image_local_path: /var/lib/libvirt/qemu/images/{{ vm_name }}.qcow2
 vm_libvirt_user: libvirt-qemu
 vm_libvirt_group: kvm
 
+vm_cpu_reserved: 1
+vm_ram_reserved: 1024
+
+vm_start_opts_default:
+  - cpu: "host"
+  - vcpus: "{{ vm_cores }}"
+  - ram: "{{ vm_ram }}"
+  - disk: "{{ vm_image_local_path }}"
+  - network: "network=default"
+  - os_variant: "ubuntu22.04"
+  - graphics: "none"
+
+vm_start_options: 
+
+vm_ip: lol
+
 vm_iptables_map: |
       {
           "{{ vm_name }}": {
               "interface": "virbr0",
-              "private_ip": "192.168.1.122",
+              "private_ip": "{{ vm_ip }}",
               "port_map": {
                   "tcp": [
                     80,

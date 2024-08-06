@@ -1,7 +1,14 @@
-    - name: Set vm_cores to the number of logical cores
+    - name: Prepare CPU and RAM configuration
       set_fact:
-        vm_cores: "{{ ansible_processor_vcpus - 1 }}"
-        vm_ram: "{{ ansible_memtotal_mb - 1024 }}"
+        vm_cores: "{{ ansible_processor_vcpus - vm_cpu_reserved }}"
+        vm_ram: "{{ ansible_memtotal_mb - vm_ram_reserved }}"
+    
+    - name: Prepare start options
+      set_fact: 
+        vm_start_options_final: "{{ vm_start_opts_default | combine(vm_start_options) | to_nice_yaml }}"
+
+    - debug:
+        msg: "{{ vm_start_options_final }}"
 
     - name: Install required packages
       apt:

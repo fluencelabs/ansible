@@ -17,7 +17,6 @@
           - network: "network=default"
           - os_variant: "ubuntu22.04"
           - graphics: "none"
-          - autostart: null
 
     - name: Start VM
       shell: virsh start "{{ vm_name }}" || virsh reboot "{{ vm_name }}"
@@ -25,3 +24,7 @@
 
     - name: Call HTTP service on a remote host
       command: curl -L http://{{ vm_remote_host }}/peer_id/
+
+    - name: pause for 30 seconds
+      pause:
+        seconds: 15
