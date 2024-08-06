@@ -6,9 +6,6 @@
     owner: "{{ vm_libvirt_user }}"
     group: "{{ vm_libvirt_group }}"
 
-- debug:
-    msg: "{{ vm_start_options_final }}"
-
 - name: Create a new libvirt domain
   vars:
     _vm_options: "{{ vm_options + [{'host_devices': vm_host_devices}] }}"
