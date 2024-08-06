@@ -9,14 +9,7 @@
 - name: Create a new libvirt domain
   jm1.libvirt.domain:
     name: "{{ vm_name }}"
-    hardware:
-      - cpu: "host"
-      - vcpus: "{{ vm_cores }}"
-      - ram: "{{ vm_ram }}"
-      - disk: "{{ vm_image_local_path }}"
-      - network: "network=default"
-      - os_variant: "ubuntu22.04"
-      - graphics: "none"
+    hardware: "{{ vm_start_options_final }}"
 
 - name: Start VM
   shell: virsh start "{{ vm_name }}" || virsh reboot "{{ vm_name }}"
