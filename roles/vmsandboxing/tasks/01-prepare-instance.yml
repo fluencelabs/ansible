@@ -20,3 +20,4 @@
   systemd_service:
     state: started
     name: libvirtd
+  when: not lookup("env", "MOLECULE_SCENARIO_NAME") | default("")
