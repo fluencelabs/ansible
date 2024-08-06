@@ -1,7 +1,10 @@
 - name: test
   hosts: all
   become: true
+  collections:
+    - fluencelabs.provider
+
   tasks:
-    - name: Debug
-      debug:
-        msg: test
+    - name: Run vm role
+      include_role:
+        name: vmsandboxing

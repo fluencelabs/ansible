@@ -3,12 +3,10 @@
   ansible.builtin.include_tasks: 00-preflight.yml
 
 - name: Prepare instance
-  tags: always
   ansible.builtin.include_tasks: 01-prepare-instance.yml
 
 - name: Bootstrap VM
   ansible.builtin.include_tasks: 03-bootstrap-vm.yml
 
-- name: ip-tables
-  tags: always
+- name: Setup iptables
   ansible.builtin.include_tasks: 02-iptables.yml

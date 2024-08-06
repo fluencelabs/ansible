@@ -2,3 +2,4 @@
   service:
     name: libvirtd
     state: restarted
+  when: not lookup("env", "MOLECULE_SCENARIO_NAME") | default("")

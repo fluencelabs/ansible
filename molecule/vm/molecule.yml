@@ -2,7 +2,7 @@ driver:
   name: docker
 
 platforms:
-  - name: k3s
+  - name: ubuntu-vm
     dockerfile: Dockerfile
     image: libvirt
     pre_build_image: false

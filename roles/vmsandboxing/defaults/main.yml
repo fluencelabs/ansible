@@ -17,9 +17,9 @@ vm_start_opts_default:
   - os_variant: "ubuntu22.04"
   - graphics: "none"
 
-vm_start_options: 
+vm_start_options: {}
 
-vm_ip: lol
+vm_ip: ""
 
 vm_iptables_map: |
       {
@@ -32,7 +32,7 @@ vm_iptables_map: |
                     443
                   ],
                   "udp": [
-              80
+                    80
                   ]
               },
 

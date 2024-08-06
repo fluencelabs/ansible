@@ -14,7 +14,7 @@
     state: link
 
 - name: Get IP address
-  shell: virsh net-dhcp-leases default | grep ipv4 | awk '{ print $5} ' | cut -d'/' -f1
+  shell: virsh net-dhcp-leases default | grep ipv4 | awk '{ print $5 }' | cut -d'/' -f1
   register: vm_ip_raw
 
 - name: Assign IP address to var
@@ -28,8 +28,6 @@
   copy:
     content: "{{ vm_iptables_map }}"
     dest: /etc/libvirt/hooks/hooks.json
+  notify: restart libvirtd
 
-- name: Restart libvirtd
-  service:
-    name: libvirtd
-    state: restarted
+- meta: flush_handlers

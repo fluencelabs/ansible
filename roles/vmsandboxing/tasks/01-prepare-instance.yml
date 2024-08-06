@@ -1,29 +1,22 @@
-    - name: Prepare CPU and RAM configuration
-      set_fact:
-        vm_cores: "{{ ansible_processor_vcpus - vm_cpu_reserved }}"
-        vm_ram: "{{ ansible_memtotal_mb - vm_ram_reserved }}"
-    
-    - name: Prepare start options
-      set_fact: 
-        vm_start_options_final: "{{ vm_start_opts_default | combine(vm_start_options) | to_nice_yaml }}"
+- name: Prepare CPU and RAM configuration
+  set_fact:
+    vm_cores: "{{ ansible_processor_vcpus - vm_cpu_reserved }}"
+    vm_ram: "{{ ansible_memtotal_mb - vm_ram_reserved }}"
 
-    - debug:
-        msg: "{{ vm_start_options_final }}"
+- name: Prepare start options
+  set_fact:
+    vm_start_options_final: "{{ vm_start_opts_default | combine(vm_start_options) | to_nice_yaml }}"
 
-    - name: Install required packages
-      apt:
-        name: libvirt-daemon-system
-        state: present
-      loop:
-        - libvirt-daemon-system
-        - qemu-kvm
-        - virt-install
+- name: Create image directory
+  file:
+    path: /var/lib/libvirt/qemu/images
+    state: directory
 
-    - name: Create image directory
-      file:
-        path: /var/lib/libvirt/qemu/images
-        state: directory
+- name: Satisfy software requirements
+  import_role:
+    name: jm1.libvirt.setup
 
-    - name: Satisfy software requirements
-      import_role:
-        name: jm1.libvirt.setup
+- name: Start libvirt
+  systemd_service:
+    state: started
+    name: libvirtd
