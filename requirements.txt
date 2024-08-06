@@ -5,3 +5,6 @@ pytest==7.2.1
 pytest-testinfra==7.0.0
 molecule==24.2.0
 molecule-qemu==0.5.7
+molecule-docker==2.1.0
+requests==2.26.0
+docker==6.0.0

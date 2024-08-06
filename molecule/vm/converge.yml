@@ -1,0 +1,7 @@
+- name: test
+  hosts: all
+  become: true
+  tasks:
+    - name: Debug
+      debug:
+        msg: test
