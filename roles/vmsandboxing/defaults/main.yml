@@ -1,35 +1,36 @@
 vm_remote_host: info-catcher.fluence.dev
 vm_name: sandbox
 vm_image_url: https://fluence-os-images.fra1.digitaloceanspaces.com/sandbox/latest/image.qcow2
-vm_image_local_path: /var/lib/libvirt/qemu/images/{{ vm_name }}.qcow2
-vm_libvirt_user: libvirt-qemu
-vm_libvirt_group: kvm
 
-vm_cpu_reserved: 1
-vm_ram_reserved: 1024
+vm_cpu_reserved: 2
+vm_ram_reserved: 2048
 
-vm_options:
+vm_options_default:
   - cpu: "host"
   - vcpus: "{{ ansible_processor_vcpus - vm_cpu_reserved }}"
-  - ram: "{{ ansible_memtotal_mb - vm_ram_reserved }}"
-  - disk: "{{ vm_image_local_path }}"
-  - network: "network=default"
+  # - ram: "{{ ansible_memtotal_mb - vm_ram_reserved }}"
+  - virt_type: 'kvm'
+  - ram: "10000"
+  - network: "network={{ vm_name }}"
   - os_variant: "ubuntu22.04"
   - graphics: "none"
+  - disk: "vol='sandbox/{{ vm_name }}',device=disk,bus=virtio,serial='root'"
 
-vm_host_devices: []
+vm_options: []
+_vm_options: "{{ vm_options_default + vm_options }}"
 
 vm_ip: 192.168.122.112
 
 vm_iptables_map: |
       {
           "{{ vm_name }}": {
-              "interface": "virbr0",
+              "interface": "virbr-{{ vm_name }}-0",
               "private_ip": "{{ vm_ip }}",
               "port_map": {
                   "tcp": [
                     80,
-                    443
+                    443,
+                    [2222, 22]
                   ],
                   "udp": [
                     80

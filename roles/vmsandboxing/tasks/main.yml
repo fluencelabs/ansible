@@ -2,7 +2,7 @@
   ansible.builtin.include_tasks: 01-prepare-instance.yml
 
 - name: Setup networking
-  ansible.builtin.include_tasks: 02-iptables.yml
+  ansible.builtin.include_tasks: 02-network.yml
 
 - name: Bootstrap VM
   ansible.builtin.include_tasks: 03-bootstrap-vm.yml

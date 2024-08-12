@@ -3,3 +3,6 @@
     name: libvirtd
     state: restarted
   when: not lookup("env", "MOLECULE_SCENARIO_NAME") | default("")
+
+- name: start vm
+  shell: virsh start "{{ vm_name }}"

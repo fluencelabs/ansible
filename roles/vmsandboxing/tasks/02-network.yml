@@ -1,0 +1,44 @@
+- name: Copy iptables hook and schema to libvirt dir
+  copy:
+    src: "files/{{ item }}"
+    dest: /etc/libvirt/hooks/
+    mode: 0755
+  loop:
+    - iptables-hook
+    - hooks.schema.json
+
+- name: Create a symlink to trigger libvirt hook
+  file:
+    src: /etc/libvirt/hooks/iptables-hook
+    dest: /etc/libvirt/hooks/qemu
+    state: link
+
+- name: Render hook template
+  copy:
+    content: "{{ vm_iptables_map }}"
+    dest: /etc/libvirt/hooks/hooks.json
+
+- name: Create network
+  jm1.libvirt.net_xml:
+    state: present
+    xml: |
+      <network>
+        <name>{{ vm_name }}</name>
+        <forward mode='nat'>
+          <nat>
+            <port start='1000' end='65535'/>
+          </nat>
+        </forward>
+        <bridge name='virbr-{{ vm_name }}-0' stp='on' delay='0'/>
+        <mac address='52:54:00:76:22:fa'/>
+        <ip address='192.168.122.1' netmask='255.255.255.0'>
+          <dhcp>
+            <range start='192.168.122.112' end='192.168.122.112'/>
+          </dhcp>
+        </ip>
+      </network>
+
+- name: Ensure that a network is active
+  community.libvirt.virt_net:
+    state: active
+    name: "{{ vm_name }}"

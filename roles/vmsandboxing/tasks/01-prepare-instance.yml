@@ -1,14 +1,19 @@
-- name: Create image directory
-  file:
-    path: /var/lib/libvirt/qemu/images
-    state: directory
+- name: Install required packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - libvirt-daemon-system
+    - qemu-kvm
+    - cloud-image-utils
 
 - name: Satisfy software requirements
   import_role:
     name: jm1.libvirt.setup
 
-- name: Start libvirt
-  systemd_service:
-    state: started
-    name: libvirtd
-  when: not lookup("env", "MOLECULE_SCENARIO_NAME") | default("")
+- name: Create pool
+  jm1.libvirt.pool:
+    name: sandbox
+    hardware:
+     - type: dir
+     - target: "/var/lib/libvirt/images/sandbox"

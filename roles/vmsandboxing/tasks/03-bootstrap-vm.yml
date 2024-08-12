@@ -1,29 +1,11 @@
-- name: Download VM image
-  get_url:
-    url: "{{ vm_image_url }}"
-    dest: "{{ vm_image_local_path }}"
-    mode: '0644'
-    owner: "{{ vm_libvirt_user }}"
-    group: "{{ vm_libvirt_group }}"
-
-- vars:
-    _vm_options: "{{ vm_options + [{'host_devices': vm_host_devices}] }}"
-  debug:
-    msg: "{{ _vm_options }}"
-
-- name: Create a new libvirt domain
+- name: Create and start virtual machine
+  import_role:
+    name: jm1.libvirt.server
   vars:
-    _vm_options: "{{ vm_options + [{'host_devices': vm_host_devices}] }}"
-  jm1.libvirt.domain:
-    name: "{{ vm_name }}"
+    domain: "{{ vm_name }}"
     hardware: "{{ _vm_options }}"
-
-- name: Start VM
-  shell: virsh start "{{ vm_name }}" || virsh reboot "{{ vm_name }}"
-
-- name: Call HTTP service on a remote host
-  command: curl -L http://{{ vm_remote_host }}/peer_id/
-
-- name: pause for 15 seconds
-  pause:
-    seconds: 15
+    image: "{{ vm_name }}"
+    pool: "sandbox"
+    image_uri: "{{ vm_image_url }}"
+    volume_capacity: "100G"
+  notify: start vm
