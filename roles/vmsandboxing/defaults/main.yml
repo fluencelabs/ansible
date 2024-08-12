@@ -3,15 +3,14 @@ vm_name: sandbox
 vm_image_url: https://fluence-os-images.fra1.digitaloceanspaces.com/sandbox/latest/image.qcow2
 
 vm_cpu_reserved: 2
-vm_ram_reserved: 2048
+vm_ram_reserved: 4096
 
 vm_options_default:
   - cpu: "host"
   - vcpus: "{{ ansible_processor_vcpus - vm_cpu_reserved }}"
-  # - ram: "{{ ansible_memtotal_mb - vm_ram_reserved }}"
+  - ram: "{{ ansible_memtotal_mb - vm_ram_reserved }}"
   - virt_type: 'kvm'
-  - ram: "10000"
-  - network: "network={{ vm_name }}"
+  - network: "network=default"
   - os_variant: "ubuntu22.04"
   - graphics: "none"
   - disk: "vol='sandbox/{{ vm_name }}',device=disk,bus=virtio,serial='root'"
@@ -24,7 +23,7 @@ vm_ip: 192.168.122.112
 vm_iptables_map: |
       {
           "{{ vm_name }}": {
-              "interface": "virbr-{{ vm_name }}-0",
+              "interface": "virbr-0",
               "private_ip": "{{ vm_ip }}",
               "port_map": {
                   "tcp": [
