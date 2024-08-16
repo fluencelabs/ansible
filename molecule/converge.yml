@@ -23,6 +23,10 @@
     - fluencelabs.provider
 
   tasks:
+    - name: Run vagrant role
+      include_role:
+        name: vagrant
+
     - name: Run nox role
       include_role:
         name: nox

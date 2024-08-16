@@ -1,9 +1,10 @@
 galaxy_info:
   namespace: fluencelabs
-  role_name: vmsandboxing
+  role_name: vagrant
   license: Apache-2.0
-  author: Roman Nozdrin
-  description: Install and setup Fluence-specific VM sandboxing method
+  authors:
+    - Anatolios Laskaris
+  description: Install and setup Vagrant and LibvirtD virtualization
   issue_tracker_url: https://github.com/fluencelabs/ansible/issues
   min_ansible_version: "2.12"
 

@@ -1,0 +1,65 @@
+- name: Add HashiCorp GPG key
+  ansible.builtin.apt_key:
+    url: https://apt.releases.hashicorp.com/gpg
+    state: present
+
+- name: Add HashiCorp repository
+  ansible.builtin.apt_repository:
+    repo: "deb https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
+    state: present
+    filename: "hashicorp"
+
+- name: Install necessary packages
+  ansible.builtin.apt:
+    name:
+      - qemu-kvm
+      - libvirt-daemon-system
+      - libvirt-clients
+      - bridge-utils
+      - vagrant
+      - ebtables
+      - dnsmasq-base
+      - libxslt-dev
+      - libxml2-dev
+      - libvirt-dev
+      - zlib1g-dev
+      - ruby-dev
+    state: present
+    update_cache: true
+
+- name: Enable and start the libvirtd service
+  ansible.builtin.systemd:
+    name: libvirtd
+    enabled: true
+    state: started
+
+- name: Uncomment deb-src universe lines
+  ansible.builtin.replace:
+    path: /etc/apt/sources.list
+    regexp: '^# deb-src'
+    replace: 'deb-src'
+
+- name: Install build dependencies for Vagrant and ruby-libvirt
+  ansible.builtin.apt:
+    name:
+      - vagrant
+      - ruby-libvirt
+    state: build-dep
+    update_cache: true
+
+- name: Install the Vagrant libvirt plugin
+  changed_when: false
+  ansible.builtin.command:
+    cmd: vagrant plugin install vagrant-libvirt
+
+- name: Run 'vagrant plugin list' command
+  changed_when: false
+  command: vagrant plugin list
+  register: vagrant_plugins
+
+- name: Ensure 'vagrant-libvirt' is in the plugin list
+  assert:
+    that:
+      - "'vagrant-libvirt' in vagrant_plugins.stdout"
+    fail_msg: "vagrant-libvirt plugin is not installed."
+    success_msg: "vagrant-libvirt plugin is installed."

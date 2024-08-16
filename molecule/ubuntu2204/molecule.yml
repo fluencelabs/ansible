@@ -6,6 +6,8 @@ platforms:
     image_url: https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img
     image_checksum: sha256:https://cloud-images.ubuntu.com/jammy/current/SHA256SUMS
     network_ssh_port: 2228
+    vm_cpus: 2
+    vm_memory: 1024
 
 provisioner:
   name: ansible
