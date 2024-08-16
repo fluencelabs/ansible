@@ -23,7 +23,7 @@ vm_ip: 192.168.122.112
 vm_iptables_map: |
       {
           "{{ vm_name }}": {
-              "interface": "virbr-0",
+              "interface": "virbr0",
               "private_ip": "{{ vm_ip }}",
               "port_map": {
                   "tcp": [
