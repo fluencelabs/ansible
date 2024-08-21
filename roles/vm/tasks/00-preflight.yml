@@ -1,0 +1,32 @@
+- name: check "vm_name" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - vm_name is defined
+      - vm_name is string
+      - vm_name | length
+    quiet: true
+
+- name: check "vm_config" variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - vm_config is defined
+      - vm_config is string
+      - vm_config | length
+    quiet: true
+
+- name: check "vm_iptables_map" variable
+  tags: always
+  # ansible.builtin.assert:
+  #   that:
+  #     - vm_iptables_map is defined
+  #     - vm_iptables_map is mapping
+  #     - vm_iptables_map | length
+  #   quiet: true
+  #
+  ansible.utils.validate:
+    data: "{{ vm_iptables_map | to_nice_json }}"
+    criteria:
+      - "{{ lookup('file',  '{{ role_path }}/files/hooks.schema.json') | from_json }}"
+    engine: ansible.utils.jsonschema

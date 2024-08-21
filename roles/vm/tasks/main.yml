@@ -1,0 +1,9 @@
+- name: Preflight
+  tags: always
+  ansible.builtin.include_tasks: 00-preflight.yml
+
+- name: Prepare instance
+  ansible.builtin.include_tasks: 01-prepare.yml
+
+- name: Configure vm
+  ansible.builtin.include_tasks: 02-vm.yml

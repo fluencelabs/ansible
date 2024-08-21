@@ -1,0 +1,45 @@
+- name: maintain Vagrantfile and backout if validation after change fails
+  block:
+    - name: Update Vagrantfile
+      copy:
+        content: "{{ vm_config }}"
+        dest: "/opt/fluence/vm/{{ vm_name }}/Vagrantfile"
+        backup: true
+      register: updated
+      notify:
+        - start vm
+        - restart vm
+
+    - name: Run vagrant validate
+      command:
+        cmd: vagrant validate
+        chdir: "/opt/fluence/vm/{{ vm_name }}"
+      when: updated is changed
+  rescue:
+    - name: restore backup Vagrantfile to original
+      copy:
+        remote_src: true
+        dest: "/opt/fluence/vm/{{ vm_name }}/Vagrantfile"
+        src: "{{ updated.backup_file }}"
+      when:
+        - updated is changed
+        - updated.backup_file is defined
+
+    - name: Delete backup
+      file:
+        path: "{{ updated.backup_file }}"
+        state: absent
+      when:
+        - updated is changed
+        - updated.backup_file is defined
+
+    - fail:
+        msg: Vagrantfile is not valid
+  always:
+    - name: Delete backup
+      file:
+        path: "{{ updated.backup_file }}"
+        state: absent
+      when:
+        - updated is changed
+        - updated.backup_file is defined

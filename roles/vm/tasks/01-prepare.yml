@@ -1,0 +1,49 @@
+- name: Copy iptables hook and schema to libvirt dir
+  copy:
+    src: "files/{{ item }}"
+    dest: /etc/libvirt/hooks/
+    mode: 0755
+  loop:
+    - iptables-hook
+    - hooks.schema.json
+  notify: restart libvirtd
+
+- name: Create a symlink to trigger libvirt hook
+  file:
+    src: /etc/libvirt/hooks/iptables-hook
+    dest: /etc/libvirt/hooks/qemu
+    state: link
+
+- name: Copy iptables map
+  copy:
+    content: "{{ vm_iptables_map | to_nice_json }}"
+    dest: /etc/libvirt/hooks/hooks.json
+  notify: restart vm
+
+- name: Define default storage pool
+  community.libvirt.virt_pool:
+    command: define
+    name: default
+    xml: |
+      <pool type='dir'>
+        <name>default</name>
+        <target>
+          <path>/var/lib/libvirt/images</path>
+          <permissions>
+            <mode>0755</mode>
+            <owner>0</owner>
+            <group>0</group>
+          </permissions>
+        </target>
+      </pool>
+
+- name: Start default storage pool
+  community.libvirt.virt_pool:
+    name: default
+    state: active
+    autostart: true
+
+- name: Create directory that holds Vagrantfile
+  file:
+    dest: "/opt/fluence/vm/{{ vm_name }}"
+    state: directory
