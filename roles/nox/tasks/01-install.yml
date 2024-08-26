@@ -1,3 +1,9 @@
+- name: Install required dependencies
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ nox_dependencies }}"
+
 - name: create nox system group
   ansible.builtin.group:
     name: "{{ nox_group }}"
@@ -136,5 +142,19 @@
 - name: enable noxes
   ansible.builtin.systemd:
     name: nox
+    enabled: true
+    daemon_reload: true
+
+- name: Tune nox config for vm suport
+  ansible.builtin.blockinfile:
+    path: "{{ nox_dir }}/Config.toml"
+    append_newline: true
+    prepend_newline: true
+    block: "{{ nox_vm_config }}"
+  when: vm_support_enabled
+
+- name: enable libvirtd
+  ansible.builtin.systemd:
+    name: libvirtd
     enabled: true
     daemon_reload: true
