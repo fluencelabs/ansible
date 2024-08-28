@@ -1,13 +1,10 @@
 nox_version: ""
 nox_dir: "/opt/fluence/nox"
 nox_project_dir: ""
-nox_group: "nox"
-nox_user: "nox"
+nox_group: "root"
+nox_user: "root"
 nox_branch: ""
 nox_cleanup_state: false
-nox_dependencies:
-  - qemu-kvm
-  - libvirt-daemon-system
 nox_unit_file: |
   [Unit]
   Description=Nox - Rust implementation of the Fluence network peer
@@ -20,30 +17,9 @@ nox_unit_file: |
   Environment="FLUENCE_ROOT_KEY_PAIR__PATH={{ nox_dir }}/state/root_secret_key.ed25519"
   ExecStart={{ nox_dir }}/nox
   Restart=on-failure
-  User=root
+  User={{ nox_user }}
   Group={{ nox_group }}
 
   [Install]
   WantedBy=multi-user.target
-
-
-vm_support_enabled: false
-
-vm_ip: 192.168.122.112
-vm_port_range_start: 1000
-vm_port_range_end: 65535
-vm_host_ssh_port: 22
-vm_ssh_port: 2222
-
-nox_vm_config: |-
-        [vm]
-        libvirt_uri = "qemu:///system"
-        [vm.network]
-        bridge_name = "virbr0"
-        public_ip = "{{ ansible_default_ipv4.address }}
-        vm_ip = "{{ vm_ip }}
-        port_range.start = "{{ vm_port_range_start }}"
-        port_range.end = "{{ vm_port_range_end }}"
-        host_ssh_port = "{{ vm_host_ssh_port }}"
-        vm_ssh_port =  "{{ vm_ssh_port }}"
 

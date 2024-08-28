@@ -9,6 +9,14 @@
   loop:
     - libhwloc-dev
     - curl
+    - qemu-kvm
+    - libvirt-daemon-system
   loop_control:
     loop_var: package
     label: "{{ package }}"
+
+- name: enable libvirtd
+  ansible.builtin.systemd:
+    name: libvirtd
+    enabled: true
+    daemon_reload: true

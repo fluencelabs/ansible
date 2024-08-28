@@ -144,17 +144,3 @@
     name: nox
     enabled: true
     daemon_reload: true
-
-- name: Tune nox config for vm suport
-  ansible.builtin.blockinfile:
-    path: "{{ nox_dir }}/Config.toml"
-    append_newline: true
-    prepend_newline: true
-    block: "{{ nox_vm_config }}"
-  when: vm_support_enabled
-
-- name: enable libvirtd
-  ansible.builtin.systemd:
-    name: libvirtd
-    enabled: true
-    daemon_reload: true
