@@ -1,8 +1,8 @@
 nox_version: ""
 nox_dir: "/opt/fluence/nox"
 nox_project_dir: ""
-nox_group: "root"
-nox_user: "root"
+nox_group: "nox"
+nox_user: "nox"
 nox_branch: ""
 nox_cleanup_state: false
 nox_unit_file: |
@@ -17,7 +17,7 @@ nox_unit_file: |
   Environment="FLUENCE_ROOT_KEY_PAIR__PATH={{ nox_dir }}/state/root_secret_key.ed25519"
   ExecStart={{ nox_dir }}/nox
   Restart=on-failure
-  User={{ nox_user }}
+  User=root
   Group={{ nox_group }}
 
   [Install]
