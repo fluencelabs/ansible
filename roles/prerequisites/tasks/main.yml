@@ -18,5 +18,6 @@
 - name: enable libvirtd
   ansible.builtin.systemd:
     name: libvirtd
+    state: started
     enabled: true
     daemon_reload: true
