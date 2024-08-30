@@ -17,8 +17,9 @@ nox_unit_file: |
   Environment="FLUENCE_ROOT_KEY_PAIR__PATH={{ nox_dir }}/state/root_secret_key.ed25519"
   ExecStart={{ nox_dir }}/nox
   Restart=on-failure
-  User={{ nox_user }}
+  User=root
   Group={{ nox_group }}
 
   [Install]
   WantedBy=multi-user.target
+
