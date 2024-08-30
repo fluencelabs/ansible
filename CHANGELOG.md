@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.4](https://github.com/fluencelabs/ansible/compare/v0.3.3...v0.3.4) (2024-08-30)
+
+
+### Features
+
+* nox vm support ([#40](https://github.com/fluencelabs/ansible/issues/40)) ([57782a7](https://github.com/fluencelabs/ansible/commit/57782a796a21e884f90dfca6a27e3d7a3fa23ebf))
+
 ## [0.3.3](https://github.com/fluencelabs/ansible/compare/v0.3.2...v0.3.3) (2024-07-30)
 
 
