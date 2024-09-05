@@ -22,4 +22,3 @@ nox_unit_file: |
 
   [Install]
   WantedBy=multi-user.target
-
