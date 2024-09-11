@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.5](https://github.com/fluencelabs/ansible/compare/v0.3.4...v0.3.5) (2024-09-05)
+
+
+### Features
+
+* trigger release ([#43](https://github.com/fluencelabs/ansible/issues/43)) ([f12bf3f](https://github.com/fluencelabs/ansible/commit/f12bf3f498fb835ff821843c3e37f032c96d6174))
+
 ## [0.3.4](https://github.com/fluencelabs/ansible/compare/v0.3.3...v0.3.4) (2024-08-30)
 
 
