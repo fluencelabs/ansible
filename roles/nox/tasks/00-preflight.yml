@@ -81,3 +81,8 @@
   debug:
     msg: "Checking existence of {{ fluence_instance_id }} config at {{ _config_path }}"
   failed_when: not _config_stat.stat.exists
+
+- name: print nox config file
+  debug:
+    msg: lookup('ansible.builtin.file', 'files/{{ fluence_project_dir }}/.fluence/configs/{{ fluence_instance_id }}_Config.toml')
+  when: show_nox_config
