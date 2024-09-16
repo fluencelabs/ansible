@@ -13,6 +13,7 @@
     - libvirt-daemon-system
     - virt-manager
     - python3-lxml
+    - dnsmasq
 
   loop_control:
     loop_var: package
