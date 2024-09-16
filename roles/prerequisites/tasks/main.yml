@@ -12,7 +12,7 @@
     - qemu-kvm
     - libvirt-daemon-system
     - virt-manager
-    - python-lxml
+    - python3-lxml
 
   loop_control:
     loop_var: package
