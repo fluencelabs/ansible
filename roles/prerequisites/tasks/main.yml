@@ -12,6 +12,8 @@
     - qemu-kvm
     - libvirt-daemon-system
     - virt-manager
+    - python-lxml
+
   loop_control:
     loop_var: package
     label: "{{ package }}"
