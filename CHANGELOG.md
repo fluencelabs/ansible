@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.6](https://github.com/fluencelabs/ansible/compare/v0.3.5...v0.3.6) (2024-09-16)
+
+
+### Features
+
+* auto-start of libvirt default network ([#47](https://github.com/fluencelabs/ansible/issues/47)) ([64b04e4](https://github.com/fluencelabs/ansible/commit/64b04e4449c0d7ff33532a64e1f787010516e90c))
+
 ## [0.3.5](https://github.com/fluencelabs/ansible/compare/v0.3.4...v0.3.5) (2024-09-05)
 
 
