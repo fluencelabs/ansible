@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.7](https://github.com/fluencelabs/ansible/compare/v0.3.6...v0.3.7) (2024-09-16)
+
+
+### Features
+
+* added rust logs + nox configs logging ([#49](https://github.com/fluencelabs/ansible/issues/49)) ([559811a](https://github.com/fluencelabs/ansible/commit/559811a19f22cabc9b5c217ec32809d727256182))
+
 ## [0.3.6](https://github.com/fluencelabs/ansible/compare/v0.3.5...v0.3.6) (2024-09-16)
 
 
