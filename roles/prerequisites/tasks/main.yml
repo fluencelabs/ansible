@@ -14,6 +14,7 @@
     - virt-manager
     - python3-lxml
     - dnsmasq
+    - cpu-checker
 
   loop_control:
     loop_var: package
