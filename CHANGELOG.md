@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.3.8](https://github.com/fluencelabs/ansible/compare/v0.3.7...v0.3.8) (2024-09-17)
+
+
+### Features
+
+* add cpu-checker dependency ([#51](https://github.com/fluencelabs/ansible/issues/51)) ([d07ffcc](https://github.com/fluencelabs/ansible/commit/d07ffccf13de43bf2d9c95f92b553e9e6ef9ad2b))
+* fixed wrong separator in RUST_LOG in nox ([#54](https://github.com/fluencelabs/ansible/issues/54)) ([50b7fea](https://github.com/fluencelabs/ansible/commit/50b7feab17daedb40cdd52e939631c6ce3e00b14))
+
+
+### Bug Fixes
+
+* Change nox metrics port ([#52](https://github.com/fluencelabs/ansible/issues/52)) ([328d15b](https://github.com/fluencelabs/ansible/commit/328d15bb711ce85af29086a74163c90742bbbcb8))
+
 ## [0.3.7](https://github.com/fluencelabs/ansible/compare/v0.3.6...v0.3.7) (2024-09-16)
 
 
