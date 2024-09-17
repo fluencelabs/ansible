@@ -40,7 +40,7 @@ fluence_prometheus_config:
   scrape_configs:
     - job_name: 'nox'
       static_configs:
-        - targets: ['localhost:18080']
+        - targets: ['localhost:918']
           labels:
             instance: "{{ fluence_instance_id }}"
 
