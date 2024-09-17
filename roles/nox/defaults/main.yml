@@ -15,7 +15,7 @@ nox_unit_file: |
   Environment="FLUENCE_CONFIG={{ nox_dir }}/Config.toml"
   Environment="FLUENCE_BASE_DIR={{ nox_dir }}/state"
   Environment="FLUENCE_ROOT_KEY_PAIR__PATH={{ nox_dir }}/state/root_secret_key.ed25519"
-  Environment="RUST_LOG=info,chain-listener=debug;chain-connector=debug"
+  Environment="RUST_LOG=info,chain-listener=debug,chain-connector=debug"
   ExecStart={{ nox_dir }}/nox
   Restart=on-failure
   User=root
