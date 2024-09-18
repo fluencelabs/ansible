@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.10](https://github.com/fluencelabs/ansible/compare/v0.3.9...v0.3.10) (2024-09-18)
+
+
+### Bug Fixes
+
+* **ipfs:** change kubo uri to ipfs.tech domain ([#56](https://github.com/fluencelabs/ansible/issues/56)) ([5f52db7](https://github.com/fluencelabs/ansible/commit/5f52db7cfd3f9f41e989a7c68304f9dee8fc1433))
+
 ## [0.3.9](https://github.com/fluencelabs/ansible/compare/v0.3.8...v0.3.9) (2024-09-18)
 
 
