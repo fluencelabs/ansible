@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.9](https://github.com/fluencelabs/ansible/compare/v0.3.8...v0.3.9) (2024-09-18)
+
+
+### Bug Fixes
+
+* VMs are destroyed on nox_cleanup_state=true ([#45](https://github.com/fluencelabs/ansible/issues/45)) ([c4e36aa](https://github.com/fluencelabs/ansible/commit/c4e36aaceefabc04624f5256b7c27dbf93cadb0c))
+
 ## [0.3.8](https://github.com/fluencelabs/ansible/compare/v0.3.7...v0.3.8) (2024-09-17)
 
 
