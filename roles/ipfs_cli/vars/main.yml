@@ -8,5 +8,5 @@ _semver_regex: "^v?\\d+\\.\\d+\\.\\d+$"
 
 _ipfs_version: "{{ ipfs_cli_version | regex_replace('^(?!v)', 'v') }}"
 _ipfs_archive: "kubo_{{ _ipfs_version }}_linux-{{ _arch }}.tar.gz"
-_ipfs_download_url: "https://dist.ipfs.io/kubo/{{ _ipfs_version }}/{{ _ipfs_archive }}"
+_ipfs_download_url: "https://dist.ipfs.tech/kubo/{{ _ipfs_version }}/{{ _ipfs_archive }}"
 _ipfs_checksums: "sha512:{{ _ipfs_download_url + '.sha512' }}"
