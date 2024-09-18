@@ -19,6 +19,30 @@
     state: absent
   when: nox_cleanup_state
 
+- name: cleanup VMs if any
+  block:
+    - name: List all VMs
+      community.libvirt.virt:
+        command: list_vms
+      register: all_vms
+
+    - debug:
+        msg: "{{ item }}"
+      loop: "{{ all_vms.list_vms }}"
+
+    - name: "Destroy vm {{ item }}"
+      community.libvirt.virt:
+        name: "{{ item }}"
+        command: destroy
+      loop: "{{ all_vms.list_vms }}"
+
+    - name: "Undefine vm {{ item }}"
+      community.libvirt.virt:
+        name: "{{ item }}"
+        command: undefine
+      loop: "{{ all_vms.list_vms }}"
+  when: nox_cleanup_state
+
 - name: create nox directories
   ansible.builtin.file:
     path: "{{ nox_dir }}/state"
