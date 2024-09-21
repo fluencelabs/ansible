@@ -1,15 +1,10 @@
-- name: Check and archive secrets directory if secrets changed
+- name: check and archive secrets directory if secrets changed
   run_once: true
   delegate_to: localhost
   nox_secrets_backup:
     directory: "files/{{ fluence_project_dir }}/.fluence/secrets/"
     hash_file: "{{ nox_local_backup_dir }}/hashes.json"
     backup_directory: "{{ nox_local_backup_dir }}"
-  register: backup_result
-
-- name: Debug result
-  debug:
-    var: backup_result
 
 - name: create nox system group
   ansible.builtin.group:
