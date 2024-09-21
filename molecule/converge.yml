@@ -1,4 +1,4 @@
-- name:  role
+- name: All roles
   hosts: all
   become: true
   vars:
@@ -38,3 +38,11 @@
     - name: Run prometheus role
       include_role:
         name: prometheus
+
+    - name: Run nox role
+      include_role:
+        name: nox
+
+    - name: Run ccp role
+      include_role:
+        name: ccp

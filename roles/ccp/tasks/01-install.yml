@@ -13,11 +13,21 @@
     create_home: false
     state: present
 
+- name: stop ccp
+  tags:
+    - never
+    - cleanup
+  ansible.builtin.systemd:
+    name: ccp
+    state: stopped
+
 - name: cleanup ccp state
+  tags:
+    - never
+    - cleanup
   ansible.builtin.file:
     path: "{{ ccp_dir }}"
     state: absent
-  when: ccp_cleanup_state
 
 - name: create ccp directories
   ansible.builtin.file:
@@ -128,8 +138,9 @@
     mode: 0o755
   notify: restart ccp
 
-- name: enable ccp
+- name: enable and start ccp
   ansible.builtin.systemd:
     name: ccp
     enabled: true
     daemon_reload: true
+    state: started
