@@ -10,6 +10,7 @@ See this [example](https://github.com/fluencelabs/ansible/blob/main/example/)
 ### Cleanup nox state
 
 Rerun playbook with `nox_cleanup_state` set to `true`:
+
 ```bash
 ansible-playbook nox.yml -e "nox_cleanup_state=true"
 ```
@@ -22,7 +23,9 @@ ansible-playbook nox.yml -e "nox_branch=FLU-688"
 
 ## Role Variables
 
-See [defaults/](https://github.com/fluencelabs/ansible/blob/main/roles/nox/defaults) for details and examples.
+See
+[defaults/](https://github.com/fluencelabs/ansible/blob/main/roles/nox/defaults)
+for details and examples.
 
 #### `fluence_project_dir`
 
@@ -43,14 +46,24 @@ Should be put to `files/` directory where you run this role.
 - version of nox
 - type: string
 
+#### `nox_log_level`
+
+- log level passed to `RUST_LOG` variable. Individual components log level can
+  me set like this `nox_log_level: "info,chain-listener=debug"`
+- type: string
+- default:
+  ```yml
+  nox_log_level: "info"
+  ```
+
 #### `nox_dir`
 
 - root nox directory
 - type: string
 - default:
-    ```yml
-    nox_dir: "/opt/fluence/nox"
-    ```
+  ```yml
+  nox_dir: "/opt/fluence/nox"
+  ```
 
 It will contain everything this role creates: nox binaries, configs, secrets.
 
@@ -58,37 +71,40 @@ It will contain everything this role creates: nox binaries, configs, secrets.
 
 - systemd unit file
 - type: string
-- default: see [defaults/main.yml](https://github.com/fluencelabs/blob/main/roles/nox/defaults/main.yml)
+- default: see
+  [defaults/main.yml](https://github.com/fluencelabs/blob/main/roles/nox/defaults/main.yml)
 
 #### `nox_user`
 
 - owner of Nox process and files
 - type: string
 - default:
-    ```yml
-    nox_user: "nox"
-    ```
+  ```yml
+  nox_user: "nox"
+  ```
 
 #### `nox_group`
 
 - group of `nox_user`
 - type: string
 - default:
-    ```yml
-    nox_group: "nox"
-    ```
+  ```yml
+  nox_group: "nox"
+  ```
 
 #### `nox_cleanup_state`
 
 - whether to cleanup nox state
 - type: bool
 - default:
-    ```yml
-    nox_cleanup_state: false
-    ```
+  ```yml
+  nox_cleanup_state: false
+  ```
 
 #### `nox_branch`
-- whole catalogue of branches can be viewed here https://files.fluence.dev/buckets/fluence-artifacts
+
+- whole catalogue of branches can be viewed here
+  https://files.fluence.dev/buckets/fluence-artifacts
 
 - type: string
 
