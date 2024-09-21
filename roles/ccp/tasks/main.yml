@@ -4,6 +4,5 @@
 
 - name: Install CCP
   tags:
-    - never
     - cleanup
   ansible.builtin.include_tasks: 01-install.yml
