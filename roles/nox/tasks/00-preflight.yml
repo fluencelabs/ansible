@@ -2,6 +2,10 @@
   tags: always
   fluencelabs.provider.check_tar_type:
 
+- name: check that virtualization is enabled
+  tags: always
+  check_virtualization:
+
 - name: check "fluence_instance_id" variable
   tags: always
   ansible.builtin.assert:

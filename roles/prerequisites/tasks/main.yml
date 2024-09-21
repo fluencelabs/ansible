@@ -26,7 +26,7 @@
     state: started
     enabled: true
     daemon_reload: true
-    
+
 - name: enable default network
   community.libvirt.virt_net:
     autostart: true
