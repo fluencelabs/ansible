@@ -144,6 +144,7 @@
   ansible.builtin.template:
     src: "files/{{ fluence_project_dir }}/.fluence/secrets/{{ fluence_instance_id }}.txt"
     dest: "{{ nox_dir }}/state/root_secret_key.ed25519"
+    backup: true
     owner: "{{ nox_user }}"
     group: "{{ nox_group }}"
     mode: 0o600
