@@ -1,5 +1,46 @@
 # Changelog
 
+## [0.3.10](https://github.com/fluencelabs/ansible/compare/v0.3.9...v0.3.10) (2024-09-18)
+
+
+### Bug Fixes
+
+* **ipfs:** change kubo uri to ipfs.tech domain ([#56](https://github.com/fluencelabs/ansible/issues/56)) ([5f52db7](https://github.com/fluencelabs/ansible/commit/5f52db7cfd3f9f41e989a7c68304f9dee8fc1433))
+
+## [0.3.9](https://github.com/fluencelabs/ansible/compare/v0.3.8...v0.3.9) (2024-09-18)
+
+
+### Bug Fixes
+
+* VMs are destroyed on nox_cleanup_state=true ([#45](https://github.com/fluencelabs/ansible/issues/45)) ([c4e36aa](https://github.com/fluencelabs/ansible/commit/c4e36aaceefabc04624f5256b7c27dbf93cadb0c))
+
+## [0.3.8](https://github.com/fluencelabs/ansible/compare/v0.3.7...v0.3.8) (2024-09-17)
+
+
+### Features
+
+* add cpu-checker dependency ([#51](https://github.com/fluencelabs/ansible/issues/51)) ([d07ffcc](https://github.com/fluencelabs/ansible/commit/d07ffccf13de43bf2d9c95f92b553e9e6ef9ad2b))
+* fixed wrong separator in RUST_LOG in nox ([#54](https://github.com/fluencelabs/ansible/issues/54)) ([50b7fea](https://github.com/fluencelabs/ansible/commit/50b7feab17daedb40cdd52e939631c6ce3e00b14))
+
+
+### Bug Fixes
+
+* Change nox metrics port ([#52](https://github.com/fluencelabs/ansible/issues/52)) ([328d15b](https://github.com/fluencelabs/ansible/commit/328d15bb711ce85af29086a74163c90742bbbcb8))
+
+## [0.3.7](https://github.com/fluencelabs/ansible/compare/v0.3.6...v0.3.7) (2024-09-16)
+
+
+### Features
+
+* added rust logs + nox configs logging ([#49](https://github.com/fluencelabs/ansible/issues/49)) ([559811a](https://github.com/fluencelabs/ansible/commit/559811a19f22cabc9b5c217ec32809d727256182))
+
+## [0.3.6](https://github.com/fluencelabs/ansible/compare/v0.3.5...v0.3.6) (2024-09-16)
+
+
+### Features
+
+* auto-start of libvirt default network ([#47](https://github.com/fluencelabs/ansible/issues/47)) ([64b04e4](https://github.com/fluencelabs/ansible/commit/64b04e4449c0d7ff33532a64e1f787010516e90c))
+
 ## [0.3.5](https://github.com/fluencelabs/ansible/compare/v0.3.4...v0.3.5) (2024-09-05)
 
 
