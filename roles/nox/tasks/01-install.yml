@@ -28,7 +28,6 @@
   ansible.builtin.file:
     path: "{{ nox_dir }}"
     state: absent
-  when: nox_cleanup_state
 
 - name: cleanup VMs if any
   tags:
@@ -51,7 +50,6 @@
         name: "{{ item }}"
         command: undefine
       loop: "{{ all_vms.list_vms }}"
-  when: nox_cleanup_state
 
 - name: create nox directories
   ansible.builtin.file:

@@ -35,6 +35,22 @@
     state: present
   when: fluence_prometheus_user != "root"
 
+- name: stop prometheus
+  tags:
+    - never
+    - cleanup
+  ansible.builtin.systemd:
+    name: fluence-prometheus
+    state: stopped
+
+- name: cleanup prometheus state
+  tags:
+    - never
+    - cleanup
+  ansible.builtin.file:
+    path: "{{ fluence_prometheus_dir }}"
+    state: absent
+
 - name: create prometheus directories
   ansible.builtin.file:
     path: "{{ fluence_prometheus_dir }}"
@@ -78,7 +94,7 @@
     mode: 0o755
   notify: restart prometheus
 
-- name: enable prometheus
+- name: enable and start prometheus
   ansible.builtin.systemd:
     name: fluence-prometheus
     enabled: true
