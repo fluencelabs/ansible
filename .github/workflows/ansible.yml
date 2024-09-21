@@ -65,6 +65,3 @@ jobs:
 
       - name: Run ${{ matrix.scenario }} scenario
         run: molecule test --scenario-name "${{ matrix.scenario }}"
-
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
