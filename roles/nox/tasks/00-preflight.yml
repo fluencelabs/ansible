@@ -4,9 +4,7 @@
 
 - name: check that virtualization is enabled
   tags: always
-  ansible.builtin.warn:
-    msg: "CPU does not support virtualization or it is disabled in the BIOS/UEFI."
-  when: "'vmx' not in ansible_processor_flags and 'svm' not in ansible_processor_flags"
+  check_virtualization:
 
 - name: check "fluence_instance_id" variable
   tags: always
