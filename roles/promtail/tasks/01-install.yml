@@ -37,22 +37,6 @@
     state: present
   when: fluence_promtail_user != "root"
 
-- name: stop promtail
-  tags:
-    - never
-    - cleanup
-  ansible.builtin.systemd:
-    name: fluence-promtail
-    state: stopped
-
-- name: cleanup promtail state
-  tags:
-    - never
-    - cleanup
-  ansible.builtin.file:
-    path: "{{ fluence_promtail_dir }}"
-    state: absent
-
 - name: create promtail directories
   ansible.builtin.file:
     path: "{{ fluence_promtail_dir }}"

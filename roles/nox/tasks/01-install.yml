@@ -13,43 +13,13 @@
     create_home: false
     state: present
 
-- name: stop nox
-  tags:
-    - never
-    - cleanup
-  ansible.builtin.systemd:
-    name: nox
-    state: stopped
-
-- name: cleanup nox state
-  tags:
-    - never
-    - cleanup
-  ansible.builtin.file:
-    path: "{{ nox_dir }}"
-    state: absent
-
-- name: cleanup VMs if any
-  tags:
-    - never
-    - cleanup
-  block:
-    - name: List all VMs
-      community.libvirt.virt:
-        command: list_vms
-      register: all_vms
-
-    - name: "Destroy vm {{ item }}"
-      community.libvirt.virt:
-        name: "{{ item }}"
-        command: destroy
-      loop: "{{ all_vms.list_vms }}"
-
-    - name: "Undefine vm {{ item }}"
-      community.libvirt.virt:
-        name: "{{ item }}"
-        command: undefine
-      loop: "{{ all_vms.list_vms }}"
+- name: cleanup Nox
+  when: nox_cleanup == true
+  ansible.builtin.include_tasks:
+    file: 02-uninstall.yml
+    apply:
+      tags:
+        - uninstall
 
 - name: create nox directories
   ansible.builtin.file:

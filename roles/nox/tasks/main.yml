@@ -3,6 +3,9 @@
   ansible.builtin.include_tasks: 00-preflight.yml
 
 - name: Install Nox
-  tags:
-    - cleanup
   ansible.builtin.include_tasks: 01-install.yml
+
+- name: Uninstall Nox
+  tags:
+    - uninstall
+  ansible.builtin.include_tasks: 02-uninstall.yml

@@ -18,3 +18,7 @@ ccp_unit_file: |
 
   [Install]
   WantedBy=multi-user.target
+
+fluence_cleanup: false
+ccp_cleanup: "{{ false | default(fluence_cleanup) }}"
+ccp_cleanup_state: "{{ ccp_cleanup }}"

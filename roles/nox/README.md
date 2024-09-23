@@ -41,6 +41,11 @@ Should be put to `files/` directory where you run this role.
 - instance id to assing to target. Shared in collection.
 - type: string
 
+#### `fluence_cleanup` or `nox_cleanup`
+
+- Cleanup nox state and restart nox.
+- type: bool
+
 #### `nox_version`
 
 - version of nox
@@ -91,7 +96,7 @@ It will contain everything this role creates: nox binaries, configs, secrets.
 
 ## Role Tags
 
-- `cleanup` - stop nox and cleanup state
+- `uninstall` - stop nox and delete nox directory
 
 ## Author
 

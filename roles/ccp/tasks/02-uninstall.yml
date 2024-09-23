@@ -1,0 +1,16 @@
+- name: stop ccp
+  tags:
+    - never
+    - uninstall
+  ansible.builtin.systemd:
+    name: ccp
+    state: stopped
+    enabled: false
+
+- name: delete ccp directory
+  tags:
+    - never
+    - uninstall
+  ansible.builtin.file:
+    path: "{{ ccp_dir }}"
+    state: absent

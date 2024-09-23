@@ -13,21 +13,14 @@
     create_home: false
     state: present
 
-- name: stop ccp
-  tags:
-    - never
-    - cleanup
-  ansible.builtin.systemd:
-    name: ccp
-    state: stopped
-
-- name: cleanup ccp state
-  tags:
-    - never
-    - cleanup
-  ansible.builtin.file:
-    path: "{{ ccp_dir }}"
-    state: absent
+- name: cleanup ccp
+  when:
+    - ccp_cleanup == true
+  ansible.builtin.include_tasks:
+    file: 02-uninstall.yml
+    apply:
+      tags:
+        - uninstall
 
 - name: create ccp directories
   ansible.builtin.file:

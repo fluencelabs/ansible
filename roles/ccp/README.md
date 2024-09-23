@@ -40,7 +40,12 @@ Should be put to `files/` directory where you run this role.
 #### `fluence_instance_id`
 
 - instance id to assing to target. Shared in collection.
-- type: stiring
+- type: string
+
+#### `fluence_cleanup` or `ccp_cleanup`
+
+- Cleanup ccp state and restart ccp.
+- type: bool
 
 #### `ccp_version`
 
