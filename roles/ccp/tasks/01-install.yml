@@ -15,7 +15,7 @@
 
 - name: cleanup ccp
   when:
-    - ccp_cleanup == true
+    - ccp_cleanup_state == true
   ansible.builtin.include_tasks:
     file: 02-uninstall.yml
     apply:

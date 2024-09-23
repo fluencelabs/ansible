@@ -21,4 +21,4 @@ ccp_unit_file: |
 
 fluence_cleanup: false
 ccp_cleanup: "{{ false | default(fluence_cleanup) }}"
-ccp_cleanup_state: "{{ ccp_cleanup }}"
+ccp_cleanup_state: "{{ false | default(ccp_cleanup) }}"

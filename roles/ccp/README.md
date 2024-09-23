@@ -10,16 +10,24 @@ See this [example](https://github.com/fluencelabs/ansible/blob/main/example/)
 
 ### Cleanup ccp state
 
-Run playbook with tag `cleanup`:
+Rerun playbook with flag `ccp_cleanup` set to `true`:
 
 ```bash
-ansible-playbook ccp.yml --tags cleanup
+ansible-playbook ccp.yml -e ccp_cleanup=true
 ```
 
 ### Install ccp snapshot from PR
 
 ```bash
 ansible-playbook ccp.yml -e "ccp_branch=FLU-668"
+```
+
+### Uninstall ccp
+
+Run role with tag `uninstall`:
+
+```bash
+ansible-playbook ccp.yml --tags uninstall
 ```
 
 ## Role Variables

@@ -14,7 +14,7 @@
     state: present
 
 - name: cleanup Nox
-  when: nox_cleanup == true
+  when: nox_cleanup_state == true
   ansible.builtin.include_tasks:
     file: 02-uninstall.yml
     apply:

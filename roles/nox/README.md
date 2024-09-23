@@ -9,16 +9,24 @@ See this [example](https://github.com/fluencelabs/ansible/blob/main/example/)
 
 ### Cleanup nox state
 
-Rerun playbook with tag `cleanup`:
+Rerun playbook with flag `nox_cleanup` set to `true`:
 
 ```bash
-ansible-playbook nox.yml --tags cleanup
+ansible-playbook nox.yml -e nox_cleanup=true
 ```
 
 ### Install nox snapshot from PR
 
 ```bash
 ansible-playbook nox.yml -e "nox_branch=FLU-688"
+```
+
+### Uninstall nox
+
+Run role with tag `uninstall`:
+
+```bash
+ansible-playbook nox.yml --tags uninstall
 ```
 
 ## Role Variables

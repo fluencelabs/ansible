@@ -25,4 +25,4 @@ nox_unit_file: |
 
 fluence_cleanup: false
 nox_cleanup: "{{ false | default(fluence_cleanup) }}"
-nox_cleanup_state: "{{ nox_cleanup }}"
+nox_cleanup_state: "{{ false | default(nox_cleanup) }}"
