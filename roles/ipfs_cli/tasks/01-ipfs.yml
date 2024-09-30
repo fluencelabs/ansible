@@ -28,12 +28,6 @@
           - "--strip-components=1"
           - "kubo/ipfs"
 
-- name: create "nox_dir"
-  ansible.builtin.file:
-    path: "{{ nox_dir }}"
-    state: directory
-    mode: 0o755
-
 - name: propagate IPFS binary
   ansible.builtin.copy:
     src: "{{ role_path }}/files/ipfs/{{ _ipfs_version }}/{{ _arch }}/ipfs"

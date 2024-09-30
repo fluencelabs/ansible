@@ -1,9 +1,9 @@
 # Fluence prometheus
 
-Install, configure and maintain
-[prometheus](https://prometheus.io)
+Install, configure and maintain [prometheus](https://prometheus.io)
 
-You need to get `fluence_basicauth_username` and `fluence_basicauth_password` from Cloudless Labs in order to use this role.
+You need to get `fluence_basicauth_username` and `fluence_basicauth_password`
+from Cloudless Labs in order to use this role.
 
 ## Role Variables
 
@@ -75,6 +75,10 @@ for details and examples.
 - default: see
   [defaults/main.yml](https://github.com/fluencelabs/ansible/blob/main/roles/prometheus/defaults/main.yml)
 - type: string
+
+## Role Tags
+
+- `cleanup` - stop and cleanup state
 
 ## Author
 

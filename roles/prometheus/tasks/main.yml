@@ -3,5 +3,9 @@
   include_tasks: 00-preflight.yml
 
 - name: Install prometheus
-  tags: configs
   include_tasks: 01-install.yml
+
+- name: Uninstall prometheus
+  tags:
+    - uninstall
+  include_tasks: 02-uninstall.yml

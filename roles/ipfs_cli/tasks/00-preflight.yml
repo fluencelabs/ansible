@@ -8,15 +8,6 @@
       - ipfs_cli_version is regex(_semver_regex)
     quiet: true
 
-- name: check "nox_dir" variable
-  tags: always
-  ansible.builtin.assert:
-    that:
-      - nox_dir is defined
-      - nox_dir is string
-      - nox_dir | length
-    quiet: true
-
 - name: check that tar is GNU type # noqa
   tags: always
   fluencelabs.provider.check_tar_type:

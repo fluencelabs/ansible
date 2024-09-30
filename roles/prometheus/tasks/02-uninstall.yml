@@ -1,0 +1,17 @@
+- name: stop prometheus
+  tags:
+    - never
+    - uninstall
+  ansible.builtin.systemd:
+    name: fluence-prometheus
+    state: stopped
+    enabled: false
+
+- name: delete prometheus directory
+  tags:
+    - never
+    - uninstall
+  ansible.builtin.file:
+    path: "{{ fluence_prometheus_dir }}"
+    state: absent
+

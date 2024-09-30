@@ -4,7 +4,6 @@ ccp_project_dir: ""
 ccp_group: "ccp"
 ccp_user: "ccp"
 ccp_branch: ""
-ccp_cleanup_state: false
 ccp_unit_file: |
   [Unit]
   Description=CCP - Fluence capacity commitment prover
@@ -19,3 +18,7 @@ ccp_unit_file: |
 
   [Install]
   WantedBy=multi-user.target
+
+fluence_cleanup: false
+ccp_cleanup: "{{ false | default(fluence_cleanup) }}"
+ccp_cleanup_state: "{{ false | default(ccp_cleanup) }}"

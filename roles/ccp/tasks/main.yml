@@ -4,3 +4,8 @@
 
 - name: Install CCP
   ansible.builtin.include_tasks: 01-install.yml
+
+- name: Uninstall CCP
+  tags:
+    - uninstall
+  ansible.builtin.include_tasks: 02-uninstall.yml

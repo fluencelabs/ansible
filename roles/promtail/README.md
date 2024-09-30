@@ -6,8 +6,8 @@ Install, configure and maintain
 Promtail instance by default will collect only Nox and CCP logs. But you can
 change config to anything you want.
 
-You need to get `fluence_basicauth_username` and `fluence_basicauth_password` from
-Cloudless Labs in order to use this role.
+You need to get `fluence_basicauth_username` and `fluence_basicauth_password`
+from Cloudless Labs in order to use this role.
 
 ## Role Variables
 
@@ -84,6 +84,10 @@ for details and examples.
 
 - skip restart/reload - useful when building images with Packer
 - default: `false`
+
+## Role Tags
+
+- `cleanup` - stop and cleanup state
 
 ## Author
 
