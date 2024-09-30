@@ -1,3 +1,11 @@
+- name: check and archive secrets directory if secrets changed
+  run_once: true
+  delegate_to: localhost
+  nox_secrets_backup:
+    directory: "files/{{ fluence_project_dir }}/.fluence/secrets/"
+    hash_file: "{{ nox_local_backup_dir }}/hashes.json"
+    backup_directory: "{{ nox_local_backup_dir }}"
+
 - name: create nox system group
   ansible.builtin.group:
     name: "{{ nox_group }}"
@@ -144,6 +152,7 @@
   ansible.builtin.template:
     src: "files/{{ fluence_project_dir }}/.fluence/secrets/{{ fluence_instance_id }}.txt"
     dest: "{{ nox_dir }}/state/root_secret_key.ed25519"
+    backup: true
     owner: "{{ nox_user }}"
     group: "{{ nox_group }}"
     mode: 0o600

@@ -6,6 +6,7 @@ nox_user: "nox"
 nox_log_level: "info"
 nox_branch: ""
 nox_cleanup_state: false
+nox_local_backup_dir: "files/{{ fluence_project_dir }}/backups"
 nox_unit_file: |
   [Unit]
   Description=Nox - Rust implementation of the Fluence network peer
