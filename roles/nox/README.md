@@ -70,6 +70,16 @@ Should be put to `files/` directory where you run this role.
 
 It will contain everything this role creates: nox binaries, configs, secrets.
 
+#### `nox_local_backup_dir`
+
+- local directory with archive backups of nox secrets
+- type: string
+- default:
+
+```yml
+nox_local_backup_dir: "files/{{ fluence_project_dir }}/backups"
+```
+
 #### `nox_unit_file`
 
 - systemd unit file
