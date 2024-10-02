@@ -1,6 +1,6 @@
 namespace: fluencelabs
 name: provider
-version: 0.3.10
+version: 0.3.11
 readme: README.md
 authors:
   - Anatolios Laskaris <nahsi@nahsi.dev> (https://nahsi.dev)
