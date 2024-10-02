@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.3.11](https://github.com/fluencelabs/ansible/compare/v0.3.10...v0.3.11) (2024-10-02)
+
+
+### Features
+
+* Add ability to configure nox log level ([#60](https://github.com/fluencelabs/ansible/issues/60)) ([a8df7ec](https://github.com/fluencelabs/ansible/commit/a8df7ecdc076a636a80cb35d7d9af7c91b4d2198))
+* Backup nox secrets dir localy ([#61](https://github.com/fluencelabs/ansible/issues/61)) ([2319dde](https://github.com/fluencelabs/ansible/commit/2319dde40bfcfd24da2fabcf6711eb9dc7830728))
+
+
+### Bug Fixes
+
+* Fix errors with virtualization permissions and increase file limits ([#63](https://github.com/fluencelabs/ansible/issues/63)) ([ebb574f](https://github.com/fluencelabs/ansible/commit/ebb574fe813173a7eb4a8f821950bc622ce79d50))
+* Set limits for `nox_user` ([#64](https://github.com/fluencelabs/ansible/issues/64)) ([97006ed](https://github.com/fluencelabs/ansible/commit/97006ed69cabd7ca3bd8f0d81e9d0e9261207747))
+
 ## [0.3.10](https://github.com/fluencelabs/ansible/compare/v0.3.9...v0.3.10) (2024-09-18)
 
 
