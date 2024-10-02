@@ -46,6 +46,16 @@ Should be put to `files/` directory where you run this role.
 - version of nox
 - type: string
 
+#### `nox_log_level`
+
+- log level passed to `RUST_LOG` variable. Individual components log level can
+  me set like this `nox_log_level: "info,chain-listener=debug"`
+- type: string
+- default:
+  ```yml
+  nox_log_level: "info"
+  ```
+
 #### `nox_dir`
 
 - root nox directory
