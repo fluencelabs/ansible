@@ -38,12 +38,12 @@
     loop_var: "limit"
     label: "{{ limit.domain }} {{ limit.limit_item }}:{{ limit.limit_type }}"
   loop:
-    - domain: "nox"
+    - domain: "{{ nox_user }}"
       limit_type: "hard"
       limit_item: "nofile"
       comment: "Increse max open file hard limit"
       value: 65536
-    - domain: "nox"
+    - domain: "{{ nox_user }}"
       limit_type: "soft"
       limit_item: "nofile"
       comment: "Increse max open file soft limit"
