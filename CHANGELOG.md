@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.12](https://github.com/fluencelabs/ansible/compare/v0.3.11...v0.3.12) (2024-11-04)
+
+
+### Features
+
+* Add uninstall tag and rename cleanup flags ([#58](https://github.com/fluencelabs/ansible/issues/58)) ([a9faa3e](https://github.com/fluencelabs/ansible/commit/a9faa3e807f7355a1257db702ea3ce290ede010e))
+
 ## [0.3.11](https://github.com/fluencelabs/ansible/compare/v0.3.10...v0.3.11) (2024-10-02)
 
 
