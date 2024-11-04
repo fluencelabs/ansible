@@ -1,0 +1,16 @@
+- name: stop promtail
+  tags:
+    - never
+    - uninstall
+  ansible.builtin.systemd:
+    name: fluence-promtail
+    state: stopped
+    enabled: false
+
+- name: delete promtail directory
+  tags:
+    - never
+    - uninstall
+  ansible.builtin.file:
+    path: "{{ fluence_promtail_dir }}"
+    state: absent

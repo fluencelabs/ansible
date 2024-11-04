@@ -23,6 +23,14 @@
     create_home: false
     state: present
 
+- name: cleanup Nox
+  when: nox_cleanup_state == true
+  ansible.builtin.include_tasks:
+    file: 02-uninstall.yml
+    apply:
+      tags:
+        - uninstall
+
 - name: add nox user to libvirt group
   ansible.builtin.user:
     name: "libvirt-qemu"
@@ -194,8 +202,9 @@
     group: root
     mode: 0o755
 
-- name: enable noxes
+- name: enable and start nox
   ansible.builtin.systemd:
     name: nox
     enabled: true
     daemon_reload: true
+    state: started

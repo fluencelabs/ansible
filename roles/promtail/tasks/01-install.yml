@@ -80,7 +80,7 @@
     mode: 0o755
   notify: restart promtail
 
-- name: enable promtail
+- name: enable and start promtail
   ansible.builtin.systemd:
     name: fluence-promtail
     enabled: true

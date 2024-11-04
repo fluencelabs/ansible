@@ -5,7 +5,6 @@ nox_group: "nox"
 nox_user: "nox"
 nox_log_level: "info"
 nox_branch: ""
-nox_cleanup_state: false
 nox_local_backup_dir: "files/{{ fluence_project_dir }}/backups"
 nox_unit_file: |
   [Unit]
@@ -26,3 +25,6 @@ nox_unit_file: |
   [Install]
   WantedBy=multi-user.target
 
+fluence_cleanup: false
+nox_cleanup: "{{ false | default(fluence_cleanup) }}"
+nox_cleanup_state: "{{ false | default(nox_cleanup) }}"

@@ -78,7 +78,7 @@
     mode: 0o755
   notify: restart prometheus
 
-- name: enable prometheus
+- name: enable and start prometheus
   ansible.builtin.systemd:
     name: fluence-prometheus
     enabled: true

@@ -4,3 +4,8 @@
 
 - name: Install Nox
   ansible.builtin.include_tasks: 01-install.yml
+
+- name: Uninstall Nox
+  tags:
+    - uninstall
+  ansible.builtin.include_tasks: 02-uninstall.yml

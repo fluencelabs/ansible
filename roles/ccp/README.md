@@ -1,6 +1,8 @@
 # fluencelabs.provider.ccp
 
-Install and configure [ccp](https://github.com/fluencelabs/capacity-commitment-peer/) - Fluence capacity-commitment-prover
+Install and configure
+[ccp](https://github.com/fluencelabs/capacity-commitment-peer/) - Fluence
+capacity-commitment-prover
 
 ## Usage
 
@@ -8,9 +10,10 @@ See this [example](https://github.com/fluencelabs/ansible/blob/main/example/)
 
 ### Cleanup ccp state
 
-Rerun playbook with `ccp_cleanup_state` set to `true`:
+Rerun playbook with flag `ccp_cleanup` set to `true`:
+
 ```bash
-ansible-playbook ccp.yml -e "ccp_cleanup_state=true"
+ansible-playbook ccp.yml -e ccp_cleanup=true
 ```
 
 ### Install ccp snapshot from PR
@@ -19,9 +22,19 @@ ansible-playbook ccp.yml -e "ccp_cleanup_state=true"
 ansible-playbook ccp.yml -e "ccp_branch=FLU-668"
 ```
 
+### Uninstall ccp
+
+Run role with tag `uninstall`:
+
+```bash
+ansible-playbook ccp.yml --tags uninstall
+```
+
 ## Role Variables
 
-See [defaults/](https://github.com/fluencelabs/ansible/blob/main/roles/ccp/defaults) for details and examples.
+See
+[defaults/](https://github.com/fluencelabs/ansible/blob/main/roles/ccp/defaults)
+for details and examples.
 
 #### `fluence_project_dir`
 
@@ -35,7 +48,12 @@ Should be put to `files/` directory where you run this role.
 #### `fluence_instance_id`
 
 - instance id to assing to target. Shared in collection.
-- type: stiring
+- type: string
+
+#### `fluence_cleanup` or `ccp_cleanup`
+
+- Cleanup ccp state and restart ccp.
+- type: bool
 
 #### `ccp_version`
 
@@ -47,9 +65,9 @@ Should be put to `files/` directory where you run this role.
 - root ccp directory
 - type: string
 - default:
-    ```yml
-    ccp_dir: "/opt/fluence/ccp"
-    ```
+  ```yml
+  ccp_dir: "/opt/fluence/ccp"
+  ```
 
 It will contain everything this role creates: ccp binaries, configs and state.
 
@@ -57,38 +75,34 @@ It will contain everything this role creates: ccp binaries, configs and state.
 
 - systemd unit file
 - type: string
-- default: see [defaults/main.yml](https://github.com/fluencelabs/blob/main/roles/ccp/defaults/main.yml)
+- default: see
+  [defaults/main.yml](https://github.com/fluencelabs/blob/main/roles/ccp/defaults/main.yml)
 
 #### `ccp_user`
 
 - owner of ccp process and files
 - type: string
 - default:
-    ```yml
-    ccp_user: "ccp"
-    ```
+  ```yml
+  ccp_user: "ccp"
+  ```
 
 #### `ccp_group`
 
 - group of `ccp_user`
 - type: string
 - default:
-    ```yml
-    ccp_group: "ccp"
-    ```
-
-#### `ccp_cleanup_state`
-
-- whether to cleanup ccp state
-- type: bool
-- default:
-    ```yml
-    ccp_cleanup_state: false
-    ```
+  ```yml
+  ccp_group: "ccp"
+  ```
 
 #### `ccp_branch`
 
 - type: string
+
+## Role Tags
+
+- `cleanup` - stop ccp and cleanup state
 
 ## Author
 

@@ -9,16 +9,24 @@ See this [example](https://github.com/fluencelabs/ansible/blob/main/example/)
 
 ### Cleanup nox state
 
-Rerun playbook with `nox_cleanup_state` set to `true`:
+Rerun playbook with flag `nox_cleanup` set to `true`:
 
 ```bash
-ansible-playbook nox.yml -e "nox_cleanup_state=true"
+ansible-playbook nox.yml -e nox_cleanup=true
 ```
 
 ### Install nox snapshot from PR
 
 ```bash
 ansible-playbook nox.yml -e "nox_branch=FLU-688"
+```
+
+### Uninstall nox
+
+Run role with tag `uninstall`:
+
+```bash
+ansible-playbook nox.yml --tags uninstall
 ```
 
 ## Role Variables
@@ -40,6 +48,11 @@ Should be put to `files/` directory where you run this role.
 
 - instance id to assing to target. Shared in collection.
 - type: string
+
+#### `fluence_cleanup` or `nox_cleanup`
+
+- Cleanup nox state and restart nox.
+- type: bool
 
 #### `nox_version`
 
@@ -102,21 +115,16 @@ nox_local_backup_dir: "files/{{ fluence_project_dir }}/backups"
   nox_group: "nox"
   ```
 
-#### `nox_cleanup_state`
-
-- whether to cleanup nox state
-- type: bool
-- default:
-  ```yml
-  nox_cleanup_state: false
-  ```
-
 #### `nox_branch`
 
 - whole catalogue of branches can be viewed here
   https://files.fluence.dev/buckets/fluence-artifacts
 
 - type: string
+
+## Role Tags
+
+- `uninstall` - stop nox and delete nox directory
 
 ## Author
 
