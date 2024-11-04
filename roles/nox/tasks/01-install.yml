@@ -18,6 +18,8 @@
     system: true
     shell: "/sbin/nologin"
     group: "{{ nox_group }}"
+    groups:
+      - libvirt
     create_home: false
     state: present
 
@@ -28,6 +30,62 @@
     apply:
       tags:
         - uninstall
+
+- name: add nox user to libvirt group
+  ansible.builtin.user:
+    name: "libvirt-qemu"
+    groups:
+      - "{{ nox_group }}"
+    create_home: false
+    state: present
+
+- name: increase ulimits for nox user
+  ansible.builtin.pam_limits:
+  args: "{{ limit }}"
+  loop_control:
+    loop_var: "limit"
+    label: "{{ limit.domain }} {{ limit.limit_item }}:{{ limit.limit_type }}"
+  loop:
+    - domain: "{{ nox_user }}"
+      limit_type: "hard"
+      limit_item: "nofile"
+      comment: "Increse max open file hard limit"
+      value: 65536
+    - domain: "{{ nox_user }}"
+      limit_type: "soft"
+      limit_item: "nofile"
+      comment: "Increse max open file soft limit"
+      value: 65536
+
+- name: cleanup nox state
+  ansible.builtin.file:
+    path: "{{ nox_dir }}"
+    state: absent
+  when: nox_cleanup_state
+
+- name: cleanup VMs if any
+  block:
+    - name: List all VMs
+      community.libvirt.virt:
+        command: list_vms
+      register: all_vms
+
+    - debug:
+        msg: "{{ item }}"
+      loop: "{{ all_vms.list_vms }}"
+
+    - name: "Destroy vm {{ item }}"
+      community.libvirt.virt:
+        name: "{{ item }}"
+        command: destroy
+      loop: "{{ all_vms.list_vms }}"
+
+    - name: "Undefine vm {{ item }}"
+      community.libvirt.virt:
+        name: "{{ item }}"
+        command: undefine
+      loop: "{{ all_vms.list_vms }}"
+  when: nox_cleanup_state
 
 - name: create nox directories
   ansible.builtin.file:
