@@ -1,6 +1,6 @@
 fluence_prometheus_download_url: "https://github.com/prometheus/prometheus/releases"
 
-fluence_prometheus_api_url: "https://mimir.fluence.dev/api/v1/push"
+fluence_prometheus_api_url: "https://metrics.fluence.dev/api/v1/push"
 
 fluence_prometheus_group: "prometheus"
 fluence_prometheus_user: "prometheus"
